@@ -1,0 +1,262 @@
+/* Custom CSS for PhotoBooth */
+
+/* Smooth fade-in animation */
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fade-in 1s ease-out;
+}
+
+/* Enhanced pulse animation for countdown */
+@keyframes countdown-pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+}
+
+.animate-countdown-pulse {
+    animation: countdown-pulse 1s ease-in-out;
+}
+
+/* Floating animation for decorative elements */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+.animate-float {
+    animation: float 3s ease-in-out infinite;
+}
+
+/* Gradient text effect */
+.text-gradient {
+    background: linear-gradient(45deg, #e11d48, #ec4899, #f59e0b);
+    background-size: 400% 400%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradient-shift 3s ease infinite;
+}
+
+@keyframes gradient-shift {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+/* Camera preview enhancements */
+.camera-preview {
+    position: relative;
+    overflow: hidden;
+}
+
+.camera-preview::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Button hover effects */
+.btn-primary {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn-primary:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+/* Modal animations */
+.modal-enter {
+    animation: modal-slide-in 0.3s ease-out forwards;
+}
+
+@keyframes modal-slide-in {
+    0% {
+        opacity: 0;
+        transform: scale(0.9) translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Success message animation */
+.success-bounce {
+    animation: success-bounce 0.6s ease-out;
+}
+
+@keyframes success-bounce {
+    0% {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.8);
+    }
+    60% {
+        opacity: 1;
+        transform: translateY(10px) scale(1.05);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Loading spinner enhancements */
+.spinner-rose {
+    border-color: #e11d48;
+    border-top-color: transparent;
+}
+
+/* Responsive typography */
+@media (max-width: 640px) {
+    .text-countdown {
+        font-size: 12rem;
+        line-height: 1;
+    }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+    .text-countdown {
+        font-size: 16rem;
+        line-height: 1;
+    }
+}
+
+@media (min-width: 1025px) {
+    .text-countdown {
+        font-size: 20rem;
+        line-height: 1;
+    }
+}
+
+/* Heart animation for romantic theme */
+.heart-beat {
+    animation: heart-beat 1.5s ease-in-out infinite;
+}
+
+@keyframes heart-beat {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+/* Photo frame effects */
+.photo-frame {
+    position: relative;
+    box-shadow: 
+        0 0 0 8px #fff,
+        0 0 0 12px #e11d48,
+        0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.photo-frame::after {
+    content: '';
+    position: absolute;
+    top: -12px;
+    left: -12px;
+    right: -12px;
+    bottom: -12px;
+    background: linear-gradient(45deg, #e11d48, #ec4899, #f59e0b, #10b981);
+    background-size: 400% 400%;
+    border-radius: inherit;
+    z-index: -1;
+    animation: gradient-shift 3s ease infinite;
+}
+
+/* Elegant transitions */
+.transition-elegant {
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Glass morphism effects */
+.glass-morphism {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Wedding theme decorative elements */
+.rose-petals::before {
+    content: '🌹';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    font-size: 2rem;
+    opacity: 0.3;
+    animation: float 4s ease-in-out infinite;
+}
+
+.rose-petals::after {
+    content: '🌹';
+    position: absolute;
+    bottom: -10px;
+    right: -10px;
+    font-size: 2rem;
+    opacity: 0.3;
+    animation: float 4s ease-in-out infinite reverse;
+}
+
+/* Enhanced focus styles for accessibility */
+button:focus,
+input:focus,
+select:focus {
+    outline: 3px solid #e11d48;
+    outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+    body {
+        background: white !important;
+    }
+    
+    .no-print {
+        display: none !important;
+    }
+}

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}PhotoBooth Settings{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-gradient-to-r from-rose-600 to-pink-600 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="{{ url_for('booth.booth') }}" class="flex items-center">
+                        <i class="fas fa-camera text-white text-2xl mr-3"></i>
+                        <span class="text-white text-xl font-bold">PhotoBooth</span>
+                    </a>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    {% if request.endpoint != 'settings.login' %}
+                    <div class="hidden md:flex space-x-1">
+                        <a href="{{ url_for('settings.dashboard') }}" 
+                           class="text-white hover:text-rose-200 px-3 py-2 rounded-md text-sm font-medium
+                                  {{ 'bg-rose-700' if request.endpoint == 'settings.dashboard' else '' }}">
+                            <i class="fas fa-tachometer-alt mr-1"></i> Dashboard
+                        </a>
+                        <a href="{{ url_for('settings.printer_settings') }}" 
+                           class="text-white hover:text-rose-200 px-3 py-2 rounded-md text-sm font-medium
+                                  {{ 'bg-rose-700' if request.endpoint == 'settings.printer_settings' else '' }}">
+                            <i class="fas fa-print mr-1"></i> Printer
+                        </a>
+                        <a href="{{ url_for('settings.frame_settings') }}" 
+                           class="text-white hover:text-rose-200 px-3 py-2 rounded-md text-sm font-medium
+                                  {{ 'bg-rose-700' if request.endpoint == 'settings.frame_settings' else '' }}">
+                            <i class="fas fa-image mr-1"></i> Frame
+                        </a>
+                        <a href="{{ url_for('settings.gallery') }}" 
+                           class="text-white hover:text-rose-200 px-3 py-2 rounded-md text-sm font-medium
+                                  {{ 'bg-rose-700' if request.endpoint == 'settings.gallery' else '' }}">
+                            <i class="fas fa-images mr-1"></i> Gallery
+                        </a>
+                        <a href="{{ url_for('settings.audio_settings') }}" 
+                           class="text-white hover:text-rose-200 px-3 py-2 rounded-md text-sm font-medium
+                                  {{ 'bg-rose-700' if request.endpoint == 'settings.audio_settings' else '' }}">
+                            <i class="fas fa-volume-up mr-1"></i> Audio
+                        </a>
+                        <a href="{{ url_for('settings.system_settings') }}" 
+                           class="text-white hover:text-rose-200 px-3 py-2 rounded-md text-sm font-medium
+                                  {{ 'bg-rose-700' if request.endpoint == 'settings.system_settings' else '' }}">
+                            <i class="fas fa-cog mr-1"></i> System
+                        </a>
+                    </div>
+                    <a href="{{ url_for('settings.logout') }}" 
+                       class="text-white hover:text-rose-200 px-3 py-2 rounded-md text-sm font-medium">
+                        <i class="fas fa-sign-out-alt mr-1"></i> Logout
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="mb-4 p-4 rounded-md {{ 'bg-red-50 border border-red-200 text-red-700' if category == 'error' else 'bg-green-50 border border-green-200 text-green-700' if category == 'success' else 'bg-blue-50 border border-blue-200 text-blue-700' }}">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <i class="{{ 'fas fa-exclamation-circle' if category == 'error' else 'fas fa-check-circle' if category == 'success' else 'fas fa-info-circle' }}"></i>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm font-medium">{{ message }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t mt-12">
+        <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+            <div class="text-center text-sm text-gray-500">
+                <p>&copy; 2024 PhotoBooth System. Made with <i class="fas fa-heart text-rose-500"></i> for your special day.</p>
+            </div>
+        </div>
+    </footer>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

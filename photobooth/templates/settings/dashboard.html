@@ -1,0 +1,252 @@
+{% extends "base.html" %}
+
+{% block title %}PhotoBooth Settings - Dashboard{% endblock %}
+
+{% block content %}
+<div class="px-4 py-6 sm:px-0">
+    <!-- Header -->
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-900">
+            <i class="fas fa-tachometer-alt text-rose-600 mr-3"></i>
+            Dashboard
+        </h1>
+        <p class="mt-2 text-lg text-gray-600">System overview and quick actions</p>
+    </div>
+
+    <!-- Status Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <!-- System Status -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex items-center">
+                <div class="p-3 rounded-full bg-green-100">
+                    <i class="fas fa-check-circle text-green-600 text-xl"></i>
+                </div>
+                <div class="ml-4">
+                    <h3 class="text-lg font-semibold text-gray-900">System</h3>
+                    <p class="text-sm text-green-600">Running</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Printer Status -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex items-center">
+                <div class="p-3 rounded-full {{ 'bg-green-100' if printer_status.get('ready') else 'bg-yellow-100' if printer_status.get('available') else 'bg-red-100' }}">
+                    <i class="fas fa-print {{ 'text-green-600' if printer_status.get('ready') else 'text-yellow-600' if printer_status.get('available') else 'text-red-600' }} text-xl"></i>
+                </div>
+                <div class="ml-4">
+                    <h3 class="text-lg font-semibold text-gray-900">Printer</h3>
+                    <p class="text-sm {{ 'text-green-600' if printer_status.get('ready') else 'text-yellow-600' if printer_status.get('available') else 'text-red-600' }}">
+                        {% if printer_status.get('ready') %}
+                            Ready
+                        {% elif printer_status.get('available') %}
+                            Available
+                        {% else %}
+                            Not Available
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Photo Count -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex items-center">
+                <div class="p-3 rounded-full bg-blue-100">
+                    <i class="fas fa-images text-blue-600 text-xl"></i>
+                </div>
+                <div class="ml-4">
+                    <h3 class="text-lg font-semibold text-gray-900">Photos</h3>
+                    <p class="text-sm text-blue-600">{{ photos_count }} total</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Storage -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex items-center">
+                <div class="p-3 rounded-full bg-purple-100">
+                    <i class="fas fa-hdd text-purple-600 text-xl"></i>
+                </div>
+                <div class="ml-4">
+                    <h3 class="text-lg font-semibold text-gray-900">Storage</h3>
+                    <p class="text-sm text-purple-600">{{ storage_info.total_size_mb|default(0) }}MB used</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+        <h2 class="text-xl font-bold text-gray-900 mb-4">
+            <i class="fas fa-bolt text-yellow-500 mr-2"></i>
+            Quick Actions
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <a href="{{ url_for('booth.booth') }}" 
+               class="flex items-center justify-center p-4 bg-gradient-to-r from-rose-500 to-pink-500 
+                      text-white rounded-lg hover:from-rose-600 hover:to-pink-600 transition-all duration-200">
+                <i class="fas fa-camera mr-2"></i>
+                Open PhotoBooth
+            </a>
+            
+            <button onclick="testPrinter()" 
+                    class="flex items-center justify-center p-4 bg-gradient-to-r from-green-500 to-emerald-500 
+                           text-white rounded-lg hover:from-green-600 hover:to-emerald-600 transition-all duration-200">
+                <i class="fas fa-print mr-2"></i>
+                Test Print
+            </button>
+            
+            <a href="{{ url_for('settings.gallery') }}" 
+               class="flex items-center justify-center p-4 bg-gradient-to-r from-blue-500 to-indigo-500 
+                      text-white rounded-lg hover:from-blue-600 hover:to-indigo-600 transition-all duration-200">
+                <i class="fas fa-images mr-2"></i>
+                View Gallery
+            </a>
+            
+            <button onclick="restartSystem()" 
+                    class="flex items-center justify-center p-4 bg-gradient-to-r from-amber-500 to-orange-500 
+                           text-white rounded-lg hover:from-amber-600 hover:to-orange-600 transition-all duration-200">
+                <i class="fas fa-redo mr-2"></i>
+                Restart Services
+            </button>
+        </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <h2 class="text-xl font-bold text-gray-900 mb-4">
+            <i class="fas fa-clock text-gray-600 mr-2"></i>
+            System Information
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Printer Details -->
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-3">Printer Status</h3>
+                {% if printer_status.get('available') %}
+                <dl class="space-y-2">
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Name</dt>
+                        <dd class="text-sm text-gray-900">{{ printer_status.name }}</dd>
+                    </div>
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Description</dt>
+                        <dd class="text-sm text-gray-900">{{ printer_status.description }}</dd>
+                    </div>
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Status</dt>
+                        <dd class="text-sm {{ 'text-green-600' if printer_status.ready else 'text-yellow-600' }}">
+                            {{ printer_status.state_message or 'Ready' }}
+                        </dd>
+                    </div>
+                </dl>
+                {% else %}
+                <p class="text-red-600">{{ printer_status.get('error', 'No printer configured') }}</p>
+                {% endif %}
+            </div>
+            
+            <!-- Storage Details -->
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-3">Storage Usage</h3>
+                {% if storage_info %}
+                <dl class="space-y-2">
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Total Photos</dt>
+                        <dd class="text-sm text-gray-900">{{ storage_info.photo_count }}</dd>
+                    </div>
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">All Photos</dt>
+                        <dd class="text-sm text-gray-900">{{ storage_info.all_photos_size_mb }}MB</dd>
+                    </div>
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Printed Photos</dt>
+                        <dd class="text-sm text-gray-900">{{ storage_info.printed_photos_size_mb }}MB</dd>
+                    </div>
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Thumbnails</dt>
+                        <dd class="text-sm text-gray-900">{{ storage_info.thumbnails_size_mb }}MB</dd>
+                    </div>
+                </dl>
+                {% else %}
+                <p class="text-gray-600">Storage information unavailable</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Loading Modal -->
+<div id="loadingModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50">
+    <div class="flex items-center justify-center min-h-screen">
+        <div class="bg-white rounded-lg p-6 shadow-xl">
+            <div class="flex items-center">
+                <div class="animate-spin rounded-full h-8 w-8 border-4 border-rose-500 border-t-transparent mr-3"></div>
+                <span id="loadingText">Processing...</span>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function showLoading(text) {
+    document.getElementById('loadingText').textContent = text;
+    document.getElementById('loadingModal').classList.remove('hidden');
+}
+
+function hideLoading() {
+    document.getElementById('loadingModal').classList.add('hidden');
+}
+
+function testPrinter() {
+    showLoading('Sending test print...');
+    
+    fetch('/settings/api/printer/test', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        hideLoading();
+        if (data.success) {
+            alert('Test print sent successfully!');
+        } else {
+            alert('Test print failed: ' + (data.error || 'Unknown error'));
+        }
+    })
+    .catch(error => {
+        hideLoading();
+        alert('Test print failed: ' + error.message);
+    });
+}
+
+function restartSystem() {
+    if (confirm('Are you sure you want to restart the PhotoBooth services? This will briefly interrupt service.')) {
+        showLoading('Restarting services...');
+        
+        fetch('/settings/api/system/restart', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            hideLoading();
+            if (data.success) {
+                alert(data.message || 'Services restarted successfully!');
+            } else {
+                alert('Restart failed: ' + (data.error || 'Unknown error'));
+            }
+        })
+        .catch(error => {
+            hideLoading();
+            alert('Restart failed: ' + error.message);
+        });
+    }
+}
+</script>
+{% endblock %}

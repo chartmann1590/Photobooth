@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found - PhotoBooth</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-br from-rose-100 via-pink-50 to-amber-50 min-h-screen flex items-center justify-center">
+    <div class="text-center px-4">
+        <div class="mb-8">
+            <i class="fas fa-camera text-8xl text-rose-300 mb-4"></i>
+            <h1 class="text-6xl font-bold text-rose-800 mb-2">404</h1>
+            <p class="text-2xl text-rose-600 mb-6">Oops! This page seems to have disappeared like a perfect moment!</p>
+            <p class="text-lg text-rose-500 mb-8">The page you're looking for couldn't be found.</p>
+        </div>
+        
+        <div class="space-y-4">
+            <a href="{{ url_for('booth.booth') }}" 
+               class="inline-block bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600
+                      text-white font-bold py-3 px-8 rounded-full text-lg
+                      transform hover:scale-105 transition-all duration-200 ease-in-out
+                      shadow-xl">
+                <i class="fas fa-camera mr-2"></i>
+                Back to PhotoBooth
+            </a>
+            
+            <div class="mt-6">
+                <a href="{{ url_for('settings.dashboard') }}" 
+                   class="text-rose-600 hover:text-rose-700 font-medium">
+                    <i class="fas fa-cog mr-1"></i>
+                    Settings
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

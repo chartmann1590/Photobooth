@@ -1,0 +1,35 @@
+[Unit]
+Description=Wedding Photobooth Flask Application
+After=network.target nginx.service hostapd.service dnsmasq.service
+Wants=nginx.service hostapd.service dnsmasq.service
+
+[Service]
+Type=exec
+User=pi
+Group=pi
+WorkingDirectory=/opt/photobooth
+Environment=PATH=/opt/photobooth/venv/bin
+Environment=FLASK_ENV=production
+Environment=FLASK_DEBUG=false
+ExecStart=/opt/photobooth/venv/bin/python app.py
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=mixed
+Restart=always
+RestartSec=10
+StandardOutput=append:/opt/photobooth/photobooth.log
+StandardError=append:/opt/photobooth/photobooth.log
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/photobooth/data
+ReadWritePaths=/opt/photobooth/photobooth/static/frames
+
+# Resource limits
+MemoryMax=512M
+CPUQuota=80%
+
+[Install]
+WantedBy=multi-user.target

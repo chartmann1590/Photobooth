@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhotoBooth</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/booth.css') }}" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-br from-rose-100 via-pink-50 to-amber-50 min-h-screen overflow-hidden">
+    <!-- Background Decorations -->
+    <div class="fixed inset-0 pointer-events-none">
+        <div class="absolute top-10 left-10 w-32 h-32 bg-rose-200 rounded-full opacity-20 animate-pulse"></div>
+        <div class="absolute top-1/4 right-16 w-24 h-24 bg-pink-200 rounded-full opacity-30 animate-pulse delay-1000"></div>
+        <div class="absolute bottom-20 left-1/4 w-40 h-40 bg-amber-200 rounded-full opacity-20 animate-pulse delay-2000"></div>
+        <div class="absolute bottom-32 right-20 w-28 h-28 bg-rose-300 rounded-full opacity-25 animate-pulse delay-3000"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="relative z-10 min-h-screen flex flex-col">
+        <!-- Header -->
+        <header class="text-center py-8 px-4">
+            <h1 class="text-6xl md:text-8xl font-serif text-rose-800 mb-4 animate-fade-in">
+                <i class="fas fa-heart text-rose-600 mr-4"></i>
+                PhotoBooth
+                <i class="fas fa-heart text-rose-600 ml-4"></i>
+            </h1>
+            <p class="text-2xl md:text-3xl text-rose-700 font-light italic">
+                Capture your magical moments
+            </p>
+        </header>
+
+        <!-- Camera and Controls Container -->
+        <div class="flex-1 flex flex-col items-center justify-center px-8">
+            <!-- Camera Preview -->
+            <div id="cameraContainer" class="relative mb-8">
+                <video id="cameraPreview" 
+                       class="w-96 h-64 md:w-[600px] md:h-[400px] lg:w-[800px] lg:h-[533px] 
+                              rounded-lg shadow-2xl border-8 border-white bg-gray-800 object-cover"
+                       autoplay muted playsinline>
+                </video>
+                
+                <!-- Camera Loading State -->
+                <div id="cameraLoading" class="absolute inset-0 bg-gray-800 rounded-lg flex items-center justify-center">
+                    <div class="text-center">
+                        <i class="fas fa-camera text-6xl text-white mb-4 animate-pulse"></i>
+                        <p class="text-white text-xl">Initializing Camera...</p>
+                        <p class="text-gray-300 text-sm mt-2">Please allow camera access</p>
+                    </div>
+                </div>
+                
+                <!-- Camera Error State -->
+                <div id="cameraError" class="absolute inset-0 bg-red-900 rounded-lg flex items-center justify-center hidden">
+                    <div class="text-center">
+                        <i class="fas fa-exclamation-triangle text-6xl text-white mb-4"></i>
+                        <p class="text-white text-xl mb-2">Camera Access Required</p>
+                        <p class="text-gray-200 text-base max-w-md">
+                            Please refresh the page and allow camera access to use the PhotoBooth
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Action Button -->
+            <button id="captureBtn" 
+                    class="bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600
+                           text-white font-bold py-6 px-16 rounded-full text-3xl md:text-4xl
+                           shadow-2xl transform hover:scale-105 transition-all duration-300 ease-in-out
+                           border-4 border-white hover:border-rose-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled>
+                <i class="fas fa-camera mr-4"></i>
+                Start Photo Session
+            </button>
+        </div>
+
+        <!-- Footer -->
+        <footer class="text-center py-6 text-rose-600">
+            <p class="text-lg">
+                <i class="fas fa-touch text-2xl mr-2"></i>
+                Touch the button to begin
+            </p>
+        </footer>
+    </div>
+
+    <!-- Countdown Overlay -->
+    <div id="countdownOverlay" class="fixed inset-0 bg-black bg-opacity-80 z-50 hidden">
+        <div class="flex items-center justify-center min-h-screen">
+            <div class="text-center">
+                <div id="countdownNumber" 
+                     class="text-white text-[20rem] md:text-[25rem] font-bold leading-none 
+                            animate-pulse drop-shadow-2xl">
+                    3
+                </div>
+                <p class="text-white text-3xl md:text-4xl mt-8 animate-bounce">
+                    Get Ready!
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Photo Preview Modal -->
+    <div id="previewModal" class="fixed inset-0 bg-black bg-opacity-90 z-50 hidden">
+        <div class="min-h-screen flex items-center justify-center p-8">
+            <div class="bg-white rounded-lg shadow-2xl max-w-4xl w-full">
+                <!-- Modal Header -->
+                <div class="bg-gradient-to-r from-rose-500 to-pink-500 text-white p-6 rounded-t-lg">
+                    <h2 class="text-3xl font-bold text-center">
+                        <i class="fas fa-star mr-3"></i>
+                        Beautiful! How does it look?
+                        <i class="fas fa-star ml-3"></i>
+                    </h2>
+                </div>
+                
+                <!-- Photo Preview -->
+                <div class="p-8 text-center">
+                    <img id="previewImage" 
+                         class="max-w-full max-h-96 mx-auto rounded-lg shadow-lg mb-8 border-4 border-rose-200" 
+                         src="" alt="Photo Preview">
+                    
+                    <!-- Action Buttons -->
+                    <div class="flex flex-col md:flex-row gap-4 justify-center">
+                        <button id="printBtn" 
+                                class="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600
+                                       text-white font-bold py-4 px-8 rounded-full text-xl
+                                       shadow-xl transform hover:scale-105 transition-all duration-300 ease-in-out
+                                       border-2 border-white hover:border-green-200">
+                            <i class="fas fa-print mr-3"></i>
+                            Print Photo
+                        </button>
+                        
+                        <button id="retakeBtn" 
+                                class="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600
+                                       text-white font-bold py-4 px-8 rounded-full text-xl
+                                       shadow-xl transform hover:scale-105 transition-all duration-300 ease-in-out
+                                       border-2 border-white hover:border-amber-200">
+                            <i class="fas fa-redo mr-3"></i>
+                            Take Another
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="fixed inset-0 bg-black bg-opacity-80 z-50 hidden">
+        <div class="flex items-center justify-center min-h-screen">
+            <div class="text-center">
+                <div class="animate-spin rounded-full h-32 w-32 border-8 border-white border-t-rose-500 mx-auto mb-8"></div>
+                <p id="loadingText" class="text-white text-2xl md:text-3xl">Processing your beautiful photo...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Message -->
+    <div id="successMessage" 
+         class="fixed top-8 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-8 py-4 
+                rounded-full shadow-xl z-50 hidden animate-bounce">
+        <i class="fas fa-check-circle mr-2"></i>
+        <span id="successText">Photo printed successfully!</span>
+    </div>
+
+    <!-- Error Message -->
+    <div id="errorMessage" 
+         class="fixed top-8 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-8 py-4 
+                rounded-full shadow-xl z-50 hidden">
+        <i class="fas fa-exclamation-circle mr-2"></i>
+        <span id="errorText">Something went wrong!</span>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/booth.js') }}"></script>
+</body>
+</html>
