@@ -32,6 +32,16 @@ python -m venv venv
 source venv/bin/activate
 ```
 
+### Audio/TTS Testing
+```bash
+# Test TTS functionality
+cd /opt/photobooth && source venv/bin/activate
+python -c "from photobooth.audio import speak_text; speak_text('Test message')"
+
+# Check TTS status
+python -c "from photobooth.audio import get_tts_status; print(get_tts_status())"
+```
+
 ### Testing
 ```bash
 # Run all tests with coverage
@@ -150,6 +160,15 @@ tail -f photobooth.log
 - Configurable via admin interface
 - Images processed server-side using Pillow
 - Recommended size: 1800x1200 pixels (matches PHOTO_WIDTH/HEIGHT)
+
+### Text-to-Speech System
+- Built on eSpeak NG engine with pyttsx3 integration
+- Customizable voice selection with enhanced voice options
+- Configurable speech rate (80-300 words per minute)
+- Custom messages for welcome, countdown, capture, and printing events
+- Audio settings accessible via `/settings/audio` admin interface
+- Fallback static voice options when dynamic loading fails
+- Non-blocking async speech to prevent UI hangs
 
 ### Production Deployment
 - Single installation script (install.sh) handles complete setup
