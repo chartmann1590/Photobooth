@@ -1,5 +1,7 @@
 # Wedding PhotoBooth for Raspberry Pi 3B
 
+**Repository**: https://github.com/chartmann1590/Photobooth.git
+
 A complete, production-ready wedding photobooth system that runs directly on Raspberry Pi 3B with offline WiFi hotspot, professional printing, HTTPS certificate support, and beautiful touch-friendly interface designed for dark venues.
 
 ## ✨ Key Features
@@ -59,7 +61,7 @@ A complete, production-ready wedding photobooth system that runs directly on Ras
 
 1. **Download and run the installer:**
    ```bash
-   git clone <repository-url> photobooth
+   git clone https://github.com/chartmann1590/Photobooth.git photobooth
    cd photobooth
    sudo bash install.sh
    ```
