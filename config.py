@@ -27,6 +27,10 @@ class Config:
     PHOTO_QUALITY = int(os.getenv('PHOTO_QUALITY', 85))
     THUMBNAIL_SIZE = int(os.getenv('THUMBNAIL_SIZE', 300))
     
+    # Frame overlay settings  
+    FRAMES_DIR = os.getenv('FRAMES_DIR', '/opt/photobooth/photobooth/static/frames')
+    FRAME_PATH = os.path.join(FRAMES_DIR, 'current.png')
+    
     # Printer settings
     DEFAULT_PRINTER = os.getenv('DEFAULT_PRINTER', '')
     PRINT_PAPER_SIZE = os.getenv('PRINT_PAPER_SIZE', '4x6')
@@ -44,7 +48,6 @@ class Config:
     AP_SUBNET = os.getenv('AP_SUBNET', '192.168.50.0/24')
     
     # Frame overlay
-    FRAME_PATH = '/opt/photobooth/photobooth/static/frames/current.png'
     FRAME_UPLOAD_PATH = '/opt/photobooth/photobooth/static/frames/'
     
     # Upload limits

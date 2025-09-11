@@ -1,54 +1,155 @@
 // PhotoBooth JavaScript
 class PhotoBooth {
     constructor() {
+        console.log('PhotoBooth constructor called');
         this.stream = null;
         this.video = document.getElementById('cameraPreview');
         this.captureBtn = document.getElementById('captureBtn');
+        this.frameOverlay = document.getElementById('frameOverlay');
         this.currentPhoto = null;
         
-        this.init();
+        console.log('Elements found:', {
+            video: !!this.video,
+            captureBtn: !!this.captureBtn,
+            frameOverlay: !!this.frameOverlay
+        });
+        
+        if (!this.video) {
+            throw new Error('cameraPreview element not found');
+        }
+        
+        if (!this.captureBtn) {
+            throw new Error('captureBtn element not found');
+        }
+        
+        this.init().catch(error => {
+            console.error('PhotoBooth init failed:', error);
+            this.showCameraError(error);
+        });
     }
 
     async init() {
-        await this.initCamera();
-        this.setupEventListeners();
-        this.hideLoading();
+        try {
+            console.log('Starting PhotoBooth init...');
+            await this.initCamera();
+            this.setupEventListeners();
+            
+            // Load frame overlay
+            await this.loadFrameOverlay();
+            console.log('PhotoBooth init completed');
+        } catch (error) {
+            console.error('Init error:', error);
+            throw error;
+        }
     }
 
     async initCamera() {
         try {
             console.log('Requesting camera access...');
             
-            const constraints = {
+            // Check if getUserMedia is supported
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                throw new Error('getUserMedia not supported by this browser');
+            }
+            
+            // Check for available cameras
+            try {
+                const devices = await navigator.mediaDevices.enumerateDevices();
+                const cameras = devices.filter(device => device.kind === 'videoinput');
+                console.log(`Found ${cameras.length} camera(s):`, cameras);
+                
+                if (cameras.length === 0) {
+                    throw new Error('No cameras found on this device');
+                }
+            } catch (enumError) {
+                console.warn('Could not enumerate devices:', enumError);
+            }
+            
+            // Try with high resolution first, then fallback to lower resolution
+            let constraints = {
                 video: {
-                    width: { ideal: 1920 },
-                    height: { ideal: 1080 },
+                    width: { ideal: 1920, min: 640 },
+                    height: { ideal: 1080, min: 480 },
                     facingMode: 'user'
                 },
                 audio: false
             };
 
-            this.stream = await navigator.mediaDevices.getUserMedia(constraints);
+            try {
+                this.stream = await navigator.mediaDevices.getUserMedia(constraints);
+            } catch (highResError) {
+                console.warn('High resolution failed, trying basic constraints:', highResError);
+                // Fallback to basic constraints
+                constraints = {
+                    video: {
+                        width: { ideal: 1280, min: 640 },
+                        height: { ideal: 720, min: 480 }
+                    },
+                    audio: false
+                };
+                
+                try {
+                    this.stream = await navigator.mediaDevices.getUserMedia(constraints);
+                } catch (mediumResError) {
+                    console.warn('Medium resolution failed, trying minimal constraints:', mediumResError);
+                    // Final fallback - minimal constraints
+                    constraints = { video: true, audio: false };
+                    this.stream = await navigator.mediaDevices.getUserMedia(constraints);
+                }
+            }
             this.video.srcObject = this.stream;
             
             this.video.addEventListener('loadedmetadata', () => {
-                this.video.play();
-                this.enableCaptureButton();
+                console.log('Video metadata loaded:', {
+                    videoWidth: this.video.videoWidth,
+                    videoHeight: this.video.videoHeight,
+                    readyState: this.video.readyState,
+                    srcObject: !!this.video.srcObject
+                });
+                
+                this.video.play().then(() => {
+                    console.log('Video play started successfully');
+                    console.log('Video element state:', {
+                        paused: this.video.paused,
+                        muted: this.video.muted,
+                        currentTime: this.video.currentTime,
+                        duration: this.video.duration
+                    });
+                    this.enableCaptureButton();
+                }).catch(error => {
+                    console.error('Video play failed:', error);
+                    this.showCameraError(error);
+                });
             });
-
+            
             console.log('Camera initialized successfully');
             
         } catch (error) {
             console.error('Camera initialization failed:', error);
-            this.showCameraError();
+            this.showCameraError(error);
         }
     }
 
     setupEventListeners() {
         this.captureBtn.addEventListener('click', () => this.startPhotoSession());
         
-        document.getElementById('printBtn').addEventListener('click', () => this.printPhoto());
-        document.getElementById('retakeBtn').addEventListener('click', () => this.retakePhoto());
+        // Modal buttons - add safe event listeners
+        const printBtn = document.getElementById('printBtn');
+        const retakeBtn = document.getElementById('retakeBtn');
+        
+        if (printBtn) {
+            printBtn.addEventListener('click', () => this.printPhoto());
+            console.log('Print button event listener added');
+        } else {
+            console.warn('Print button not found');
+        }
+        
+        if (retakeBtn) {
+            retakeBtn.addEventListener('click', () => this.retakePhoto());
+            console.log('Retake button event listener added');
+        } else {
+            console.warn('Retake button not found');
+        }
         
         // Keyboard shortcuts
         document.addEventListener('keydown', (e) => {
@@ -62,14 +163,30 @@ class PhotoBooth {
     enableCaptureButton() {
         this.captureBtn.disabled = false;
         this.captureBtn.innerHTML = '<i class="fas fa-camera mr-4"></i>Start Photo Session';
-        document.getElementById('cameraLoading').style.display = 'none';
+        console.log('Camera ready, capture button enabled');
     }
 
-    showCameraError() {
-        document.getElementById('cameraLoading').style.display = 'none';
-        document.getElementById('cameraError').classList.remove('hidden');
+    showCameraError(error = null) {
+        const errorDiv = document.getElementById('cameraError');
+        if (errorDiv) {
+            errorDiv.classList.remove('hidden');
+        }
         this.captureBtn.disabled = true;
         this.captureBtn.innerHTML = '<i class="fas fa-exclamation-triangle mr-4"></i>Camera Error';
+        
+        // Add detailed error information for debugging
+        if (error) {
+            const errorDiv = document.getElementById('cameraError');
+            const existingDetail = errorDiv.querySelector('.error-detail');
+            if (existingDetail) existingDetail.remove();
+            
+            const errorDetail = document.createElement('div');
+            errorDetail.className = 'error-detail mt-2 text-xs text-red-200 bg-red-800 rounded p-2';
+            errorDetail.textContent = `Error: ${error.name || 'Unknown'} - ${error.message || 'Camera access failed'}`;
+            errorDiv.appendChild(errorDetail);
+            
+            console.error('Detailed camera error:', error);
+        }
     }
 
     async startPhotoSession() {
@@ -214,8 +331,15 @@ class PhotoBooth {
     }
 
     async retakePhoto() {
-        if (!this.currentPhoto) return;
+        console.log('Retake photo initiated');
+        
+        if (!this.currentPhoto) {
+            console.error('No current photo to retake');
+            this.showError('No photo to retake');
+            return;
+        }
 
+        console.log('Retaking photo:', this.currentPhoto.filename);
         this.showLoading('Preparing for retake...');
 
         try {
@@ -229,12 +353,21 @@ class PhotoBooth {
                 })
             });
 
+            console.log('Retake response status:', response.status);
+
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+
             const data = await response.json();
+            console.log('Retake response data:', data);
 
             if (data.success) {
+                console.log('Retake successful, closing preview and resetting');
                 this.closePreview();
                 this.enableCaptureButton();
                 this.currentPhoto = null;
+                console.log('Retake complete - ready for new photo');
             } else {
                 throw new Error(data.error || 'Retake failed');
             }
@@ -248,7 +381,20 @@ class PhotoBooth {
     }
 
     closePreview() {
-        document.getElementById('previewModal').classList.add('hidden');
+        console.log('Closing preview modal');
+        const previewModal = document.getElementById('previewModal');
+        const previewImage = document.getElementById('previewImage');
+        
+        if (previewModal) {
+            previewModal.classList.add('hidden');
+            previewModal.classList.remove('modal-enter');
+        }
+        
+        if (previewImage) {
+            previewImage.src = ''; // Clear image source
+        }
+        
+        console.log('Preview modal closed');
     }
 
     showLoading(text = 'Processing...') {
@@ -289,6 +435,49 @@ class PhotoBooth {
         }, 5000);
     }
 
+    async loadFrameOverlay() {
+        if (!this.frameOverlay) {
+            console.warn('Frame overlay element not found');
+            return;
+        }
+        
+        try {
+            console.log('Loading frame overlay...');
+            const response = await fetch('/settings/api/frame/current');
+            console.log('Frame API response:', response.status, response.statusText);
+            
+            if (response.ok) {
+                // Frame exists, show the overlay
+                const timestamp = Date.now();
+                this.frameOverlay.src = `/settings/api/frame/current?v=${timestamp}`;
+                this.frameOverlay.classList.remove('hidden');
+                
+                // Add load event listener
+                this.frameOverlay.onload = () => {
+                    console.log('Frame overlay image loaded successfully:', {
+                        naturalWidth: this.frameOverlay.naturalWidth,
+                        naturalHeight: this.frameOverlay.naturalHeight,
+                        visible: !this.frameOverlay.classList.contains('hidden')
+                    });
+                };
+                
+                this.frameOverlay.onerror = (e) => {
+                    console.error('Frame overlay failed to load:', e);
+                    this.frameOverlay.classList.add('hidden');
+                };
+                
+                console.log('Frame overlay setup complete');
+            } else {
+                // No frame available, hide overlay
+                this.frameOverlay.classList.add('hidden');
+                console.log('No frame overlay available (HTTP ' + response.status + ')');
+            }
+        } catch (error) {
+            console.error('Could not load frame overlay:', error);
+            this.frameOverlay.classList.add('hidden');
+        }
+    }
+
     sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
@@ -303,7 +492,23 @@ class PhotoBooth {
 
 // Initialize PhotoBooth when page loads
 document.addEventListener('DOMContentLoaded', () => {
-    window.photoBooth = new PhotoBooth();
+    try {
+        console.log('Initializing PhotoBooth...');
+        window.photoBooth = new PhotoBooth();
+        console.log('PhotoBooth initialized successfully');
+    } catch (error) {
+        console.error('Failed to initialize PhotoBooth:', error);
+        // Show error message to user
+        const errorDiv = document.getElementById('cameraError');
+        if (errorDiv) {
+            document.getElementById('cameraLoading').style.display = 'none';
+            errorDiv.classList.remove('hidden');
+            const errorDetail = document.createElement('div');
+            errorDetail.className = 'error-detail mt-2 text-xs text-red-200 bg-red-800 rounded p-2';
+            errorDetail.textContent = `Initialization Error: ${error.message}`;
+            errorDiv.appendChild(errorDetail);
+        }
+    }
 });
 
 // Cleanup when page unloads

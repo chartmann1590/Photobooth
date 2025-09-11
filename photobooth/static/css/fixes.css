@@ -1,0 +1,585 @@
+/* PhotoBooth Visibility Fixes */
+
+/* CRITICAL: Fix Tailwind's transparent button default that makes buttons invisible */
+button {
+    background-color: #6b7280 !important; /* Default gray background for all buttons */
+    color: white !important;
+    border: none !important;
+    padding: 0.5rem 1rem !important;
+    border-radius: 0.5rem !important;
+    cursor: pointer !important;
+    transition: all 0.2s !important;
+}
+
+/* Only allow transparent background for buttons that explicitly have gradient backgrounds */
+button[class*="bg-gradient"] {
+    background-color: transparent !important;
+}
+
+button[class*="bg-rose"], 
+button[class*="bg-green"], 
+button[class*="bg-blue"], 
+button[class*="bg-amber"], 
+button[class*="bg-red"],
+button[class*="bg-gray"] {
+    background-color: transparent !important;
+}
+
+/* Ensure all interactive elements have visible backgrounds when needed */
+.btn {
+    background-color: #10b981 !important; /* Default green */
+    color: white !important;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn:hover {
+    background-color: #059669 !important;
+}
+
+/* Fix any remaining white text on light backgrounds */
+.text-white {
+    color: white !important;
+    text-shadow: 0 0 2px rgba(0,0,0,0.3);
+}
+
+/* Ensure text colors are always visible */
+.text-gray-100 { color: #f3f4f6 !important; text-shadow: 0 0 1px rgba(0,0,0,0.2); }
+.text-gray-200 { color: #e5e7eb !important; text-shadow: 0 0 1px rgba(0,0,0,0.2); }
+.text-gray-300 { color: #d1d5db !important; text-shadow: 0 0 1px rgba(0,0,0,0.2); }
+
+/* Navigation specific fixes */
+nav a, nav button {
+    background-color: rgba(244, 63, 94, 0.8) !important; /* rose-500 with opacity */
+    color: white !important;
+    text-shadow: 0 0 2px rgba(0,0,0,0.5);
+}
+
+nav a:hover, nav button:hover {
+    background-color: rgba(225, 29, 72, 0.9) !important; /* rose-600 with opacity */
+}
+
+/* Mobile menu hamburger button */
+#mobileMenuBtn {
+    background-color: rgba(225, 29, 72, 0.9) !important; /* rose-600 */
+    color: white !important;
+    border: 2px solid white !important;
+}
+
+#mobileMenuBtn:hover {
+    background-color: rgba(190, 18, 60, 1) !important; /* rose-700 */
+}
+
+/* Ensure form elements are visible */
+input, select, textarea {
+    background-color: #ffffff !important;
+    border: 2px solid #d1d5db !important;
+    color: #111827 !important;
+    padding: 0.75rem !important;
+    border-radius: 0.5rem !important;
+}
+
+input:focus, select:focus, textarea:focus {
+    background-color: white !important;
+    border-color: #f43f5e !important;
+    outline: none !important;
+    box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.2) !important;
+}
+
+/* Checkbox and radio button fixes */
+input[type="checkbox"], input[type="radio"] {
+    background-color: white !important;
+    border: 2px solid #d1d5db !important;
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+}
+
+input[type="checkbox"]:checked, input[type="radio"]:checked {
+    background-color: #f43f5e !important;
+    border-color: #f43f5e !important;
+}
+
+/* Range slider fixes */
+input[type="range"] {
+    background: #d1d5db !important;
+    border: none !important;
+    height: 0.5rem !important;
+    border-radius: 0.25rem !important;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    background: #f43f5e !important;
+    border: 2px solid white !important;
+    border-radius: 50% !important;
+    width: 1.5rem !important;
+    height: 1.5rem !important;
+    cursor: pointer !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2) !important;
+}
+
+/* Ensure good contrast for text elements */
+.text-gray-100 { color: #f3f4f6 !important; text-shadow: 0 0 1px rgba(0,0,0,0.3); }
+.text-gray-200 { color: #e5e7eb !important; text-shadow: 0 0 1px rgba(0,0,0,0.3); }
+.text-gray-300 { color: #d1d5db !important; text-shadow: 0 0 1px rgba(0,0,0,0.2); }
+.text-gray-400 { color: #9ca3af !important; }
+.text-gray-500 { color: #6b7280 !important; }
+.text-gray-600 { color: #4b5563 !important; }
+.text-gray-700 { color: #374151 !important; }
+.text-gray-800 { color: #1f2937 !important; }
+.text-gray-900 { color: #111827 !important; }
+
+/* Rose color text improvements */
+.text-rose-500 { color: #f43f5e !important; }
+.text-rose-600 { color: #e11d48 !important; }
+.text-rose-700 { color: #be185d !important; }
+.text-rose-800 { color: #9f1239 !important; }
+
+/* Card and container improvements */
+.bg-white {
+    background-color: white !important;
+    border: 1px solid #e5e7eb !important;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Gradient background fixes */
+.bg-gradient-to-r {
+    background-image: linear-gradient(to right, var(--tw-gradient-stops)) !important;
+    color: white !important;
+}
+
+/* Ensure proper spacing and padding */
+.p-4, .p-6 {
+    padding: 1.5rem !important;
+}
+
+.px-4, .px-6 {
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+}
+
+.py-3, .py-4 {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+}
+
+/* Fix any problematic opacity issues - ensure minimum visibility */
+.opacity-0 { opacity: 0; }
+.opacity-10 { opacity: 0.3; } /* Increase minimum opacity */
+.opacity-20 { opacity: 0.4; } /* Increase minimum opacity */
+.opacity-25 { opacity: 0.45; } /* Increase minimum opacity */
+.opacity-30 { opacity: 0.5; } /* Increase minimum opacity */
+.opacity-40 { opacity: 0.6; }
+.opacity-50 { opacity: 0.7; }
+.opacity-60 { opacity: 0.75; }
+.opacity-70 { opacity: 0.8; }
+.opacity-75 { opacity: 0.85; }
+.opacity-80 { opacity: 0.9; }
+.opacity-90 { opacity: 0.95; }
+.opacity-95 { opacity: 0.98; }
+.opacity-100 { opacity: 1; }
+
+/* Prevent elements from becoming too transparent */
+.opacity-10, .opacity-20, .opacity-25, .opacity-30 {
+    min-opacity: 0.4;
+}
+
+/* Background decorations should be more visible */
+.bg-rose-200, .bg-pink-200, .bg-amber-200 {
+    opacity: 0.6 !important;
+}
+
+.animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+/* Ensure visibility for common UI patterns */
+.invisible { visibility: hidden !important; }
+.visible { visibility: visible !important; }
+.hidden { display: none !important; }
+.block { display: block !important; }
+.inline-block { display: inline-block !important; }
+.flex { display: flex !important; }
+.inline-flex { display: inline-flex !important; }
+.grid { display: grid !important; }
+
+/* Loading states and spinners */
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Bounce animation for interactive elements */
+.animate-bounce {
+    animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(-25%);
+    animation-timing-function: cubic-bezier(0.8,0,1,1);
+  }
+  50% {
+    transform: none;
+    animation-timing-function: cubic-bezier(0,0,0.2,1);
+  }
+}
+
+/* Touch and interaction improvements */
+.touch-manipulation {
+    touch-action: manipulation;
+}
+
+.active\:scale-95:active {
+    transform: scale(0.95);
+}
+
+/* Ensure critical interactive elements are always visible */
+[role="button"], .cursor-pointer {
+    min-height: 44px; /* Ensure touch target size */
+    min-width: 44px;
+}
+
+/* Focus states for accessibility */
+*:focus {
+    outline: 2px solid #f43f5e !important;
+    outline-offset: 2px !important;
+}
+
+button:focus, a:focus, input:focus, select:focus, textarea:focus {
+    outline: 3px solid #f43f5e !important;
+    outline-offset: 2px !important;
+    box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.2) !important;
+}
+
+/* Ensure modal and overlay visibility */
+.modal, .overlay {
+    background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+.modal .bg-white {
+    background-color: white !important;
+    color: #1f2937 !important;
+}
+
+/* Link visibility fixes */
+a {
+    color: #dc2626 !important; /* red-600 for better visibility */
+    text-decoration: underline;
+}
+
+a:hover {
+    color: #b91c1c !important; /* red-700 */
+    text-decoration: underline;
+}
+
+a[class*="text-rose"] {
+    color: #f43f5e !important; /* rose-500 */
+}
+
+a[class*="text-rose"]:hover {
+    color: #e11d48 !important; /* rose-600 */
+}
+
+/* Status indicator fixes */
+.bg-green-100 { background-color: #dcfce7 !important; }
+.text-green-800 { color: #166534 !important; }
+.bg-red-100 { background-color: #fee2e2 !important; }
+.text-red-800 { color: #991b1b !important; }
+.bg-yellow-100 { background-color: #fef3c7 !important; }
+.text-yellow-800 { color: #92400e !important; }
+.bg-blue-100 { background-color: #dbeafe !important; }
+.text-blue-800 { color: #1e40af !important; }
+
+/* COMPREHENSIVE BUTTON AND LINK FIXES */
+
+/* Override any problematic button classes that might make buttons invisible */
+.bg-transparent {
+    background-color: rgba(107, 114, 128, 0.8) !important; /* gray-500 with opacity */
+    color: white !important;
+}
+
+/* Ensure gradient buttons work properly */
+.from-rose-500 {
+    --tw-gradient-from: #f43f5e;
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(244, 63, 94, 0));
+}
+
+.to-pink-500 {
+    --tw-gradient-to: #ec4899;
+}
+
+.from-green-500 {
+    --tw-gradient-from: #10b981;
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(16, 185, 129, 0));
+}
+
+.to-emerald-500 {
+    --tw-gradient-to: #10b981;
+}
+
+.from-blue-500 {
+    --tw-gradient-from: #3b82f6;
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(59, 130, 246, 0));
+}
+
+.to-indigo-500 {
+    --tw-gradient-to: #6366f1;
+}
+
+.from-amber-500 {
+    --tw-gradient-from: #f59e0b;
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(245, 158, 11, 0));
+}
+
+.to-orange-500 {
+    --tw-gradient-to: #f97316;
+}
+
+.from-gray-500 {
+    --tw-gradient-from: #6b7280;
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(107, 114, 128, 0));
+}
+
+.to-gray-600 {
+    --tw-gradient-to: #4b5563;
+}
+
+/* Special handling for navigation links */
+nav a {
+    color: white !important;
+    text-decoration: none !important;
+}
+
+nav a:hover {
+    color: white !important;
+    text-decoration: none !important;
+}
+
+/* MOBILE-SPECIFIC FIXES */
+@media (max-width: 768px) {
+    /* Ensure mobile menu is visible */
+    #mobileMenu {
+        background-color: rgba(225, 29, 72, 0.95) !important; /* rose-600 with high opacity */
+        border-top: 2px solid rgba(244, 63, 94, 0.8) !important;
+    }
+    
+    #mobileMenu a {
+        background-color: rgba(244, 63, 94, 0.8) !important;
+        color: white !important;
+        text-shadow: 0 0 2px rgba(0,0,0,0.5);
+        margin: 0.25rem 0 !important;
+        border-radius: 0.5rem !important;
+    }
+    
+    #mobileMenu a:hover {
+        background-color: rgba(190, 18, 60, 0.9) !important; /* rose-700 */
+    }
+    
+    /* Ensure buttons are large enough for touch */
+    button, .btn, a[role="button"] {
+        min-height: 48px !important;
+        padding: 1rem 1.5rem !important;
+        font-size: 1rem !important;
+    }
+    
+    /* Form elements should be easily tappable */
+    input, select, textarea {
+        min-height: 48px !important;
+        font-size: 1rem !important;
+        padding: 1rem !important;
+    }
+    
+    /* MOBILE CAMERA ADJUSTMENTS - SHORTER FOR BUTTON SPACE */
+    #cameraContainer {
+        max-height: 40vh !important;
+        margin-bottom: 1rem !important;
+    }
+    
+    /* MOBILE CAPTURE BUTTON */
+    #captureBtn {
+        min-height: 60px !important;
+        font-size: 1.125rem !important;
+        padding: 1rem 1.5rem !important;
+    }
+    
+    /* MOBILE VIEWPORT FIX */
+    .min-h-screen {
+        min-height: 100vh !important;
+        min-height: 100dvh !important; /* Dynamic viewport height */
+    }
+}
+
+/* VERY SMALL SCREENS */
+@media (max-width: 480px) {
+    #cameraContainer {
+        max-height: 35vh !important;
+        margin-bottom: 0.75rem !important;
+    }
+    
+    #captureBtn {
+        font-size: 1rem !important;
+        padding: 0.875rem 1.25rem !important;
+    }
+    
+    /* Reduce header padding on very small screens */
+    header {
+        padding-top: 0.5rem !important;
+        padding-bottom: 0.5rem !important;
+    }
+}
+
+/* HIGH CONTRAST MODE FOR ACCESSIBILITY */
+@media (prefers-contrast: high) {
+    button {
+        border: 2px solid black !important;
+    }
+    
+    .text-white {
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.8) !important;
+    }
+    
+    a {
+        text-decoration: underline !important;
+        font-weight: bold !important;
+    }
+}
+
+/* DARK MODE COMPATIBILITY */
+@media (prefers-color-scheme: dark) {
+    .bg-white {
+        background-color: #1f2937 !important; /* gray-800 */
+        color: white !important;
+        border-color: #374151 !important; /* gray-700 */
+    }
+    
+    .text-gray-900 {
+        color: white !important;
+    }
+    
+    .text-gray-600 {
+        color: #d1d5db !important; /* gray-300 */
+    }
+}
+
+/* CAMERA VIDEO ELEMENT FIXES */
+#cameraPreview {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    z-index: 10 !important;
+    position: relative !important;
+    background: #000 !important; /* Black background while loading */
+}
+
+/* FRAME OVERLAY FIXES */
+#frameOverlay {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    pointer-events: none !important;
+    object-fit: fill !important; /* Stretch to fill exactly */
+    z-index: 100 !important;
+    border-radius: 1rem !important;
+}
+
+#frameOverlay.hidden {
+    display: none !important;
+}
+
+/* CAMERA VIDEO LAYERING */
+#cameraPreview {
+    z-index: 10 !important;
+    position: relative !important;
+}
+
+/* RESPONSIVE CAMERA CONTAINER - SHORTER FOR BUTTON SPACE */
+#cameraContainer {
+    max-height: 55vh !important;
+    width: 100% !important;
+}
+
+/* ENSURE FRAME ALWAYS ON TOP AND STRETCHED */
+#cameraContainer img[id="frameOverlay"] {
+    z-index: 100 !important;
+    position: absolute !important;
+    object-fit: fill !important; /* Force stretch to match camera exactly */
+}
+
+/* Ensure camera loading/error overlays don't block video when hidden */
+#cameraLoading {
+    z-index: 20 !important;
+}
+
+#cameraError {
+    z-index: 20 !important;
+}
+
+#cameraLoading.hidden,
+#cameraError.hidden {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+/* Force video element to be visible when stream is active */
+video[src], video[srcObject] {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* FINAL SAFETY NET - FORCE VISIBILITY ON CRITICAL ELEMENTS */
+.btn, button[type="submit"], button[type="button"], .button {
+    background-color: #6b7280 !important; /* Fallback gray */
+    color: white !important;
+    border: 1px solid #374151 !important;
+    min-height: 44px !important;
+    min-width: 44px !important;
+    padding: 0.75rem 1.5rem !important;
+    border-radius: 0.5rem !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    font-weight: 500 !important;
+    transition: all 0.2s ease !important;
+}
+
+.btn:hover, button:hover {
+    background-color: #4b5563 !important; /* gray-600 */
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Force visibility on potentially problematic elements */
+.opacity-0:hover, .invisible:hover {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Emergency visibility for debugging */
+/* Uncomment the line below if elements are still invisible */
+/* * { border: 1px solid red !important; background: rgba(255,0,0,0.05) !important; } */

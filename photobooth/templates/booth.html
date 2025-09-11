@@ -2,139 +2,156 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>PhotoBooth</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/tailwind.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/fontawesome.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/fixes.css') }}?v=20250909" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/booth.css') }}" rel="stylesheet">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 </head>
-<body class="bg-gradient-to-br from-rose-100 via-pink-50 to-amber-50 min-h-screen overflow-hidden">
+<body class="bg-gradient-to-br from-rose-50 via-pink-50 to-amber-50 min-h-screen overflow-hidden touch-manipulation">
     <!-- Background Decorations -->
-    <div class="fixed inset-0 pointer-events-none">
-        <div class="absolute top-10 left-10 w-32 h-32 bg-rose-200 rounded-full opacity-20 animate-pulse"></div>
-        <div class="absolute top-1/4 right-16 w-24 h-24 bg-pink-200 rounded-full opacity-30 animate-pulse delay-1000"></div>
-        <div class="absolute bottom-20 left-1/4 w-40 h-40 bg-amber-200 rounded-full opacity-20 animate-pulse delay-2000"></div>
-        <div class="absolute bottom-32 right-20 w-28 h-28 bg-rose-300 rounded-full opacity-25 animate-pulse delay-3000"></div>
+    <div class="fixed inset-0 pointer-events-none overflow-hidden">
+        <div class="absolute -top-4 -left-4 w-16 h-16 md:w-24 md:h-24 bg-rose-200 rounded-full opacity-30 animate-pulse"></div>
+        <div class="absolute top-20 right-8 w-12 h-12 md:w-16 md:h-16 bg-pink-200 rounded-full opacity-40 animate-pulse delay-1000"></div>
+        <div class="absolute bottom-32 left-8 w-20 h-20 md:w-28 md:h-28 bg-amber-200 rounded-full opacity-25 animate-pulse delay-2000"></div>
+        <div class="absolute -bottom-8 -right-8 w-24 h-24 md:w-32 md:h-32 bg-rose-300 rounded-full opacity-20 animate-pulse delay-3000"></div>
     </div>
 
     <!-- Main Container -->
-    <div class="relative z-10 min-h-screen flex flex-col">
-        <!-- Header -->
-        <header class="text-center py-8 px-4">
-            <h1 class="text-6xl md:text-8xl font-serif text-rose-800 mb-4 animate-fade-in">
-                <i class="fas fa-heart text-rose-600 mr-4"></i>
-                PhotoBooth
-                <i class="fas fa-heart text-rose-600 ml-4"></i>
-            </h1>
-            <p class="text-2xl md:text-3xl text-rose-700 font-light italic">
+    <div class="relative z-10 min-h-screen flex flex-col safe-area-inset">
+        <!-- Minimal Header -->
+        <header class="text-center pt-4 pb-2 px-4 md:pt-8 md:pb-4">
+            <div class="flex items-center justify-center space-x-2">
+                <i class="fas fa-camera text-rose-600 text-xl md:text-2xl"></i>
+                <p class="text-lg md:text-xl text-rose-700 font-medium">Wedding PhotoBooth</p>
+                <i class="fas fa-heart text-rose-500 text-sm md:text-base animate-pulse"></i>
+            </div>
+            <p class="text-sm md:text-base text-rose-600 font-light mt-1 opacity-80">
                 Capture your magical moments
             </p>
         </header>
 
         <!-- Camera and Controls Container -->
-        <div class="flex-1 flex flex-col items-center justify-center px-8">
-            <!-- Camera Preview -->
-            <div id="cameraContainer" class="relative mb-8">
+        <div class="flex-1 flex flex-col items-center justify-center px-4 pb-4 max-h-screen">
+            <!-- Camera Preview - Responsive with space for button -->
+            <div id="cameraContainer" class="relative mb-4 w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl max-h-[45vh] sm:max-h-[50vh] md:max-h-[55vh]">
                 <video id="cameraPreview" 
-                       class="w-96 h-64 md:w-[600px] md:h-[400px] lg:w-[800px] lg:h-[533px] 
-                              rounded-lg shadow-2xl border-8 border-white bg-gray-800 object-cover"
+                       class="w-full aspect-[4/3] rounded-2xl shadow-2xl border-4 border-white bg-gray-800 object-cover"
+                       style="z-index: 10;"
                        autoplay muted playsinline>
                 </video>
                 
-                <!-- Camera Loading State -->
-                <div id="cameraLoading" class="absolute inset-0 bg-gray-800 rounded-lg flex items-center justify-center">
-                    <div class="text-center">
-                        <i class="fas fa-camera text-6xl text-white mb-4 animate-pulse"></i>
-                        <p class="text-white text-xl">Initializing Camera...</p>
-                        <p class="text-gray-300 text-sm mt-2">Please allow camera access</p>
-                    </div>
-                </div>
+                <!-- FRAME OVERLAY ON TOP - STRETCHED TO FIT -->
+                <img id="frameOverlay" 
+                     src="{{ url_for('static', filename='frames/current.png') }}?v={{ timestamp }}" 
+                     style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100; pointer-events: none; object-fit: fill; border-radius: 1rem;"
+                     alt="Frame Overlay"
+                     onload="console.log('FRAME LOADED DIRECTLY FROM STATIC');"
+                     onerror="console.log('STATIC FRAME FAILED'); this.style.display='none';">
+                
+                <!-- Camera Loading State - REMOVED -->
+                <!-- Loading overlay removed to prevent display issues -->
                 
                 <!-- Camera Error State -->
-                <div id="cameraError" class="absolute inset-0 bg-red-900 rounded-lg flex items-center justify-center hidden">
-                    <div class="text-center">
-                        <i class="fas fa-exclamation-triangle text-6xl text-white mb-4"></i>
-                        <p class="text-white text-xl mb-2">Camera Access Required</p>
-                        <p class="text-gray-200 text-base max-w-md">
-                            Please refresh the page and allow camera access to use the PhotoBooth
+                <div id="cameraError" class="absolute inset-0 bg-red-900 rounded-2xl flex items-center justify-center hidden">
+                    <div class="text-center px-4">
+                        <i class="fas fa-exclamation-triangle text-4xl md:text-6xl text-white mb-3"></i>
+                        <p class="text-white text-lg md:text-xl mb-2">Camera Access Required</p>
+                        <p class="text-gray-200 text-sm">
+                            Please refresh and allow camera access
                         </p>
                     </div>
                 </div>
+
+                <!-- Camera Controls Overlay -->
+                <div class="absolute top-4 right-4 flex space-x-2">
+                    <button id="switchCameraBtn" 
+                            class="bg-black bg-opacity-50 hover:bg-opacity-70 text-white p-2 rounded-full transition-all duration-200 hidden">
+                        <i class="fas fa-sync-alt text-sm"></i>
+                    </button>
+                </div>
             </div>
 
-            <!-- Main Action Button -->
-            <button id="captureBtn" 
-                    class="bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600
-                           text-white font-bold py-6 px-16 rounded-full text-3xl md:text-4xl
-                           shadow-2xl transform hover:scale-105 transition-all duration-300 ease-in-out
-                           border-4 border-white hover:border-rose-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                    disabled>
-                <i class="fas fa-camera mr-4"></i>
-                Start Photo Session
-            </button>
+            <!-- Main Capture Button - Responsive -->
+            <div class="w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl px-4">
+                <button id="captureBtn" 
+                        class="w-full bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600
+                               active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed
+                               text-white font-bold py-4 sm:py-6 md:py-8 px-6 sm:px-8 rounded-2xl text-lg sm:text-xl md:text-2xl
+                               shadow-2xl transform transition-all duration-200 ease-in-out
+                               border-2 border-white hover:border-rose-200 touch-manipulation">
+                    <i class="fas fa-camera mr-2 sm:mr-3 text-base sm:text-lg md:text-xl"></i>
+                    <span id="captureText">Start Photo Session</span>
+                </button>
+            </div>
         </div>
 
-        <!-- Footer -->
-        <footer class="text-center py-6 text-rose-600">
-            <p class="text-lg">
-                <i class="fas fa-touch text-2xl mr-2"></i>
-                Touch the button to begin
-            </p>
+        <!-- Footer Instructions -->
+        <footer class="text-center pb-6 md:pb-8 px-4">
+            <div class="flex items-center justify-center space-x-2 text-rose-600">
+                <i class="fas fa-hand-pointer text-lg animate-bounce"></i>
+                <p class="text-base md:text-lg">
+                    Tap the button when ready
+                </p>
+            </div>
         </footer>
     </div>
 
     <!-- Countdown Overlay -->
-    <div id="countdownOverlay" class="fixed inset-0 bg-black bg-opacity-80 z-50 hidden">
-        <div class="flex items-center justify-center min-h-screen">
+    <div id="countdownOverlay" class="fixed inset-0 bg-black bg-opacity-90 z-50 hidden">
+        <div class="flex items-center justify-center min-h-screen px-4">
             <div class="text-center">
                 <div id="countdownNumber" 
-                     class="text-white text-[20rem] md:text-[25rem] font-bold leading-none 
+                     class="text-white text-[8rem] md:text-[12rem] lg:text-[16rem] font-bold leading-none 
                             animate-pulse drop-shadow-2xl">
                     3
                 </div>
-                <p class="text-white text-3xl md:text-4xl mt-8 animate-bounce">
-                    Get Ready!
+                <p class="text-white text-2xl md:text-3xl lg:text-4xl mt-4 animate-bounce">
+                    Get Ready! <i class="fas fa-camera ml-2"></i>
                 </p>
             </div>
         </div>
     </div>
 
     <!-- Photo Preview Modal -->
-    <div id="previewModal" class="fixed inset-0 bg-black bg-opacity-90 z-50 hidden">
-        <div class="min-h-screen flex items-center justify-center p-8">
-            <div class="bg-white rounded-lg shadow-2xl max-w-4xl w-full">
+    <div id="previewModal" class="fixed inset-0 bg-black bg-opacity-95 z-50 hidden">
+        <div class="min-h-screen flex items-center justify-center p-4">
+            <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-screen overflow-y-auto">
                 <!-- Modal Header -->
-                <div class="bg-gradient-to-r from-rose-500 to-pink-500 text-white p-6 rounded-t-lg">
-                    <h2 class="text-3xl font-bold text-center">
-                        <i class="fas fa-star mr-3"></i>
-                        Beautiful! How does it look?
-                        <i class="fas fa-star ml-3"></i>
+                <div class="bg-gradient-to-r from-rose-500 to-pink-500 text-white p-4 md:p-6 rounded-t-2xl">
+                    <h2 class="text-xl md:text-2xl font-bold text-center flex items-center justify-center">
+                        <i class="fas fa-star mr-2 text-yellow-200"></i>
+                        Perfect! How does it look?
+                        <i class="fas fa-star ml-2 text-yellow-200"></i>
                     </h2>
                 </div>
                 
                 <!-- Photo Preview -->
-                <div class="p-8 text-center">
+                <div class="p-4 md:p-6 text-center">
                     <img id="previewImage" 
-                         class="max-w-full max-h-96 mx-auto rounded-lg shadow-lg mb-8 border-4 border-rose-200" 
+                         class="w-full max-h-64 md:max-h-80 object-contain mx-auto rounded-xl shadow-lg mb-6 border-2 border-rose-100" 
                          src="" alt="Photo Preview">
                     
                     <!-- Action Buttons -->
-                    <div class="flex flex-col md:flex-row gap-4 justify-center">
+                    <div class="flex flex-col space-y-3 md:flex-row md:space-y-0 md:space-x-4 justify-center">
                         <button id="printBtn" 
-                                class="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600
-                                       text-white font-bold py-4 px-8 rounded-full text-xl
-                                       shadow-xl transform hover:scale-105 transition-all duration-300 ease-in-out
-                                       border-2 border-white hover:border-green-200">
-                            <i class="fas fa-print mr-3"></i>
+                                class="flex-1 md:flex-none bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600
+                                       active:scale-95 text-white font-bold py-4 px-6 md:px-8 rounded-xl text-lg
+                                       shadow-xl transform transition-all duration-200 ease-in-out
+                                       border-2 border-white hover:border-green-200 touch-manipulation">
+                            <i class="fas fa-print mr-2"></i>
                             Print Photo
                         </button>
                         
                         <button id="retakeBtn" 
-                                class="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600
-                                       text-white font-bold py-4 px-8 rounded-full text-xl
-                                       shadow-xl transform hover:scale-105 transition-all duration-300 ease-in-out
-                                       border-2 border-white hover:border-amber-200">
-                            <i class="fas fa-redo mr-3"></i>
+                                class="flex-1 md:flex-none bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600
+                                       active:scale-95 text-white font-bold py-4 px-6 md:px-8 rounded-xl text-lg
+                                       shadow-xl transform transition-all duration-200 ease-in-out
+                                       border-2 border-white hover:border-amber-200 touch-manipulation">
+                            <i class="fas fa-redo mr-2"></i>
                             Take Another
                         </button>
                     </div>
@@ -144,31 +161,76 @@
     </div>
 
     <!-- Loading Overlay -->
-    <div id="loadingOverlay" class="fixed inset-0 bg-black bg-opacity-80 z-50 hidden">
-        <div class="flex items-center justify-center min-h-screen">
+    <div id="loadingOverlay" class="fixed inset-0 bg-black bg-opacity-90 z-50 hidden">
+        <div class="flex items-center justify-center min-h-screen px-4">
             <div class="text-center">
-                <div class="animate-spin rounded-full h-32 w-32 border-8 border-white border-t-rose-500 mx-auto mb-8"></div>
-                <p id="loadingText" class="text-white text-2xl md:text-3xl">Processing your beautiful photo...</p>
+                <div class="animate-spin rounded-full h-20 w-20 md:h-32 md:w-32 border-4 md:border-8 border-white border-t-rose-500 mx-auto mb-6"></div>
+                <p id="loadingText" class="text-white text-lg md:text-2xl">Processing your photo...</p>
             </div>
         </div>
     </div>
 
     <!-- Success Message -->
     <div id="successMessage" 
-         class="fixed top-8 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-8 py-4 
-                rounded-full shadow-xl z-50 hidden animate-bounce">
+         class="fixed top-4 md:top-8 left-4 right-4 md:left-1/2 md:right-auto md:transform md:-translate-x-1/2 
+                bg-green-500 text-white px-6 py-3 md:px-8 md:py-4 
+                rounded-xl md:rounded-full shadow-xl z-50 hidden animate-bounce text-center">
         <i class="fas fa-check-circle mr-2"></i>
         <span id="successText">Photo printed successfully!</span>
     </div>
 
     <!-- Error Message -->
     <div id="errorMessage" 
-         class="fixed top-8 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-8 py-4 
-                rounded-full shadow-xl z-50 hidden">
+         class="fixed top-4 md:top-8 left-4 right-4 md:left-1/2 md:right-auto md:transform md:-translate-x-1/2 
+                bg-red-500 text-white px-6 py-3 md:px-8 md:py-4 
+                rounded-xl md:rounded-full shadow-xl z-50 hidden text-center">
         <i class="fas fa-exclamation-circle mr-2"></i>
         <span id="errorText">Something went wrong!</span>
     </div>
 
+    <script src="{{ url_for('static', filename='js/camera-debug.js') }}"></script>
     <script src="{{ url_for('static', filename='js/booth.js') }}"></script>
+    <script>
+    // FORCE FRAME OVERLAY TO LOAD NO MATTER WHAT
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('FORCING FRAME OVERLAY TO LOAD');
+        
+        // Method 1: Direct fetch and embed
+        fetch('/settings/api/frame/current')
+        .then(response => response.blob())
+        .then(blob => {
+            const url = URL.createObjectURL(blob);
+            
+            // Apply to div background
+            const frameDiv = document.getElementById('frameOverlay');
+            if (frameDiv) {
+                frameDiv.style.backgroundImage = `url(${url})`;
+                frameDiv.style.display = 'block';
+                console.log('FRAME APPLIED TO DIV BACKGROUND');
+            }
+            
+            // Apply to img src
+            const frameImg = document.getElementById('frameOverlayImg');
+            if (frameImg) {
+                frameImg.src = url;
+                frameImg.style.display = 'block';
+                console.log('FRAME APPLIED TO IMG SRC');
+            }
+        })
+        .catch(error => {
+            console.error('FRAME LOADING FAILED:', error);
+            
+            // Fallback: Create a visible red border overlay
+            const container = document.getElementById('cameraContainer');
+            if (container) {
+                const fallback = document.createElement('div');
+                fallback.style.cssText = 'position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 10px solid red; box-sizing: border-box; z-index: 100; pointer-events: none;';
+                fallback.innerHTML = '<div style="position: absolute; top: 10px; left: 10px; background: red; color: white; padding: 5px; font-size: 12px;">FALLBACK FRAME</div>';
+                container.appendChild(fallback);
+                console.log('FALLBACK FRAME CREATED');
+            }
+        });
+    });
+    </script>
 </body>
 </html>

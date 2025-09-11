@@ -20,7 +20,82 @@ logger = logging.getLogger(__name__)
 @booth_bp.route('/')
 def booth():
     """Main booth interface"""
-    return render_template('booth.html')
+    import time
+    timestamp = int(time.time())
+    
+    # Optionally speak welcome message on page load (can be enabled via settings)
+    try:
+        from .audio import speak_welcome
+        from .models import get_setting
+        if get_setting('welcome_on_load', False):
+            speak_welcome()
+    except Exception as e:
+        logger.warning(f"Failed to speak welcome message: {e}")
+    
+    return render_template('booth.html', timestamp=timestamp)
+
+@booth_bp.route('/camera-test')
+def camera_test():
+    """Camera test page for debugging"""
+    import os
+    test_file = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'camera_test.html')
+    if os.path.exists(test_file):
+        with open(test_file, 'r') as f:
+            return f.read()
+    return "Camera test page not found", 404
+
+@booth_bp.route('/frame-debug')
+def frame_debug():
+    """Frame overlay debug page"""
+    import os
+    debug_file = os.path.join(os.path.dirname(__file__), 'static', 'frame_debug.html')
+    if os.path.exists(debug_file):
+        with open(debug_file, 'r') as f:
+            return f.read()
+    return "Frame debug page not found", 404
+
+@booth_bp.route('/api/debug-logs', methods=['POST'])
+def receive_debug_logs():
+    """Receive debug logs from client-side JavaScript"""
+    try:
+        import os
+        from datetime import datetime
+        
+        data = request.get_json()
+        if not data:
+            return jsonify({'error': 'No data received'}), 400
+            
+        logs = data.get('logs', [])
+        session_id = data.get('sessionId', 'unknown')
+        
+        # Create logs directory
+        logs_dir = os.path.join(current_app.config.get('DATA_DIR', '/opt/photobooth/data'), 'camera_logs')
+        os.makedirs(logs_dir, exist_ok=True)
+        
+        # Write to log file
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+        log_file = os.path.join(logs_dir, f'camera_debug_{timestamp}_{session_id}.log')
+        
+        with open(log_file, 'w') as f:
+            f.write(f"Camera Debug Log - Session: {session_id}\n")
+            f.write(f"Timestamp: {datetime.now().isoformat()}\n")
+            f.write(f"Total Logs: {len(logs)}\n")
+            f.write("=" * 50 + "\n\n")
+            
+            for log_entry in logs:
+                f.write(f"[{log_entry.get('relativeTime', 0)}ms] {log_entry.get('level', 'INFO').upper()}: {log_entry.get('message', '')}\n")
+                if log_entry.get('data'):
+                    f.write(f"  Data: {log_entry['data']}\n")
+                f.write(f"  URL: {log_entry.get('url', '')}\n")
+                f.write(f"  UserAgent: {log_entry.get('userAgent', '')}\n")
+                f.write("-" * 40 + "\n")
+        
+        logger.info(f"Camera debug logs saved to: {log_file}")
+        return jsonify({'success': True, 'logFile': log_file})
+        
+    except Exception as e:
+        logger.error(f"Error saving debug logs: {e}")
+        return jsonify({'error': str(e)}), 500
 
 @booth_bp.route('/api/capture', methods=['POST'])
 def capture_photo():
@@ -60,6 +135,13 @@ def capture_photo():
         
         # Log the event
         logger.info(f"Photo captured: {filename}")
+        
+        # Announce photo capture with custom message
+        try:
+            from .audio import speak_photo_captured
+            speak_photo_captured()
+        except Exception as e:
+            logger.warning(f"Failed to announce photo capture: {e}")
         
         # Return preview URL
         preview_url = f"/booth/api/preview/{filename}"
@@ -116,6 +198,13 @@ def print_photo_endpoint():
             
             logger.info(f"Photo printed: {filename}")
             
+            # Announce print success with custom message
+            try:
+                from .audio import speak_print_success
+                speak_print_success()
+            except Exception as e:
+                logger.warning(f"Failed to announce print success: {e}")
+            
             return jsonify({
                 'success': True,
                 'message': 'Photo sent to printer',
@@ -169,6 +258,18 @@ def countdown_tts():
         logger.warning(f"TTS countdown failed: {e}")
         # Don't fail the request if TTS fails
         return jsonify({'success': True})
+
+@booth_bp.route('/api/welcome', methods=['POST'])
+def welcome_message():
+    """Trigger welcome message manually"""
+    try:
+        from .audio import speak_welcome
+        speak_welcome()
+        return jsonify({'success': True})
+        
+    except Exception as e:
+        logger.warning(f"TTS welcome failed: {e}")
+        return jsonify({'success': True})  # Don't fail the request
 
 @booth_bp.route('/api/status')
 def booth_status():

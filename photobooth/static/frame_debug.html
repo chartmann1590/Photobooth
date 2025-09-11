@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frame Overlay Debug</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f0f0f0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .test-area {
+            border: 2px solid #333;
+            padding: 20px;
+            margin: 20px 0;
+            background: white;
+        }
+        .camera-container {
+            position: relative;
+            width: 400px;
+            height: 300px;
+            background: #000;
+            margin: 20px auto;
+            border: 4px solid white;
+            border-radius: 20px;
+        }
+        .frame-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 15;
+            pointer-events: none;
+            object-fit: cover;
+            border-radius: 16px;
+        }
+        .debug-info {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Frame Overlay Debug Test</h1>
+        
+        <div class="test-area">
+            <h2>Test 1: Direct Frame Display</h2>
+            <div class="camera-container">
+                <img id="testFrame1" 
+                     src="/settings/api/frame/current" 
+                     class="frame-overlay"
+                     alt="Test Frame 1">
+            </div>
+            <div class="debug-info" id="debug1">Loading test 1...</div>
+        </div>
+        
+        <div class="test-area">
+            <h2>Test 2: Frame with Cache Buster</h2>
+            <div class="camera-container">
+                <img id="testFrame2" 
+                     class="frame-overlay"
+                     alt="Test Frame 2">
+            </div>
+            <div class="debug-info" id="debug2">Loading test 2...</div>
+        </div>
+        
+        <div class="test-area">
+            <h2>Test 3: JavaScript Loading</h2>
+            <div class="camera-container">
+                <img id="testFrame3" 
+                     class="frame-overlay hidden"
+                     alt="Test Frame 3">
+            </div>
+            <button onclick="loadFrame3()">Load Frame with JS</button>
+            <div class="debug-info" id="debug3">Ready for test 3...</div>
+        </div>
+        
+        <div class="test-area">
+            <h2>Test 4: Simulated PhotoBooth</h2>
+            <div class="camera-container">
+                <div style="width: 100%; height: 100%; background: linear-gradient(45deg, #666, #999); border-radius: 16px; position: relative;">
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; text-align: center;">
+                        <p>Simulated Camera View</p>
+                    </div>
+                </div>
+                <img id="testFrame4" 
+                     class="frame-overlay hidden"
+                     alt="Test Frame 4">
+            </div>
+            <button onclick="loadPhotoBooth()">Simulate PhotoBooth Load</button>
+            <div class="debug-info" id="debug4">Ready for photobooth simulation...</div>
+        </div>
+        
+        <div class="test-area">
+            <h2>Debug Information</h2>
+            <div class="debug-info" id="debugInfo">
+                URL: <span id="currentUrl"></span><br>
+                User Agent: <span id="userAgent"></span><br>
+                Screen: <span id="screenInfo"></span><br>
+                Viewport: <span id="viewportInfo"></span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Test 1: Direct load
+        const testFrame1 = document.getElementById('testFrame1');
+        const debug1 = document.getElementById('debug1');
+        
+        testFrame1.onload = () => {
+            debug1.textContent = `✅ Test 1 SUCCESS: Frame loaded (${testFrame1.naturalWidth}x${testFrame1.naturalHeight})`;
+        };
+        
+        testFrame1.onerror = (e) => {
+            debug1.textContent = `❌ Test 1 FAILED: ${e.type} - ${e.message || 'Image failed to load'}`;
+        };
+        
+        // Test 2: Cache buster
+        const testFrame2 = document.getElementById('testFrame2');
+        const debug2 = document.getElementById('debug2');
+        
+        testFrame2.src = `/settings/api/frame/current?v=${Date.now()}`;
+        
+        testFrame2.onload = () => {
+            debug2.textContent = `✅ Test 2 SUCCESS: Cache buster frame loaded (${testFrame2.naturalWidth}x${testFrame2.naturalHeight})`;
+        };
+        
+        testFrame2.onerror = (e) => {
+            debug2.textContent = `❌ Test 2 FAILED: ${e.type} - ${e.message || 'Cache buster failed'}`;
+        };
+        
+        // Test 3: JavaScript loading
+        async function loadFrame3() {
+            const testFrame3 = document.getElementById('testFrame3');
+            const debug3 = document.getElementById('debug3');
+            
+            try {
+                debug3.textContent = 'Loading frame via JavaScript...';
+                
+                const response = await fetch('/settings/api/frame/current');
+                debug3.textContent += `\nAPI Response: ${response.status} ${response.statusText}`;
+                
+                if (response.ok) {
+                    testFrame3.src = `/settings/api/frame/current?v=${Date.now()}`;
+                    testFrame3.classList.remove('hidden');
+                    
+                    testFrame3.onload = () => {
+                        debug3.textContent += `\n✅ Test 3 SUCCESS: JS frame loaded (${testFrame3.naturalWidth}x${testFrame3.naturalHeight})`;
+                    };
+                    
+                    testFrame3.onerror = (e) => {
+                        debug3.textContent += `\n❌ Test 3 FAILED: Image error - ${e.type}`;
+                    };
+                } else {
+                    debug3.textContent += `\n❌ Test 3 FAILED: API returned ${response.status}`;
+                }
+            } catch (error) {
+                debug3.textContent += `\n❌ Test 3 ERROR: ${error.message}`;
+            }
+        }
+        
+        // Test 4: PhotoBooth simulation
+        async function loadPhotoBooth() {
+            const testFrame4 = document.getElementById('testFrame4');
+            const debug4 = document.getElementById('debug4');
+            
+            // Simulate PhotoBooth loadFrameOverlay function
+            try {
+                debug4.textContent = 'Simulating PhotoBooth.loadFrameOverlay()...';
+                
+                const response = await fetch('/settings/api/frame/current');
+                debug4.textContent += `\nFrame API response: ${response.status} ${response.statusText}`;
+                
+                if (response.ok) {
+                    const timestamp = Date.now();
+                    testFrame4.src = `/settings/api/frame/current?v=${timestamp}`;
+                    testFrame4.classList.remove('hidden');
+                    
+                    testFrame4.onload = () => {
+                        debug4.textContent += `\n✅ PhotoBooth SUCCESS: Frame overlay loaded (${testFrame4.naturalWidth}x${testFrame4.naturalHeight})`;
+                        debug4.textContent += `\nElement visible: ${!testFrame4.classList.contains('hidden')}`;
+                        debug4.textContent += `\nElement display: ${getComputedStyle(testFrame4).display}`;
+                        debug4.textContent += `\nElement z-index: ${getComputedStyle(testFrame4).zIndex}`;
+                    };
+                    
+                    testFrame4.onerror = (e) => {
+                        debug4.textContent += `\n❌ PhotoBooth FAILED: Image error - ${e.type}`;
+                    };
+                    
+                    debug4.textContent += '\nFrame overlay setup complete';
+                } else {
+                    debug4.textContent += `\n❌ PhotoBooth FAILED: No frame available (HTTP ${response.status})`;
+                }
+            } catch (error) {
+                debug4.textContent += `\n❌ PhotoBooth ERROR: ${error.message}`;
+            }
+        }
+        
+        // Debug info
+        document.getElementById('currentUrl').textContent = window.location.href;
+        document.getElementById('userAgent').textContent = navigator.userAgent;
+        document.getElementById('screenInfo').textContent = `${screen.width}x${screen.height}`;
+        document.getElementById('viewportInfo').textContent = `${window.innerWidth}x${window.innerHeight}`;
+    </script>
+</body>
+</html>

@@ -1,0 +1,481 @@
+{% extends "base.html" %}
+
+{% block title %}PhotoBooth Settings - Audio{% endblock %}
+
+{% block content %}
+<div class="px-4 py-6 sm:px-0">
+    <!-- Header -->
+    <div class="mb-8">
+        <h1 class="text-2xl md:text-3xl font-bold text-gray-900">
+            <i class="fas fa-volume-up text-rose-600 mr-3"></i>
+            Audio Settings
+        </h1>
+        <p class="mt-2 text-base md:text-lg text-gray-600">Configure text-to-speech and countdown audio</p>
+    </div>
+
+    <form method="POST" class="space-y-8">
+        <!-- TTS Enable/Disable -->
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-xl font-semibold text-gray-900 mb-2">
+                        <i class="fas fa-microphone text-rose-500 mr-2"></i>
+                        Text-to-Speech
+                    </h2>
+                    <p class="text-gray-600">Enable voice announcements during photo countdown</p>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" name="tts_enabled" value="true" 
+                           {{ 'checked' if tts_enabled else '' }}
+                           class="sr-only peer">
+                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-rose-300 
+                                rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white 
+                                after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white 
+                                after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all 
+                                peer-checked:bg-rose-500"></div>
+                </label>
+            </div>
+
+            <!-- TTS Configuration (shown when enabled) -->
+            <div id="ttsConfig" class="{{ 'hidden' if not tts_enabled else '' }}">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Voice Selection -->
+                    <div>
+                        <label for="tts_voice" class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-user mr-1 text-rose-500"></i>
+                            Voice
+                        </label>
+                        <select name="tts_voice" id="tts_voice" 
+                                class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-rose-400 focus:border-rose-400 
+                                       bg-white touch-manipulation text-base">
+                            <!-- Voice options will be loaded dynamically -->
+                            <option value="en+f3" {{ 'selected' if tts_voice == 'en+f3' else '' }}>Loading voices...</option>
+                        </select>
+                    </div>
+
+                    <!-- Speech Rate -->
+                    <div>
+                        <label for="tts_rate" class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-tachometer-alt mr-1 text-rose-500"></i>
+                            Speech Rate
+                        </label>
+                        <div class="space-y-2">
+                            <input type="range" name="tts_rate" id="tts_rate" 
+                                   min="80" max="300" step="10" value="{{ tts_rate }}"
+                                   class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer 
+                                          slider-thumb:appearance-none slider-thumb:h-4 slider-thumb:w-4 
+                                          slider-thumb:rounded-full slider-thumb:bg-rose-500 slider-thumb:cursor-pointer">
+                            <div class="flex justify-between text-xs text-gray-500">
+                                <span>Slow (80)</span>
+                                <span id="rateValue">{{ tts_rate }}</span>
+                                <span>Fast (300)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Test Voice Button -->
+                <div class="mt-6 pt-6 border-t border-gray-100">
+                    <button type="button" id="testVoiceBtn"
+                            class="bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600
+                                   active:scale-95 text-white font-medium py-3 px-6 rounded-xl text-base
+                                   shadow-lg transform transition-all duration-200 touch-manipulation">
+                        <i class="fas fa-play mr-2"></i>
+                        Test Voice
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Custom Messages -->
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <h2 class="text-xl font-semibold text-gray-900 mb-4">
+                <i class="fas fa-comment text-rose-500 mr-2"></i>
+                Custom Messages
+            </h2>
+            <p class="text-gray-600 mb-6">Customize what the voice says during different events</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Countdown Messages -->
+                <div>
+                    <label for="countdown_message" class="block text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-stopwatch mr-1 text-rose-500"></i>
+                        Countdown Message
+                    </label>
+                    <input type="text" name="countdown_message" id="countdown_message" 
+                           value="{{ countdown_message or 'Get ready! Photo in' }}"
+                           placeholder="Get ready! Photo in"
+                           class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-rose-400 focus:border-rose-400 
+                                  text-base touch-manipulation">
+                    <p class="text-xs text-gray-500 mt-1">This message plays before the countdown numbers</p>
+                </div>
+
+                <!-- Photo Taken Message -->
+                <div>
+                    <label for="capture_message" class="block text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-camera mr-1 text-rose-500"></i>
+                        Photo Taken Message
+                    </label>
+                    <input type="text" name="capture_message" id="capture_message" 
+                           value="{{ capture_message or 'Perfect! Photo captured!' }}"
+                           placeholder="Perfect! Photo captured!"
+                           class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-rose-400 focus:border-rose-400 
+                                  text-base touch-manipulation">
+                    <p class="text-xs text-gray-500 mt-1">This message plays after the photo is taken</p>
+                </div>
+
+                <!-- Print Success Message -->
+                <div>
+                    <label for="print_message" class="block text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-print mr-1 text-rose-500"></i>
+                        Print Success Message
+                    </label>
+                    <input type="text" name="print_message" id="print_message" 
+                           value="{{ print_message or 'Your photo is printing!' }}"
+                           placeholder="Your photo is printing!"
+                           class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-rose-400 focus:border-rose-400 
+                                  text-base touch-manipulation">
+                    <p class="text-xs text-gray-500 mt-1">This message plays when a photo starts printing</p>
+                </div>
+
+                <!-- Welcome Message -->
+                <div>
+                    <label for="welcome_message" class="block text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-heart mr-1 text-rose-500"></i>
+                        Welcome Message
+                    </label>
+                    <input type="text" name="welcome_message" id="welcome_message" 
+                           value="{{ welcome_message or 'Welcome to our wedding photobooth!' }}"
+                           placeholder="Welcome to our wedding photobooth!"
+                           class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-rose-400 focus:border-rose-400 
+                                  text-base touch-manipulation">
+                    <p class="text-xs text-gray-500 mt-1">This message can play when the photobooth starts</p>
+                </div>
+            </div>
+
+            <!-- Test Custom Messages -->
+            <div class="mt-6 pt-6 border-t border-gray-100">
+                <button type="button" id="testMessagesBtn"
+                        class="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600
+                               active:scale-95 text-white font-medium py-3 px-6 rounded-xl text-base
+                               shadow-lg transform transition-all duration-200 touch-manipulation">
+                    <i class="fas fa-volume-up mr-2"></i>
+                    Test All Messages
+                </button>
+            </div>
+        </div>
+
+        <!-- Audio System Status -->
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <h2 class="text-xl font-semibold text-gray-900 mb-4">
+                <i class="fas fa-info-circle text-blue-500 mr-2"></i>
+                System Status
+            </h2>
+            
+            <div id="audioStatus" class="space-y-3">
+                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <span class="text-gray-700">Text-to-Speech Engine</span>
+                    <span class="text-sm px-3 py-1 rounded-full bg-gray-200 text-gray-600">
+                        <i class="fas fa-spinner fa-spin mr-1"></i> Checking...
+                    </span>
+                </div>
+            </div>
+
+            <button type="button" id="refreshStatusBtn"
+                    class="mt-4 bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700
+                           active:scale-95 text-white font-medium py-2 px-4 rounded-lg text-sm
+                           shadow-md transform transition-all duration-200 touch-manipulation">
+                <i class="fas fa-refresh mr-2"></i>
+                Refresh Status
+            </button>
+        </div>
+
+        <!-- Save Button -->
+        <div class="flex flex-col sm:flex-row gap-4">
+            <button type="submit" 
+                    class="flex-1 bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600
+                           active:scale-95 text-white font-bold py-4 px-8 rounded-xl text-lg
+                           shadow-xl transform transition-all duration-200 touch-manipulation">
+                <i class="fas fa-save mr-3"></i>
+                Save Audio Settings
+            </button>
+            
+            <a href="{{ url_for('settings.dashboard') }}" 
+               class="flex-none bg-gray-500 hover:bg-gray-600 active:scale-95 
+                      text-white font-medium py-4 px-6 rounded-xl text-center
+                      shadow-lg transform transition-all duration-200 touch-manipulation">
+                <i class="fas fa-times mr-2"></i>
+                Cancel
+            </a>
+        </div>
+    </form>
+</div>
+
+<!-- Loading Modal -->
+<div id="loadingModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50">
+    <div class="flex items-center justify-center min-h-screen p-4">
+        <div class="bg-white rounded-xl p-6 shadow-xl max-w-sm w-full text-center">
+            <div class="animate-spin rounded-full h-8 w-8 border-4 border-rose-500 border-t-transparent mx-auto mb-4"></div>
+            <span id="loadingText" class="text-gray-700">Testing audio...</span>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const ttsEnabledCheckbox = document.querySelector('input[name="tts_enabled"]');
+    const ttsConfig = document.getElementById('ttsConfig');
+    const rateSlider = document.getElementById('tts_rate');
+    const rateValue = document.getElementById('rateValue');
+    const testVoiceBtn = document.getElementById('testVoiceBtn');
+    const testMessagesBtn = document.getElementById('testMessagesBtn');
+    const refreshStatusBtn = document.getElementById('refreshStatusBtn');
+    const loadingModal = document.getElementById('loadingModal');
+    const loadingText = document.getElementById('loadingText');
+
+    // Toggle TTS config visibility
+    ttsEnabledCheckbox.addEventListener('change', function() {
+        if (this.checked) {
+            ttsConfig.classList.remove('hidden');
+        } else {
+            ttsConfig.classList.add('hidden');
+        }
+    });
+
+    // Update rate display
+    rateSlider.addEventListener('input', function() {
+        rateValue.textContent = this.value;
+    });
+
+    // Show loading modal
+    function showLoading(text) {
+        loadingText.textContent = text;
+        loadingModal.classList.remove('hidden');
+    }
+
+    // Hide loading modal
+    function hideLoading() {
+        loadingModal.classList.add('hidden');
+    }
+
+    // Test voice function
+    testVoiceBtn.addEventListener('click', function() {
+        const voice = document.getElementById('tts_voice').value;
+        const rate = document.getElementById('tts_rate').value;
+        
+        showLoading('Testing voice...');
+        
+        fetch('/settings/api/audio/test', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                text: 'Hello! This is a test of your photobooth voice settings.',
+                voice: voice,
+                rate: parseInt(rate)
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            hideLoading();
+            if (data.success) {
+                // Show success message briefly
+                const originalText = testVoiceBtn.innerHTML;
+                testVoiceBtn.innerHTML = '<i class="fas fa-check mr-2"></i>Voice Test Complete';
+                testVoiceBtn.disabled = true;
+                setTimeout(() => {
+                    testVoiceBtn.innerHTML = originalText;
+                    testVoiceBtn.disabled = false;
+                }, 3000);
+            } else {
+                alert('Voice test failed: ' + (data.error || 'Unknown error'));
+            }
+        })
+        .catch(error => {
+            hideLoading();
+            alert('Voice test failed: ' + error.message);
+        });
+    });
+
+    // Test all messages
+    testMessagesBtn.addEventListener('click', function() {
+        const messages = {
+            countdown: document.getElementById('countdown_message').value,
+            capture: document.getElementById('capture_message').value,
+            print: document.getElementById('print_message').value,
+            welcome: document.getElementById('welcome_message').value
+        };
+        
+        showLoading('Testing all messages...');
+        
+        fetch('/settings/api/audio/test-messages', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                messages: messages,
+                voice: document.getElementById('tts_voice').value,
+                rate: parseInt(document.getElementById('tts_rate').value)
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            hideLoading();
+            if (data.success) {
+                const originalText = testMessagesBtn.innerHTML;
+                testMessagesBtn.innerHTML = '<i class="fas fa-check mr-2"></i>Messages Test Complete';
+                testMessagesBtn.disabled = true;
+                setTimeout(() => {
+                    testMessagesBtn.innerHTML = originalText;
+                    testMessagesBtn.disabled = false;
+                }, 5000);
+            } else {
+                alert('Message test failed: ' + (data.error || 'Unknown error'));
+            }
+        })
+        .catch(error => {
+            hideLoading();
+            alert('Message test failed: ' + error.message);
+        });
+    });
+
+    // Load audio system status
+    function loadAudioStatus() {
+        fetch('/settings/api/audio/status')
+        .then(response => response.json())
+        .then(data => {
+            const statusContainer = document.getElementById('audioStatus');
+            let html = '';
+            
+            // TTS Engine Status
+            const ttsStatus = data.engines && data.engines.available ? 'Available' : 'Not Available';
+            const ttsClass = data.engines && data.engines.available ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800';
+            html += `
+                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <span class="text-gray-700">Text-to-Speech Engine</span>
+                    <span class="text-sm px-3 py-1 rounded-full ${ttsClass}">
+                        ${ttsStatus}
+                    </span>
+                </div>
+            `;
+
+            // Current Voice Status
+            if (data.current_voice) {
+                html += `
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <span class="text-gray-700">Current Voice</span>
+                        <span class="text-sm px-3 py-1 rounded-full bg-blue-100 text-blue-800">
+                            ${data.current_voice}
+                        </span>
+                    </div>
+                `;
+            }
+
+            statusContainer.innerHTML = html;
+        })
+        .catch(error => {
+            console.error('Failed to load audio status:', error);
+        });
+    }
+
+    // Refresh status button
+    refreshStatusBtn.addEventListener('click', function() {
+        const originalText = this.innerHTML;
+        this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Refreshing...';
+        this.disabled = true;
+        
+        loadAudioStatus();
+        
+        setTimeout(() => {
+            this.innerHTML = originalText;
+            this.disabled = false;
+        }, 2000);
+    });
+
+    // Load voice options
+    function loadVoiceOptions() {
+        fetch('/settings/api/audio/voices')
+        .then(response => response.json())
+        .then(data => {
+            const voiceSelect = document.getElementById('tts_voice');
+            const currentVoice = voiceSelect.value;
+            
+            // Clear existing options
+            voiceSelect.innerHTML = '';
+            
+            if (data.success && data.voices) {
+                // Group voices by category for better organization
+                const categories = {
+                    'Enhanced Female': [],
+                    'Enhanced Male': [],
+                    'Accents & Variants': [],
+                    'System Voices': []
+                };
+                
+                data.voices.forEach(voice => {
+                    if (voice.name.includes('Female') && !voice.name.includes('British') && !voice.name.includes('American')) {
+                        categories['Enhanced Female'].push(voice);
+                    } else if (voice.name.includes('Male') && !voice.name.includes('British') && !voice.name.includes('American')) {
+                        categories['Enhanced Male'].push(voice);
+                    } else if (voice.name.includes('British') || voice.name.includes('American')) {
+                        categories['Accents & Variants'].push(voice);
+                    } else {
+                        categories['System Voices'].push(voice);
+                    }
+                });
+                
+                // Add grouped options
+                for (const [category, voices] of Object.entries(categories)) {
+                    if (voices.length > 0) {
+                        const optgroup = document.createElement('optgroup');
+                        optgroup.label = category;
+                        
+                        voices.forEach(voice => {
+                            const option = document.createElement('option');
+                            option.value = voice.id;
+                            option.textContent = voice.name;
+                            option.title = voice.description || '';
+                            if (voice.id === currentVoice) {
+                                option.selected = true;
+                            }
+                            optgroup.appendChild(option);
+                        });
+                        
+                        voiceSelect.appendChild(optgroup);
+                    }
+                }
+            } else {
+                // Fallback options
+                const defaultVoices = [
+                    {id: 'en+f3', name: 'Sarah - Cheerful Female'},
+                    {id: 'en+m3', name: 'David - Confident Male'},
+                    {id: 'en+f2', name: 'Grace - Professional Female'},
+                    {id: 'en+m2', name: 'James - Professional Male'}
+                ];
+                
+                defaultVoices.forEach(voice => {
+                    const option = document.createElement('option');
+                    option.value = voice.id;
+                    option.textContent = voice.name;
+                    if (voice.id === currentVoice) {
+                        option.selected = true;
+                    }
+                    voiceSelect.appendChild(option);
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Failed to load voice options:', error);
+        });
+    }
+
+    // Load initial status and voice options
+    loadAudioStatus();
+    loadVoiceOptions();
+});
+</script>
+{% endblock %}

@@ -125,6 +125,9 @@ def validate_frame(frame_file) -> Dict[str, Any]:
         if not filename.endswith('.png'):
             return {'valid': False, 'error': 'Frame must be a PNG file'}
         
+        # Save current file position
+        original_position = frame_file.tell()
+        
         # Check image
         try:
             with Image.open(frame_file) as img:
@@ -159,6 +162,9 @@ def validate_frame(frame_file) -> Dict[str, Any]:
                 
         except Exception as e:
             return {'valid': False, 'error': 'Invalid image file'}
+        finally:
+            # Reset file pointer to original position
+            frame_file.seek(original_position)
         
     except Exception as e:
         logger.error(f"Frame validation error: {e}")

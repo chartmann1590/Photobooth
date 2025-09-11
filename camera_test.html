@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        video { width: 100%; max-width: 640px; height: auto; border: 2px solid #ccc; }
+        .status { margin: 10px 0; padding: 10px; border-radius: 5px; }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+        .info { background-color: #d1ecf1; color: #0c5460; }
+        button { padding: 10px 20px; margin: 5px; font-size: 16px; }
+        #log { background-color: #f8f9fa; padding: 10px; border: 1px solid #ddd; max-height: 300px; overflow-y: scroll; font-family: monospace; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <h1>Camera Test Page</h1>
+    <p>This page helps debug camera access issues.</p>
+    
+    <div id="status" class="status info">Ready to test camera</div>
+    
+    <video id="video" autoplay muted></video>
+    
+    <br>
+    <button onclick="testCamera()">Test Camera</button>
+    <button onclick="stopCamera()">Stop Camera</button>
+    <button onclick="clearLog()">Clear Log</button>
+    
+    <h3>Debug Log:</h3>
+    <div id="log"></div>
+
+    <script>
+        let stream = null;
+        
+        function log(message) {
+            const logDiv = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            logDiv.innerHTML += `[${timestamp}] ${message}\n`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+            console.log(message);
+        }
+        
+        function setStatus(message, type = 'info') {
+            const statusDiv = document.getElementById('status');
+            statusDiv.textContent = message;
+            statusDiv.className = `status ${type}`;
+        }
+        
+        function clearLog() {
+            document.getElementById('log').innerHTML = '';
+        }
+        
+        async function testCamera() {
+            try {
+                log('Starting camera test...');
+                setStatus('Testing camera access...', 'info');
+                
+                // Check browser support
+                if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                    throw new Error('getUserMedia not supported by this browser');
+                }
+                log('✓ getUserMedia is supported');
+                
+                // Check HTTPS
+                const isSecure = location.protocol === 'https:' || location.hostname === 'localhost';
+                log(`✓ Connection is ${isSecure ? 'secure' : 'NOT secure'} (${location.protocol})`);
+                
+                if (!isSecure) {
+                    log('⚠️ WARNING: Camera may not work on non-HTTPS connections');
+                }
+                
+                // List available devices
+                try {
+                    const devices = await navigator.mediaDevices.enumerateDevices();
+                    const cameras = devices.filter(device => device.kind === 'videoinput');
+                    log(`✓ Found ${cameras.length} camera(s)`);
+                    cameras.forEach((camera, i) => {
+                        log(`  Camera ${i + 1}: ${camera.label || 'Unknown camera'}`);
+                    });
+                    
+                    if (cameras.length === 0) {
+                        throw new Error('No cameras found on this device');
+                    }
+                } catch (enumError) {
+                    log(`⚠️ Could not enumerate devices: ${enumError.message}`);
+                }
+                
+                // Try to get camera access with different constraints
+                const constraints = [
+                    { video: { width: { ideal: 1920 }, height: { ideal: 1080 } } },
+                    { video: { width: { ideal: 1280 }, height: { ideal: 720 } } },
+                    { video: { width: 640, height: 480 } },
+                    { video: true }
+                ];
+                
+                let success = false;
+                for (let i = 0; i < constraints.length; i++) {
+                    try {
+                        log(`Trying constraint ${i + 1}: ${JSON.stringify(constraints[i])}`);
+                        stream = await navigator.mediaDevices.getUserMedia(constraints[i]);
+                        log(`✓ Camera access successful with constraint ${i + 1}`);
+                        success = true;
+                        break;
+                    } catch (error) {
+                        log(`✗ Constraint ${i + 1} failed: ${error.name} - ${error.message}`);
+                    }
+                }
+                
+                if (!success) {
+                    throw new Error('All camera constraints failed');
+                }
+                
+                // Display video
+                const video = document.getElementById('video');
+                video.srcObject = stream;
+                
+                video.addEventListener('loadedmetadata', () => {
+                    log(`✓ Video loaded: ${video.videoWidth}x${video.videoHeight}`);
+                    setStatus('Camera working successfully!', 'success');
+                });
+                
+            } catch (error) {
+                log(`✗ Camera test failed: ${error.name} - ${error.message}`);
+                setStatus(`Camera failed: ${error.message}`, 'error');
+            }
+        }
+        
+        function stopCamera() {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                stream = null;
+                document.getElementById('video').srcObject = null;
+                log('Camera stopped');
+                setStatus('Camera stopped', 'info');
+            }
+        }
+        
+        // Initial info
+        log(`Browser: ${navigator.userAgent}`);
+        log(`Location: ${location.href}`);
+        log('Ready for camera test');
+    </script>
+</body>
+</html>

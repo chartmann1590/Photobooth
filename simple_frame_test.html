@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Frame Test</title>
+    <style>
+        body { font-family: Arial; margin: 20px; background: white; }
+        .test { border: 2px solid red; margin: 20px; padding: 20px; }
+        img { border: 3px solid blue; max-width: 300px; }
+        .result { background: #f0f0f0; padding: 10px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>SIMPLE FRAME TEST</h1>
+    
+    <div class="test">
+        <h2>Test A: Frame Image Direct</h2>
+        <img src="/settings/api/frame/current" onload="resultA.textContent='SUCCESS: Image loaded ' + this.naturalWidth + 'x' + this.naturalHeight" onerror="resultA.textContent='FAILED: Image error'">
+        <div class="result" id="resultA">Loading...</div>
+    </div>
+    
+    <div class="test">
+        <h2>Test B: Basic Network Test</h2>
+        <button onclick="testNetwork()">Test Network</button>
+        <div class="result" id="resultB">Click button to test</div>
+    </div>
+    
+    <div class="test">
+        <h2>Test C: Console Debug</h2>
+        <button onclick="testConsole()">Log to Console</button>
+        <div class="result" id="resultC">Check browser console (F12)</div>
+    </div>
+
+    <script>
+        function testNetwork() {
+            fetch('/settings/api/frame/current')
+                .then(r => {
+                    document.getElementById('resultB').textContent = 'SUCCESS: API responded ' + r.status + ' (' + r.headers.get('content-type') + ')';
+                })
+                .catch(e => {
+                    document.getElementById('resultB').textContent = 'FAILED: ' + e.message;
+                });
+        }
+        
+        function testConsole() {
+            console.log('=== FRAME DEBUG START ===');
+            console.log('Current URL:', window.location.href);
+            console.log('User Agent:', navigator.userAgent);
+            console.log('Test timestamp:', new Date().toISOString());
+            
+            fetch('/settings/api/frame/current')
+                .then(response => {
+                    console.log('Frame API Response:', response.status, response.statusText);
+                    console.log('Response headers:', Object.fromEntries(response.headers.entries()));
+                    return response.blob();
+                })
+                .then(blob => {
+                    console.log('Frame blob received:', blob.size, 'bytes, type:', blob.type);
+                    const url = URL.createObjectURL(blob);
+                    console.log('Blob URL created:', url);
+                    
+                    const img = new Image();
+                    img.onload = () => {
+                        console.log('✅ Frame image loaded successfully:', img.width + 'x' + img.height);
+                        document.getElementById('resultC').textContent = 'SUCCESS: Check console for details';
+                    };
+                    img.onerror = (e) => {
+                        console.error('❌ Frame image failed to load:', e);
+                        document.getElementById('resultC').textContent = 'FAILED: Image load error (see console)';
+                    };
+                    img.src = url;
+                })
+                .catch(error => {
+                    console.error('❌ Frame API error:', error);
+                    document.getElementById('resultC').textContent = 'FAILED: API error (see console)';
+                });
+            
+            console.log('=== FRAME DEBUG END ===');
+        }
+        
+        // Auto-run console test
+        setTimeout(testConsole, 1000);
+    </script>
+</body>
+</html>

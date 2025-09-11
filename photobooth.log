@@ -1,0 +1,2425 @@
+2025-09-08 22:57:41,515 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-08 22:57:42,234 - root - INFO - Starting Photobooth on 127.0.0.1:5000
+2025-09-08 22:57:42,327 - waitress - INFO - Serving on http://127.0.0.1:5000
+2025-09-08 23:05:55,174 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-08 23:05:55,587 - root - INFO - Starting Photobooth on 127.0.0.1:5000
+2025-09-08 23:05:55,679 - waitress - INFO - Serving on http://127.0.0.1:5000
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Setting up PhotoBooth hotspot...
+/opt/photobooth/setup_hotspot.sh: line 10: systemctl: command not found
+Configuring wlan0 interface...
+/opt/photobooth/setup_hotspot.sh: line 25: ip: command not found
+Setting up PhotoBooth hotspot...
+/opt/photobooth/setup_hotspot.sh: line 10: systemctl: command not found
+Configuring wlan0 interface...
+/opt/photobooth/setup_hotspot.sh: line 25: ip: command not found
+Setting up PhotoBooth hotspot...
+/opt/photobooth/setup_hotspot.sh: line 10: systemctl: command not found
+Configuring wlan0 interface...
+/opt/photobooth/setup_hotspot.sh: line 25: ip: command not found
+Setting up PhotoBooth hotspot...
+/opt/photobooth/setup_hotspot.sh: line 10: systemctl: command not found
+Configuring wlan0 interface...
+/opt/photobooth/setup_hotspot.sh: line 25: ip: command not found
+Setting up PhotoBooth hotspot...
+/opt/photobooth/setup_hotspot.sh: line 10: systemctl: command not found
+Configuring wlan0 interface...
+/opt/photobooth/setup_hotspot.sh: line 25: ip: command not found
+Setting up PhotoBooth hotspot...
+/opt/photobooth/setup_hotspot.sh: line 10: systemctl: command not found
+Configuring wlan0 interface...
+/opt/photobooth/setup_hotspot.sh: line 25: ip: command not found
+Setting up PhotoBooth hotspot...
+/opt/photobooth/setup_hotspot.sh: line 10: systemctl: command not found
+Configuring wlan0 interface...
+/opt/photobooth/setup_hotspot.sh: line 25: ip: command not found
+Setting up PhotoBooth hotspot...
+/opt/photobooth/setup_hotspot.sh: line 10: systemctl: command not found
+Configuring wlan0 interface...
+/opt/photobooth/setup_hotspot.sh: line 25: ip: command not found
+Setting up PhotoBooth hotspot...
+/opt/photobooth/setup_hotspot.sh: line 10: systemctl: command not found
+Configuring wlan0 interface...
+/opt/photobooth/setup_hotspot.sh: line 25: ip: command not found
+Setting up PhotoBooth hotspot...
+/opt/photobooth/setup_hotspot.sh: line 10: systemctl: command not found
+Configuring wlan0 interface...
+/opt/photobooth/setup_hotspot.sh: line 25: ip: command not found
+Setting up PhotoBooth hotspot...
+/opt/photobooth/setup_hotspot.sh: line 10: systemctl: command not found
+Configuring wlan0 interface...
+/opt/photobooth/setup_hotspot.sh: line 25: ip: command not found
+Setting up PhotoBooth hotspot...
+/opt/photobooth/setup_hotspot.sh: line 10: systemctl: command not found
+Configuring wlan0 interface...
+/opt/photobooth/setup_hotspot.sh: line 25: ip: command not found
+Setting up PhotoBooth hotspot...
+/opt/photobooth/setup_hotspot.sh: line 10: systemctl: command not found
+Configuring wlan0 interface...
+/opt/photobooth/setup_hotspot.sh: line 25: ip: command not found
+Setting up PhotoBooth hotspot...
+/opt/photobooth/setup_hotspot.sh: line 10: systemctl: command not found
+Configuring wlan0 interface...
+/opt/photobooth/setup_hotspot.sh: line 25: ip: command not found
+Setting up PhotoBooth hotspot...
+/opt/photobooth/setup_hotspot.sh: line 10: systemctl: command not found
+Configuring wlan0 interface...
+/opt/photobooth/setup_hotspot.sh: line 25: ip: command not found
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 17, in main
+    logging.FileHandler('/opt/photobooth/photobooth.log'),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 30] Read-only file system: '/opt/photobooth/photobooth.log'
+2025-09-08 23:29:34,707 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-08 23:29:34,707 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-08 23:29:35,249 - root - INFO - Starting Photobooth on 127.0.0.1:5000
+2025-09-08 23:29:35,249 - root - INFO - Starting Photobooth on 127.0.0.1:5000
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 35, in main
+    serve(app, host=host, port=port, threads=4)
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/waitress/__init__.py", line 13, in serve
+    server = _server(app, **kw)
+             ^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/waitress/server.py", line 78, in create_server
+    last_serv = TcpWSGIServer(
+                ^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/waitress/server.py", line 244, in __init__
+    self.bind_server_socket()
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/waitress/server.py", line 361, in bind_server_socket
+    self.bind(sockaddr)
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/waitress/wasyncore.py", line 396, in bind
+    return self.socket.bind(addr)
+           ^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 98] Address already in use
+2025-09-08 23:29:48,669 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-08 23:29:48,669 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-08 23:29:49,176 - root - INFO - Starting Photobooth on 127.0.0.1:5000
+2025-09-08 23:29:49,176 - root - INFO - Starting Photobooth on 127.0.0.1:5000
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 35, in main
+    serve(app, host=host, port=port, threads=4)
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/waitress/__init__.py", line 13, in serve
+    server = _server(app, **kw)
+             ^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/waitress/server.py", line 78, in create_server
+    last_serv = TcpWSGIServer(
+                ^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/waitress/server.py", line 244, in __init__
+    self.bind_server_socket()
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/waitress/server.py", line 361, in bind_server_socket
+    self.bind(sockaddr)
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/waitress/wasyncore.py", line 396, in bind
+    return self.socket.bind(addr)
+           ^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 98] Address already in use
+2025-09-08 23:30:02,682 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-08 23:30:02,682 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-08 23:30:03,190 - root - INFO - Starting Photobooth on 127.0.0.1:5000
+2025-09-08 23:30:03,190 - root - INFO - Starting Photobooth on 127.0.0.1:5000
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 35, in main
+    serve(app, host=host, port=port, threads=4)
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/waitress/__init__.py", line 13, in serve
+    server = _server(app, **kw)
+             ^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/waitress/server.py", line 78, in create_server
+    last_serv = TcpWSGIServer(
+                ^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/waitress/server.py", line 244, in __init__
+    self.bind_server_socket()
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/waitress/server.py", line 361, in bind_server_socket
+    self.bind(sockaddr)
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/waitress/wasyncore.py", line 396, in bind
+    return self.socket.bind(addr)
+           ^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 98] Address already in use
+2025-09-08 23:30:16,664 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-08 23:30:16,664 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-08 23:30:17,175 - root - INFO - Starting Photobooth on 127.0.0.1:5000
+2025-09-08 23:30:17,175 - root - INFO - Starting Photobooth on 127.0.0.1:5000
+Traceback (most recent call last):
+  File "/opt/photobooth/app.py", line 40, in <module>
+    main()
+  File "/opt/photobooth/app.py", line 35, in main
+    serve(app, host=host, port=port, threads=4)
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/waitress/__init__.py", line 13, in serve
+    server = _server(app, **kw)
+             ^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/waitress/server.py", line 78, in create_server
+    last_serv = TcpWSGIServer(
+                ^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/waitress/server.py", line 244, in __init__
+    self.bind_server_socket()
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/waitress/server.py", line 361, in bind_server_socket
+    self.bind(sockaddr)
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/waitress/wasyncore.py", line 396, in bind
+    return self.socket.bind(addr)
+           ^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 98] Address already in use
+2025-09-08 23:30:30,700 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-08 23:30:30,700 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-08 23:30:31,202 - root - INFO - Starting Photobooth on 127.0.0.1:5000
+2025-09-08 23:30:31,202 - root - INFO - Starting Photobooth on 127.0.0.1:5000
+2025-09-08 23:30:31,314 - waitress - INFO - Serving on http://127.0.0.1:5000
+2025-09-08 23:30:31,314 - waitress - INFO - Serving on http://127.0.0.1:5000
+2025-09-08 23:30:54,641 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-08 23:30:54,641 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-08 23:30:55,148 - root - INFO - Starting Photobooth on 127.0.0.1:5000
+2025-09-08 23:30:55,148 - root - INFO - Starting Photobooth on 127.0.0.1:5000
+2025-09-08 23:30:55,258 - waitress - INFO - Serving on http://127.0.0.1:5000
+2025-09-08 23:30:55,258 - waitress - INFO - Serving on http://127.0.0.1:5000
+2025-09-08 23:43:38,644 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-08 23:43:38,644 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-08 23:43:39,167 - root - INFO - Starting Photobooth on 127.0.0.1:5000
+2025-09-08 23:43:39,167 - root - INFO - Starting Photobooth on 127.0.0.1:5000
+2025-09-08 23:43:39,281 - waitress - INFO - Serving on http://127.0.0.1:5000
+2025-09-08 23:43:39,281 - waitress - INFO - Serving on http://127.0.0.1:5000
+2025-09-08 23:54:27,624 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-08 23:54:27,624 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-08 23:54:28,129 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-08 23:54:28,129 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-08 23:54:28,240 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-08 23:54:28,240 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-08 23:56:44,883 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-08 23:56:44,883 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-08 23:56:45,393 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-08 23:56:45,393 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-08 23:56:45,505 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-08 23:56:45,505 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-09 08:21:24,717 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-09 08:21:24,717 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-09 08:21:25,318 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-09 08:21:25,318 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-09 08:21:25,455 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-09 08:21:25,455 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-09 08:32:43,734 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-09 08:32:43,734 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-09 08:32:44,251 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-09 08:32:44,251 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-09 08:32:44,395 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-09 08:32:44,395 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-09 08:35:03,934 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-09 08:35:03,934 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-09 08:35:04,438 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-09 08:35:04,438 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-09 08:35:04,551 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-09 08:35:04,551 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-09 08:41:36,052 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-09 08:41:36,052 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-09 08:41:36,556 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-09 08:41:36,556 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-09 08:41:36,674 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-09 08:41:36,674 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-09 09:12:18,660 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-09 09:12:18,660 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-09 09:12:19,271 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-09 09:12:19,271 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-09 09:12:19,400 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-09 09:12:19,400 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-09 09:17:59,035 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-09 09:17:59,035 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-09 09:17:59,545 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-09 09:17:59,545 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-09 09:17:59,657 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-09 09:17:59,657 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-09 09:22:11,690 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-09 09:22:11,690 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-09 09:22:12,198 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-09 09:22:12,198 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-09 09:22:12,329 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-09 09:22:12,329 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-09 09:25:16,585 - photobooth.routes_settings - ERROR - Error loading frame settings: settings/frame.html
+2025-09-09 09:25:16,585 - photobooth.routes_settings - ERROR - Error loading frame settings: settings/frame.html
+2025-09-09 09:25:16,587 - photobooth - ERROR - Exception on /settings/frame [GET]
+Traceback (most recent call last):
+  File "/opt/photobooth/photobooth/routes_settings.py", line 147, in frame_settings
+    return render_template('settings/frame.html', has_frame=has_frame)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 151, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 1081, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 1010, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 969, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 65, in get_source
+    return self._get_source_fast(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 99, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: settings/frame.html
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/photobooth/routes_settings.py", line 26, in decorated_function
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/photobooth/routes_settings.py", line 151, in frame_settings
+    return render_template('settings/frame.html', error=str(e))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 151, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 1081, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 1010, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 969, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 65, in get_source
+    return self._get_source_fast(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 99, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: settings/frame.html
+2025-09-09 09:25:16,587 - photobooth - ERROR - Exception on /settings/frame [GET]
+Traceback (most recent call last):
+  File "/opt/photobooth/photobooth/routes_settings.py", line 147, in frame_settings
+    return render_template('settings/frame.html', has_frame=has_frame)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 151, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 1081, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 1010, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 969, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 65, in get_source
+    return self._get_source_fast(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 99, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: settings/frame.html
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/photobooth/routes_settings.py", line 26, in decorated_function
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/photobooth/routes_settings.py", line 151, in frame_settings
+    return render_template('settings/frame.html', error=str(e))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 151, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 1081, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 1010, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 969, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 65, in get_source
+    return self._get_source_fast(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 99, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: settings/frame.html
+2025-09-09 09:25:16,624 - root - ERROR - Internal server error: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+2025-09-09 09:25:16,624 - root - ERROR - Internal server error: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+2025-09-09 09:25:27,611 - photobooth.routes_settings - ERROR - Error loading gallery: settings/gallery.html
+2025-09-09 09:25:27,611 - photobooth.routes_settings - ERROR - Error loading gallery: settings/gallery.html
+2025-09-09 09:25:27,613 - photobooth - ERROR - Exception on /settings/gallery [GET]
+Traceback (most recent call last):
+  File "/opt/photobooth/photobooth/routes_settings.py", line 206, in gallery
+    return render_template('settings/gallery.html', photos=photos)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 151, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 1081, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 1010, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 969, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 65, in get_source
+    return self._get_source_fast(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 99, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: settings/gallery.html
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/photobooth/routes_settings.py", line 26, in decorated_function
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/photobooth/routes_settings.py", line 210, in gallery
+    return render_template('settings/gallery.html', error=str(e))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 151, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 1081, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 1010, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 969, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 65, in get_source
+    return self._get_source_fast(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 99, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: settings/gallery.html
+2025-09-09 09:25:27,613 - photobooth - ERROR - Exception on /settings/gallery [GET]
+Traceback (most recent call last):
+  File "/opt/photobooth/photobooth/routes_settings.py", line 206, in gallery
+    return render_template('settings/gallery.html', photos=photos)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 151, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 1081, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 1010, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 969, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 65, in get_source
+    return self._get_source_fast(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 99, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: settings/gallery.html
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/photobooth/routes_settings.py", line 26, in decorated_function
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/photobooth/routes_settings.py", line 210, in gallery
+    return render_template('settings/gallery.html', error=str(e))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 151, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 1081, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 1010, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 969, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 65, in get_source
+    return self._get_source_fast(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 99, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: settings/gallery.html
+2025-09-09 09:25:27,629 - root - ERROR - Internal server error: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+2025-09-09 09:25:27,629 - root - ERROR - Internal server error: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+2025-09-09 09:25:34,691 - photobooth.routes_settings - ERROR - Error loading system settings: settings/system.html
+2025-09-09 09:25:34,691 - photobooth.routes_settings - ERROR - Error loading system settings: settings/system.html
+2025-09-09 09:25:34,693 - photobooth - ERROR - Exception on /settings/system [GET]
+Traceback (most recent call last):
+  File "/opt/photobooth/photobooth/routes_settings.py", line 292, in system_settings
+    return render_template('settings/system.html',
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 151, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 1081, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 1010, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 969, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 65, in get_source
+    return self._get_source_fast(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 99, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: settings/system.html
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/photobooth/routes_settings.py", line 26, in decorated_function
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/photobooth/routes_settings.py", line 298, in system_settings
+    return render_template('settings/system.html', error=str(e))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 151, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 1081, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 1010, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 969, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 65, in get_source
+    return self._get_source_fast(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 99, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: settings/system.html
+2025-09-09 09:25:34,693 - photobooth - ERROR - Exception on /settings/system [GET]
+Traceback (most recent call last):
+  File "/opt/photobooth/photobooth/routes_settings.py", line 292, in system_settings
+    return render_template('settings/system.html',
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 151, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 1081, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 1010, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 969, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 65, in get_source
+    return self._get_source_fast(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 99, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: settings/system.html
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/photobooth/routes_settings.py", line 26, in decorated_function
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/photobooth/routes_settings.py", line 298, in system_settings
+    return render_template('settings/system.html', error=str(e))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 151, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 1081, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 1010, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 969, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 65, in get_source
+    return self._get_source_fast(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 99, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: settings/system.html
+2025-09-09 09:25:34,709 - root - ERROR - Internal server error: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+2025-09-09 09:25:34,709 - root - ERROR - Internal server error: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+2025-09-09 09:27:23,606 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-09 09:27:23,606 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-09 09:27:24,116 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-09 09:27:24,116 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-09 09:27:24,232 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-09 09:27:24,232 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-09 10:17:02,495 - photobooth.printing - INFO - Found 1 printers
+2025-09-09 10:17:02,495 - photobooth.printing - INFO - Found 1 printers
+2025-09-09 10:17:11,428 - photobooth.routes_settings - ERROR - Error loading frame settings: settings/frame.html
+2025-09-09 10:17:11,428 - photobooth.routes_settings - ERROR - Error loading frame settings: settings/frame.html
+2025-09-09 10:17:11,430 - photobooth - ERROR - Exception on /settings/frame [GET]
+Traceback (most recent call last):
+  File "/opt/photobooth/photobooth/routes_settings.py", line 147, in frame_settings
+    return render_template('settings/frame.html', has_frame=has_frame)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 151, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 1081, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 1010, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 969, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 65, in get_source
+    return self._get_source_fast(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 99, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: settings/frame.html
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/photobooth/routes_settings.py", line 26, in decorated_function
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/photobooth/routes_settings.py", line 151, in frame_settings
+    return render_template('settings/frame.html', error=str(e))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 151, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 1081, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 1010, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 969, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 65, in get_source
+    return self._get_source_fast(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 99, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: settings/frame.html
+2025-09-09 10:17:11,430 - photobooth - ERROR - Exception on /settings/frame [GET]
+Traceback (most recent call last):
+  File "/opt/photobooth/photobooth/routes_settings.py", line 147, in frame_settings
+    return render_template('settings/frame.html', has_frame=has_frame)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 151, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 1081, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 1010, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 969, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 65, in get_source
+    return self._get_source_fast(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 99, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: settings/frame.html
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/photobooth/routes_settings.py", line 26, in decorated_function
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/photobooth/routes_settings.py", line 151, in frame_settings
+    return render_template('settings/frame.html', error=str(e))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 151, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 1081, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 1010, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 969, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 65, in get_source
+    return self._get_source_fast(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 99, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: settings/frame.html
+2025-09-09 10:17:11,454 - root - ERROR - Internal server error: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+2025-09-09 10:17:11,454 - root - ERROR - Internal server error: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+2025-09-09 10:17:17,660 - photobooth.printing - INFO - Found 1 printers
+2025-09-09 10:17:17,660 - photobooth.printing - INFO - Found 1 printers
+2025-09-09 10:17:34,223 - photobooth.routes_settings - ERROR - Error loading gallery: settings/gallery.html
+2025-09-09 10:17:34,223 - photobooth.routes_settings - ERROR - Error loading gallery: settings/gallery.html
+2025-09-09 10:17:34,224 - photobooth - ERROR - Exception on /settings/gallery [GET]
+Traceback (most recent call last):
+  File "/opt/photobooth/photobooth/routes_settings.py", line 206, in gallery
+    return render_template('settings/gallery.html', photos=photos)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 151, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 1081, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 1010, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 969, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 65, in get_source
+    return self._get_source_fast(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 99, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: settings/gallery.html
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/photobooth/routes_settings.py", line 26, in decorated_function
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/photobooth/routes_settings.py", line 210, in gallery
+    return render_template('settings/gallery.html', error=str(e))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 151, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 1081, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 1010, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 969, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 65, in get_source
+    return self._get_source_fast(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 99, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: settings/gallery.html
+2025-09-09 10:17:34,224 - photobooth - ERROR - Exception on /settings/gallery [GET]
+Traceback (most recent call last):
+  File "/opt/photobooth/photobooth/routes_settings.py", line 206, in gallery
+    return render_template('settings/gallery.html', photos=photos)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 151, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 1081, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 1010, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 969, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 65, in get_source
+    return self._get_source_fast(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 99, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: settings/gallery.html
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/photobooth/routes_settings.py", line 26, in decorated_function
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/photobooth/routes_settings.py", line 210, in gallery
+    return render_template('settings/gallery.html', error=str(e))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 151, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 1081, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 1010, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/environment.py", line 969, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/jinja2/loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 65, in get_source
+    return self._get_source_fast(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/photobooth/venv/lib/python3.11/site-packages/flask/templating.py", line 99, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: settings/gallery.html
+2025-09-09 10:17:34,240 - root - ERROR - Internal server error: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+2025-09-09 10:17:34,240 - root - ERROR - Internal server error: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+2025-09-09 10:18:25,353 - photobooth.printing - INFO - Found 1 printers
+2025-09-09 10:18:25,353 - photobooth.printing - INFO - Found 1 printers
+2025-09-09 10:19:37,700 - waitress.queue - WARNING - Task queue depth is 1
+2025-09-09 10:19:37,700 - waitress.queue - WARNING - Task queue depth is 1
+2025-09-09 10:19:57,290 - waitress.queue - WARNING - Task queue depth is 1
+2025-09-09 10:19:57,290 - waitress.queue - WARNING - Task queue depth is 1
+2025-09-09 10:43:29,708 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-09 10:43:29,708 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-09 10:43:30,224 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-09 10:43:30,224 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-09 10:43:30,336 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-09 10:43:30,336 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-09 11:02:58,777 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-09 11:02:58,777 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-09 11:02:59,452 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-09 11:02:59,452 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-09 11:02:59,565 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-09 11:02:59,565 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-09 11:03:55,198 - photobooth.audio - WARNING - Failed to get pyttsx3 voices: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 11:03:55,198 - photobooth.audio - WARNING - Failed to get pyttsx3 voices: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 11:03:56,960 - photobooth.audio - INFO - Speaking text with pyttsx3: 'Hello! This is a test of your photobooth voice set...'
+2025-09-09 11:03:56,960 - photobooth.audio - INFO - Speaking text with pyttsx3: 'Hello! This is a test of your photobooth voice set...'
+2025-09-09 11:03:56,972 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 11:03:56,972 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 11:04:05,913 - photobooth.audio - WARNING - Failed to get pyttsx3 voices: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 11:04:05,913 - photobooth.audio - WARNING - Failed to get pyttsx3 voices: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 11:04:15,583 - photobooth.audio - INFO - Speaking text with pyttsx3: 'countdown: Get ready! Photo in...'
+2025-09-09 11:04:15,583 - photobooth.audio - INFO - Speaking text with pyttsx3: 'countdown: Get ready! Photo in...'
+2025-09-09 11:04:15,591 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 11:04:15,591 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 11:04:16,590 - photobooth.audio - INFO - Speaking text with pyttsx3: 'capture: Perfect! Photo captured!...'
+2025-09-09 11:04:16,590 - photobooth.audio - INFO - Speaking text with pyttsx3: 'capture: Perfect! Photo captured!...'
+2025-09-09 11:04:16,597 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 11:04:16,597 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 11:04:17,605 - photobooth.audio - INFO - Speaking text with pyttsx3: 'print: Your photo is printing!...'
+2025-09-09 11:04:17,605 - photobooth.audio - INFO - Speaking text with pyttsx3: 'print: Your photo is printing!...'
+2025-09-09 11:04:17,612 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 11:04:17,612 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 11:04:18,612 - photobooth.audio - INFO - Speaking text with pyttsx3: 'welcome: Welcome to our wedding photobooth!...'
+2025-09-09 11:04:18,612 - photobooth.audio - INFO - Speaking text with pyttsx3: 'welcome: Welcome to our wedding photobooth!...'
+2025-09-09 11:04:18,619 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 11:04:18,619 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 11:04:24,995 - photobooth.audio - INFO - Speaking text with pyttsx3: 'countdown: Get ready! Photo in...'
+2025-09-09 11:04:24,995 - photobooth.audio - INFO - Speaking text with pyttsx3: 'countdown: Get ready! Photo in...'
+2025-09-09 11:04:25,002 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 11:04:25,002 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 11:04:26,002 - photobooth.audio - INFO - Speaking text with pyttsx3: 'capture: Perfect! Photo captured!...'
+2025-09-09 11:04:26,002 - photobooth.audio - INFO - Speaking text with pyttsx3: 'capture: Perfect! Photo captured!...'
+2025-09-09 11:04:26,009 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 11:04:26,009 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 11:04:27,008 - photobooth.audio - INFO - Speaking text with pyttsx3: 'print: Your photo is printing!...'
+2025-09-09 11:04:27,008 - photobooth.audio - INFO - Speaking text with pyttsx3: 'print: Your photo is printing!...'
+2025-09-09 11:04:27,015 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 11:04:27,015 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 11:04:28,014 - photobooth.audio - INFO - Speaking text with pyttsx3: 'welcome: Welcome to our wedding photobooth!...'
+2025-09-09 11:04:28,014 - photobooth.audio - INFO - Speaking text with pyttsx3: 'welcome: Welcome to our wedding photobooth!...'
+2025-09-09 11:04:28,021 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 11:04:28,021 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 11:04:33,470 - photobooth.audio - INFO - Speaking text with pyttsx3: 'Hello! This is a test of your photobooth voice set...'
+2025-09-09 11:04:33,470 - photobooth.audio - INFO - Speaking text with pyttsx3: 'Hello! This is a test of your photobooth voice set...'
+2025-09-09 11:04:33,481 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 11:04:33,481 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 11:04:38,272 - photobooth.audio - INFO - Speaking text with pyttsx3: 'Hello! This is a test of your photobooth voice set...'
+2025-09-09 11:04:38,272 - photobooth.audio - INFO - Speaking text with pyttsx3: 'Hello! This is a test of your photobooth voice set...'
+2025-09-09 11:04:38,283 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 11:04:38,283 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 11:04:40,379 - photobooth.audio - INFO - Speaking text with pyttsx3: 'countdown: Get ready! Photo in...'
+2025-09-09 11:04:40,379 - photobooth.audio - INFO - Speaking text with pyttsx3: 'countdown: Get ready! Photo in...'
+2025-09-09 11:04:40,387 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 11:04:40,387 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 11:04:41,388 - photobooth.audio - INFO - Speaking text with pyttsx3: 'capture: Perfect! Photo captured!...'
+2025-09-09 11:04:41,388 - photobooth.audio - INFO - Speaking text with pyttsx3: 'capture: Perfect! Photo captured!...'
+2025-09-09 11:04:41,403 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 11:04:41,403 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 11:04:42,395 - photobooth.audio - INFO - Speaking text with pyttsx3: 'print: Your photo is printing!...'
+2025-09-09 11:04:42,395 - photobooth.audio - INFO - Speaking text with pyttsx3: 'print: Your photo is printing!...'
+2025-09-09 11:04:42,402 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 11:04:42,402 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 11:04:43,402 - photobooth.audio - INFO - Speaking text with pyttsx3: 'welcome: Welcome to our wedding photobooth!...'
+2025-09-09 11:04:43,402 - photobooth.audio - INFO - Speaking text with pyttsx3: 'welcome: Welcome to our wedding photobooth!...'
+2025-09-09 11:04:43,409 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 11:04:43,409 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 11:13:06,696 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-09 11:13:06,696 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-09 11:13:07,266 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-09 11:13:07,266 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-09 11:13:07,380 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-09 11:13:07,380 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-09 12:48:31,462 - photobooth.audio - WARNING - Failed to get pyttsx3 voices: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 12:48:31,462 - photobooth.audio - WARNING - Failed to get pyttsx3 voices: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 12:48:32,816 - photobooth.audio - INFO - Speaking text with pyttsx3: 'countdown: Get ready! Photo in...'
+2025-09-09 12:48:32,816 - photobooth.audio - INFO - Speaking text with pyttsx3: 'countdown: Get ready! Photo in...'
+2025-09-09 12:48:32,823 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 12:48:32,823 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 12:48:33,822 - photobooth.audio - INFO - Speaking text with pyttsx3: 'capture: Perfect! Photo captured!...'
+2025-09-09 12:48:33,822 - photobooth.audio - INFO - Speaking text with pyttsx3: 'capture: Perfect! Photo captured!...'
+2025-09-09 12:48:33,829 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 12:48:33,829 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 12:48:34,829 - photobooth.audio - INFO - Speaking text with pyttsx3: 'print: Your photo is printing!...'
+2025-09-09 12:48:34,829 - photobooth.audio - INFO - Speaking text with pyttsx3: 'print: Your photo is printing!...'
+2025-09-09 12:48:34,835 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 12:48:34,835 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 12:48:35,835 - photobooth.audio - INFO - Speaking text with pyttsx3: 'welcome: Welcome to our wedding photobooth!...'
+2025-09-09 12:48:35,835 - photobooth.audio - INFO - Speaking text with pyttsx3: 'welcome: Welcome to our wedding photobooth!...'
+2025-09-09 12:48:35,842 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 12:48:35,842 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 12:48:40,379 - photobooth.audio - WARNING - Failed to get pyttsx3 voices: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 12:48:40,379 - photobooth.audio - WARNING - Failed to get pyttsx3 voices: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 12:48:49,035 - photobooth.audio - INFO - Speaking text with pyttsx3: 'Hello! This is a test of your photobooth voice set...'
+2025-09-09 12:48:49,035 - photobooth.audio - INFO - Speaking text with pyttsx3: 'Hello! This is a test of your photobooth voice set...'
+2025-09-09 12:48:49,044 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 12:48:49,044 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 12:49:04,671 - photobooth.audio - INFO - Speaking text with pyttsx3: 'Hello! This is a test of your photobooth voice set...'
+2025-09-09 12:49:04,671 - photobooth.audio - INFO - Speaking text with pyttsx3: 'Hello! This is a test of your photobooth voice set...'
+2025-09-09 12:49:04,680 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 12:49:04,680 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 12:49:44,417 - waitress.queue - WARNING - Task queue depth is 1
+2025-09-09 12:49:44,417 - waitress.queue - WARNING - Task queue depth is 1
+2025-09-09 12:50:06,455 - photobooth.audio - WARNING - Failed to get pyttsx3 voices: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 12:50:06,455 - photobooth.audio - WARNING - Failed to get pyttsx3 voices: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 12:50:08,848 - photobooth.audio - INFO - Speaking text with pyttsx3: 'Hello! This is a test of your photobooth voice set...'
+2025-09-09 12:50:08,848 - photobooth.audio - INFO - Speaking text with pyttsx3: 'Hello! This is a test of your photobooth voice set...'
+2025-09-09 12:50:08,858 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 12:50:08,858 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 12:50:14,013 - photobooth.audio - INFO - Speaking text with pyttsx3: 'countdown: Get ready! Photo in...'
+2025-09-09 12:50:14,013 - photobooth.audio - INFO - Speaking text with pyttsx3: 'countdown: Get ready! Photo in...'
+2025-09-09 12:50:14,019 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 12:50:14,019 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 12:50:15,019 - photobooth.audio - INFO - Speaking text with pyttsx3: 'capture: Perfect! Photo captured!...'
+2025-09-09 12:50:15,019 - photobooth.audio - INFO - Speaking text with pyttsx3: 'capture: Perfect! Photo captured!...'
+2025-09-09 12:50:15,025 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 12:50:15,025 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 12:50:16,024 - photobooth.audio - INFO - Speaking text with pyttsx3: 'print: Your photo is printing!...'
+2025-09-09 12:50:16,024 - photobooth.audio - INFO - Speaking text with pyttsx3: 'print: Your photo is printing!...'
+2025-09-09 12:50:16,030 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 12:50:16,030 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 12:50:17,030 - photobooth.audio - INFO - Speaking text with pyttsx3: 'welcome: Welcome to our wedding photobooth!...'
+2025-09-09 12:50:17,030 - photobooth.audio - INFO - Speaking text with pyttsx3: 'welcome: Welcome to our wedding photobooth!...'
+2025-09-09 12:50:17,036 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 12:50:17,036 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 13:03:23,548 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-09 13:03:23,548 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-09 13:03:24,157 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-09 13:03:24,157 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-09 13:03:24,294 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-09 13:03:24,294 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-09 13:05:37,406 - photobooth.audio - WARNING - Failed to get pyttsx3 voices: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 13:05:37,406 - photobooth.audio - WARNING - Failed to get pyttsx3 voices: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 13:05:39,382 - photobooth.audio - INFO - Speaking text with pyttsx3: 'Hello! This is a test of your photobooth voice set...'
+2025-09-09 13:05:39,382 - photobooth.audio - INFO - Speaking text with pyttsx3: 'Hello! This is a test of your photobooth voice set...'
+2025-09-09 13:05:39,390 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 13:05:39,390 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 13:05:41,827 - photobooth.audio - INFO - Speaking text with pyttsx3: 'countdown: Get ready! Photo in...'
+2025-09-09 13:05:41,827 - photobooth.audio - INFO - Speaking text with pyttsx3: 'countdown: Get ready! Photo in...'
+2025-09-09 13:05:41,836 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 13:05:41,836 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 13:05:42,835 - photobooth.audio - INFO - Speaking text with pyttsx3: 'capture: Perfect! Photo captured!...'
+2025-09-09 13:05:42,835 - photobooth.audio - INFO - Speaking text with pyttsx3: 'capture: Perfect! Photo captured!...'
+2025-09-09 13:05:42,842 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 13:05:42,842 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 13:05:43,842 - photobooth.audio - INFO - Speaking text with pyttsx3: 'print: Your photo is printing!...'
+2025-09-09 13:05:43,842 - photobooth.audio - INFO - Speaking text with pyttsx3: 'print: Your photo is printing!...'
+2025-09-09 13:05:43,849 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 13:05:43,849 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 13:05:44,849 - photobooth.audio - INFO - Speaking text with pyttsx3: 'welcome: Welcome to our wedding photobooth!...'
+2025-09-09 13:05:44,849 - photobooth.audio - INFO - Speaking text with pyttsx3: 'welcome: Welcome to our wedding photobooth!...'
+2025-09-09 13:05:44,856 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 13:05:44,856 - photobooth.audio - ERROR - pyttsx3 error: libespeak.so.1: cannot open shared object file: No such file or directory
+2025-09-09 13:11:26,599 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-09 13:11:26,599 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-09 13:11:27,183 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-09 13:11:27,183 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-09 13:11:27,315 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-09 13:11:27,315 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-09 13:14:13,912 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-09 13:14:13,912 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-09 13:14:14,542 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-09 13:14:14,542 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-09 13:14:14,678 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-09 13:14:14,678 - waitress - INFO - Serving on http://0.0.0.0:5000
+Home directory not accessible: Permission denied
+2025-09-09 13:15:49,628 - photobooth.routes_settings - ERROR - Error getting audio status: Object of type bytes is not JSON serializable
+2025-09-09 13:15:49,628 - photobooth.routes_settings - ERROR - Error getting audio status: Object of type bytes is not JSON serializable
+2025-09-09 13:15:50,819 - photobooth.audio - INFO - Speaking text with pyttsx3: 'Hello! This is a test of your photobooth voice set...'
+2025-09-09 13:15:50,819 - photobooth.audio - INFO - Speaking text with pyttsx3: 'Hello! This is a test of your photobooth voice set...'
+sh: 1: aplay: not found
+2025-09-09 13:15:53,646 - photobooth.audio - INFO - Speaking text with pyttsx3: 'countdown: Get ready! Photo in...'
+2025-09-09 13:15:53,646 - photobooth.audio - INFO - Speaking text with pyttsx3: 'countdown: Get ready! Photo in...'
+sh: 1: aplay: not found
+2025-09-09 13:15:54,652 - photobooth.audio - INFO - Speaking text with pyttsx3: 'capture: Perfect! Photo captured!...'
+2025-09-09 13:15:54,652 - photobooth.audio - INFO - Speaking text with pyttsx3: 'capture: Perfect! Photo captured!...'
+sh: 1: aplay: not found
+2025-09-09 13:15:55,658 - photobooth.audio - INFO - Speaking text with pyttsx3: 'print: Your photo is printing!...'
+2025-09-09 13:15:55,658 - photobooth.audio - INFO - Speaking text with pyttsx3: 'print: Your photo is printing!...'
+sh: 1: aplay: not found
+2025-09-09 13:15:56,665 - photobooth.audio - INFO - Speaking text with pyttsx3: 'welcome: Welcome to our wedding photobooth!...'
+2025-09-09 13:15:56,665 - photobooth.audio - INFO - Speaking text with pyttsx3: 'welcome: Welcome to our wedding photobooth!...'
+sh: 1: aplay: not found
+2025-09-09 13:15:58,848 - photobooth.routes_settings - ERROR - Error getting audio status: Object of type bytes is not JSON serializable
+2025-09-09 13:15:58,848 - photobooth.routes_settings - ERROR - Error getting audio status: Object of type bytes is not JSON serializable
+2025-09-09 13:16:31,711 - photobooth.routes_settings - ERROR - Error getting audio status: Object of type bytes is not JSON serializable
+2025-09-09 13:16:31,711 - photobooth.routes_settings - ERROR - Error getting audio status: Object of type bytes is not JSON serializable
+2025-09-09 13:16:35,300 - photobooth.routes_settings - ERROR - Error getting audio status: Object of type bytes is not JSON serializable
+2025-09-09 13:16:35,300 - photobooth.routes_settings - ERROR - Error getting audio status: Object of type bytes is not JSON serializable
+2025-09-09 13:28:23,922 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-09 13:28:23,922 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-09 13:28:24,607 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-09 13:28:24,607 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-09 13:28:24,747 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-09 13:28:24,747 - waitress - INFO - Serving on http://0.0.0.0:5000
+Home directory not accessible: Permission denied
+2025-09-09 13:29:51,113 - photobooth.routes_settings - ERROR - Error getting audio status: Object of type bytes is not JSON serializable
+2025-09-09 13:29:51,113 - photobooth.routes_settings - ERROR - Error getting audio status: Object of type bytes is not JSON serializable
+2025-09-09 13:29:53,270 - photobooth.audio - INFO - Speaking text with pyttsx3: 'countdown: Get ready! Photo in...'
+2025-09-09 13:29:53,270 - photobooth.audio - INFO - Speaking text with pyttsx3: 'countdown: Get ready! Photo in...'
+2025-09-09 13:29:54,277 - photobooth.audio - INFO - Speaking text with pyttsx3: 'capture: Perfect! Photo captured!...'
+2025-09-09 13:29:54,277 - photobooth.audio - INFO - Speaking text with pyttsx3: 'capture: Perfect! Photo captured!...'
+2025-09-09 13:29:54,318 - photobooth.audio - ERROR - pyttsx3 error: run loop already started
+2025-09-09 13:29:54,318 - photobooth.audio - ERROR - pyttsx3 error: run loop already started
+2025-09-09 13:29:55,282 - photobooth.audio - INFO - Speaking text with pyttsx3: 'print: Your photo is printing!...'
+2025-09-09 13:29:55,282 - photobooth.audio - INFO - Speaking text with pyttsx3: 'print: Your photo is printing!...'
+2025-09-09 13:29:55,320 - photobooth.audio - ERROR - pyttsx3 error: run loop already started
+2025-09-09 13:29:55,320 - photobooth.audio - ERROR - pyttsx3 error: run loop already started
+2025-09-09 13:29:56,288 - photobooth.audio - INFO - Speaking text with pyttsx3: 'welcome: Welcome to our wedding photobooth!...'
+2025-09-09 13:29:56,288 - photobooth.audio - INFO - Speaking text with pyttsx3: 'welcome: Welcome to our wedding photobooth!...'
+2025-09-09 13:29:56,327 - photobooth.audio - ERROR - pyttsx3 error: run loop already started
+2025-09-09 13:29:56,327 - photobooth.audio - ERROR - pyttsx3 error: run loop already started
+2025-09-09 13:32:28,861 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-09 13:32:28,861 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-09 13:32:29,492 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-09 13:32:29,492 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-09 13:32:29,605 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-09 13:32:29,605 - waitress - INFO - Serving on http://0.0.0.0:5000
+Home directory not accessible: Permission denied
+2025-09-09 13:34:52,113 - photobooth.audio - INFO - Speaking text with pyttsx3: 'Hello! This is a test of your photobooth voice set...'
+2025-09-09 13:34:52,113 - photobooth.audio - INFO - Speaking text with pyttsx3: 'Hello! This is a test of your photobooth voice set...'
+2025-09-09 13:34:54,157 - photobooth.audio - INFO - Speaking text with pyttsx3: 'countdown: Get ready! Photo in...'
+2025-09-09 13:34:54,157 - photobooth.audio - INFO - Speaking text with pyttsx3: 'countdown: Get ready! Photo in...'
+2025-09-09 13:34:54,211 - photobooth.audio - ERROR - pyttsx3 error: run loop already started
+2025-09-09 13:34:54,211 - photobooth.audio - ERROR - pyttsx3 error: run loop already started
+2025-09-09 13:34:55,163 - photobooth.audio - INFO - Speaking text with pyttsx3: 'capture: Perfect! Photo captured!...'
+2025-09-09 13:34:55,163 - photobooth.audio - INFO - Speaking text with pyttsx3: 'capture: Perfect! Photo captured!...'
+2025-09-09 13:34:55,200 - photobooth.audio - ERROR - pyttsx3 error: run loop already started
+2025-09-09 13:34:55,200 - photobooth.audio - ERROR - pyttsx3 error: run loop already started
+2025-09-09 13:34:56,169 - photobooth.audio - INFO - Speaking text with pyttsx3: 'print: Your photo is printing!...'
+2025-09-09 13:34:56,169 - photobooth.audio - INFO - Speaking text with pyttsx3: 'print: Your photo is printing!...'
+2025-09-09 13:34:56,207 - photobooth.audio - ERROR - pyttsx3 error: run loop already started
+2025-09-09 13:34:56,207 - photobooth.audio - ERROR - pyttsx3 error: run loop already started
+2025-09-09 13:34:57,175 - photobooth.audio - INFO - Speaking text with pyttsx3: 'welcome: Welcome to our wedding photobooth!...'
+2025-09-09 13:34:57,175 - photobooth.audio - INFO - Speaking text with pyttsx3: 'welcome: Welcome to our wedding photobooth!...'
+2025-09-09 13:35:05,340 - photobooth.audio - INFO - Speaking text with pyttsx3: 'countdown: Get ready! Photo in...'
+2025-09-09 13:35:05,340 - photobooth.audio - INFO - Speaking text with pyttsx3: 'countdown: Get ready! Photo in...'
+2025-09-09 13:35:06,347 - photobooth.audio - INFO - Speaking text with pyttsx3: 'capture: Perfect! Photo captured!...'
+2025-09-09 13:35:06,347 - photobooth.audio - INFO - Speaking text with pyttsx3: 'capture: Perfect! Photo captured!...'
+2025-09-09 13:35:06,388 - photobooth.audio - ERROR - pyttsx3 error: run loop already started
+2025-09-09 13:35:06,388 - photobooth.audio - ERROR - pyttsx3 error: run loop already started
+2025-09-09 13:35:07,353 - photobooth.audio - INFO - Speaking text with pyttsx3: 'print: Your photo is printing!...'
+2025-09-09 13:35:07,353 - photobooth.audio - INFO - Speaking text with pyttsx3: 'print: Your photo is printing!...'
+2025-09-09 13:35:07,390 - photobooth.audio - ERROR - pyttsx3 error: run loop already started
+2025-09-09 13:35:07,390 - photobooth.audio - ERROR - pyttsx3 error: run loop already started
+2025-09-09 13:35:08,358 - photobooth.audio - INFO - Speaking text with pyttsx3: 'welcome: Welcome to our wedding photobooth!...'
+2025-09-09 13:35:08,358 - photobooth.audio - INFO - Speaking text with pyttsx3: 'welcome: Welcome to our wedding photobooth!...'
+2025-09-09 13:35:08,395 - photobooth.audio - ERROR - pyttsx3 error: run loop already started
+2025-09-09 13:35:08,395 - photobooth.audio - ERROR - pyttsx3 error: run loop already started
+2025-09-09 13:42:27,496 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-09 13:42:27,496 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-09 13:42:28,105 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-09 13:42:28,105 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-09 13:42:28,218 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-09 13:42:28,218 - waitress - INFO - Serving on http://0.0.0.0:5000
+Home directory not accessible: Permission denied
+2025-09-09 13:45:50,357 - photobooth.audio - INFO - Speaking text with pyttsx3: 'Hello! This is a test of your photobooth voice set...'
+2025-09-09 13:45:50,357 - photobooth.audio - INFO - Speaking text with pyttsx3: 'Hello! This is a test of your photobooth voice set...'
+2025-09-09 13:45:52,179 - photobooth.audio - INFO - Speaking text with pyttsx3: 'countdown: Get ready! Photo in...'
+2025-09-09 13:45:52,179 - photobooth.audio - INFO - Speaking text with pyttsx3: 'countdown: Get ready! Photo in...'
+2025-09-09 13:45:52,219 - photobooth.audio - ERROR - pyttsx3 error: run loop already started
+2025-09-09 13:45:52,219 - photobooth.audio - ERROR - pyttsx3 error: run loop already started
+2025-09-09 13:45:53,184 - photobooth.audio - INFO - Speaking text with pyttsx3: 'capture: Perfect! Photo captured!...'
+2025-09-09 13:45:53,184 - photobooth.audio - INFO - Speaking text with pyttsx3: 'capture: Perfect! Photo captured!...'
+2025-09-09 13:45:53,222 - photobooth.audio - ERROR - pyttsx3 error: run loop already started
+2025-09-09 13:45:53,222 - photobooth.audio - ERROR - pyttsx3 error: run loop already started
+2025-09-09 13:45:54,190 - photobooth.audio - INFO - Speaking text with pyttsx3: 'print: Your photo is printing!...'
+2025-09-09 13:45:54,190 - photobooth.audio - INFO - Speaking text with pyttsx3: 'print: Your photo is printing!...'
+2025-09-09 13:45:54,227 - photobooth.audio - ERROR - pyttsx3 error: run loop already started
+2025-09-09 13:45:54,227 - photobooth.audio - ERROR - pyttsx3 error: run loop already started
+2025-09-09 13:45:55,196 - photobooth.audio - INFO - Speaking text with pyttsx3: 'welcome: Welcome to our wedding photobooth!...'
+2025-09-09 13:45:55,196 - photobooth.audio - INFO - Speaking text with pyttsx3: 'welcome: Welcome to our wedding photobooth!...'
+2025-09-09 13:49:16,376 - photobooth.audio - INFO - Speaking text with pyttsx3: 'countdown: Get ready! Photo in...'
+2025-09-09 13:49:16,376 - photobooth.audio - INFO - Speaking text with pyttsx3: 'countdown: Get ready! Photo in...'
+2025-09-09 13:49:17,381 - photobooth.audio - INFO - Speaking text with pyttsx3: 'capture: Perfect! Photo captured!...'
+2025-09-09 13:49:17,381 - photobooth.audio - INFO - Speaking text with pyttsx3: 'capture: Perfect! Photo captured!...'
+2025-09-09 13:49:17,420 - photobooth.audio - ERROR - pyttsx3 error: run loop already started
+2025-09-09 13:49:17,420 - photobooth.audio - ERROR - pyttsx3 error: run loop already started
+2025-09-09 13:49:18,386 - photobooth.audio - INFO - Speaking text with pyttsx3: 'print: Your photo is printing!...'
+2025-09-09 13:49:18,386 - photobooth.audio - INFO - Speaking text with pyttsx3: 'print: Your photo is printing!...'
+2025-09-09 13:49:18,422 - photobooth.audio - ERROR - pyttsx3 error: run loop already started
+2025-09-09 13:49:18,422 - photobooth.audio - ERROR - pyttsx3 error: run loop already started
+2025-09-09 13:49:19,391 - photobooth.audio - INFO - Speaking text with pyttsx3: 'welcome: Welcome to our wedding photobooth!...'
+2025-09-09 13:49:19,391 - photobooth.audio - INFO - Speaking text with pyttsx3: 'welcome: Welcome to our wedding photobooth!...'
+2025-09-09 13:49:19,426 - photobooth.audio - ERROR - pyttsx3 error: run loop already started
+2025-09-09 13:49:19,426 - photobooth.audio - ERROR - pyttsx3 error: run loop already started
+2025-09-09 13:49:22,656 - photobooth.audio - INFO - Speaking text with pyttsx3: 'Hello! This is a test of your photobooth voice set...'
+2025-09-09 13:49:22,656 - photobooth.audio - INFO - Speaking text with pyttsx3: 'Hello! This is a test of your photobooth voice set...'
+2025-09-09 13:49:28,905 - photobooth.audio - INFO - Speaking text with pyttsx3: 'Hello! This is a test of your photobooth voice set...'
+2025-09-09 13:49:28,905 - photobooth.audio - INFO - Speaking text with pyttsx3: 'Hello! This is a test of your photobooth voice set...'
+2025-09-09 13:49:37,721 - photobooth.audio - INFO - Speaking text with pyttsx3: 'countdown: Get ready! Photo in...'
+2025-09-09 13:49:37,721 - photobooth.audio - INFO - Speaking text with pyttsx3: 'countdown: Get ready! Photo in...'
+2025-09-09 13:49:38,725 - photobooth.audio - INFO - Speaking text with pyttsx3: 'capture: Perfect! Photo captured!...'
+2025-09-09 13:49:38,725 - photobooth.audio - INFO - Speaking text with pyttsx3: 'capture: Perfect! Photo captured!...'
+2025-09-09 13:49:38,763 - photobooth.audio - ERROR - pyttsx3 error: run loop already started
+2025-09-09 13:49:38,763 - photobooth.audio - ERROR - pyttsx3 error: run loop already started
+2025-09-09 13:49:39,730 - photobooth.audio - INFO - Speaking text with pyttsx3: 'print: Your photo is printing!...'
+2025-09-09 13:49:39,730 - photobooth.audio - INFO - Speaking text with pyttsx3: 'print: Your photo is printing!...'
+2025-09-09 13:49:39,766 - photobooth.audio - ERROR - pyttsx3 error: run loop already started
+2025-09-09 13:49:39,766 - photobooth.audio - ERROR - pyttsx3 error: run loop already started
+2025-09-09 13:49:40,735 - photobooth.audio - INFO - Speaking text with pyttsx3: 'welcome: Welcome to our wedding photobooth!...'
+2025-09-09 13:49:40,735 - photobooth.audio - INFO - Speaking text with pyttsx3: 'welcome: Welcome to our wedding photobooth!...'
+2025-09-09 13:49:40,770 - photobooth.audio - ERROR - pyttsx3 error: run loop already started
+2025-09-09 13:49:40,770 - photobooth.audio - ERROR - pyttsx3 error: run loop already started
+2025-09-09 14:04:35,195 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-09 14:04:35,195 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-09 14:04:35,830 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-09 14:04:35,830 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-09 14:04:35,942 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-09 14:04:35,942 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-09 14:08:08,346 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-09 14:08:08,346 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-09 14:08:08,916 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-09 14:08:08,916 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-09 14:08:09,031 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-09 14:08:09,031 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-09 15:59:00,942 - photobooth.audio - INFO - Speaking text: 'Hello! This is a test of your photobooth voice set...' with voice en+f3
+2025-09-09 15:59:00,942 - photobooth.audio - INFO - Speaking text: 'Hello! This is a test of your photobooth voice set...' with voice en+f3
+2025-09-09 15:59:04,310 - photobooth.audio - INFO - Speaking text: 'countdown: Get ready! Photo in...' with voice en+f3
+2025-09-09 15:59:04,310 - photobooth.audio - INFO - Speaking text: 'countdown: Get ready! Photo in...' with voice en+f3
+2025-09-09 15:59:05,408 - photobooth.audio - INFO - Speaking text: 'capture: Perfect! Photo captured!...' with voice en+f3
+2025-09-09 15:59:05,408 - photobooth.audio - INFO - Speaking text: 'capture: Perfect! Photo captured!...' with voice en+f3
+2025-09-09 15:59:06,515 - photobooth.audio - INFO - Speaking text: 'print: Your photo is printing!...' with voice en+f3
+2025-09-09 15:59:06,515 - photobooth.audio - INFO - Speaking text: 'print: Your photo is printing!...' with voice en+f3
+2025-09-09 15:59:07,610 - photobooth.audio - INFO - Speaking text: 'welcome: Welcome to our wedding photobooth!...' with voice en+f3
+2025-09-09 15:59:07,610 - photobooth.audio - INFO - Speaking text: 'welcome: Welcome to our wedding photobooth!...' with voice en+f3
+2025-09-09 15:59:16,472 - photobooth.audio - INFO - Speaking text: 'Hello! This is a test of your photobooth voice set...' with voice en+m3
+2025-09-09 15:59:16,472 - photobooth.audio - INFO - Speaking text: 'Hello! This is a test of your photobooth voice set...' with voice en+m3
+2025-09-09 16:16:16,987 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-09 16:16:16,987 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-09 16:16:17,615 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-09 16:16:17,615 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-09 16:16:17,725 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-09 16:16:17,725 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-09 16:18:53,174 - photobooth.audio - INFO - Speaking text: 'Hello! This is a test of your photobooth voice set...' with voice en+f3
+2025-09-09 16:18:53,174 - photobooth.audio - INFO - Speaking text: 'Hello! This is a test of your photobooth voice set...' with voice en+f3
+2025-09-09 16:18:54,641 - photobooth.audio - INFO - Speaking text: 'countdown: Get ready! Photo in...' with voice en+f3
+2025-09-09 16:18:54,641 - photobooth.audio - INFO - Speaking text: 'countdown: Get ready! Photo in...' with voice en+f3
+2025-09-09 16:18:55,729 - photobooth.audio - INFO - Speaking text: 'capture: Perfect! Photo captured!...' with voice en+f3
+2025-09-09 16:18:55,729 - photobooth.audio - INFO - Speaking text: 'capture: Perfect! Photo captured!...' with voice en+f3
+2025-09-09 16:18:56,823 - photobooth.audio - INFO - Speaking text: 'print: Your photo is printing!...' with voice en+f3
+2025-09-09 16:18:56,823 - photobooth.audio - INFO - Speaking text: 'print: Your photo is printing!...' with voice en+f3
+2025-09-09 16:18:57,910 - photobooth.audio - INFO - Speaking text: 'welcome: Welcome to our wedding photobooth!...' with voice en+f3
+2025-09-09 16:18:57,910 - photobooth.audio - INFO - Speaking text: 'welcome: Welcome to our wedding photobooth!...' with voice en+f3
+2025-09-09 16:19:05,125 - photobooth.models - INFO - Setting updated: tts_enabled = True
+2025-09-09 16:19:05,125 - photobooth.models - INFO - Setting updated: tts_enabled = True
+2025-09-09 16:19:05,151 - photobooth.models - INFO - Setting updated: tts_voice = en+f1
+2025-09-09 16:19:05,151 - photobooth.models - INFO - Setting updated: tts_voice = en+f1
+2025-09-09 16:19:05,176 - photobooth.models - INFO - Setting updated: tts_rate = 150
+2025-09-09 16:19:05,176 - photobooth.models - INFO - Setting updated: tts_rate = 150
+2025-09-09 16:19:05,202 - photobooth.models - INFO - Setting updated: countdown_message = Get ready! Photo in
+2025-09-09 16:19:05,202 - photobooth.models - INFO - Setting updated: countdown_message = Get ready! Photo in
+2025-09-09 16:19:05,308 - photobooth.models - INFO - Setting updated: capture_message = Perfect! Photo captured!
+2025-09-09 16:19:05,308 - photobooth.models - INFO - Setting updated: capture_message = Perfect! Photo captured!
+2025-09-09 16:19:05,334 - photobooth.models - INFO - Setting updated: print_message = Your photo is printing!
+2025-09-09 16:19:05,334 - photobooth.models - INFO - Setting updated: print_message = Your photo is printing!
+2025-09-09 16:19:05,360 - photobooth.models - INFO - Setting updated: welcome_message = Welcome to our wedding photobooth!
+2025-09-09 16:19:05,360 - photobooth.models - INFO - Setting updated: welcome_message = Welcome to our wedding photobooth!
+2025-09-09 16:19:11,580 - photobooth.audio - INFO - Speaking text: 'countdown: Get ready! Photo in...' with voice en+f1
+2025-09-09 16:19:11,580 - photobooth.audio - INFO - Speaking text: 'countdown: Get ready! Photo in...' with voice en+f1
+2025-09-09 16:19:12,671 - photobooth.audio - INFO - Speaking text: 'capture: Perfect! Photo captured!...' with voice en+f1
+2025-09-09 16:19:12,671 - photobooth.audio - INFO - Speaking text: 'capture: Perfect! Photo captured!...' with voice en+f1
+2025-09-09 16:19:13,779 - photobooth.audio - INFO - Speaking text: 'print: Your photo is printing!...' with voice en+f1
+2025-09-09 16:19:13,779 - photobooth.audio - INFO - Speaking text: 'print: Your photo is printing!...' with voice en+f1
+2025-09-09 16:19:14,877 - photobooth.audio - INFO - Speaking text: 'welcome: Welcome to our wedding photobooth!...' with voice en+f1
+2025-09-09 16:19:14,877 - photobooth.audio - INFO - Speaking text: 'welcome: Welcome to our wedding photobooth!...' with voice en+f1
+2025-09-09 16:44:14,583 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-09 16:44:14,583 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-09 16:44:15,284 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-09 16:44:15,284 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-09 16:44:15,435 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-09 16:44:15,435 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-09 16:59:45,942 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-09 16:59:45,942 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-09 16:59:46,492 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-09 16:59:46,492 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-09 16:59:46,631 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-09 16:59:46,631 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-10 07:58:59,991 - waitress.queue - WARNING - Task queue depth is 1
+2025-09-10 07:58:59,991 - waitress.queue - WARNING - Task queue depth is 1
+2025-09-10 08:01:39,559 - photobooth.audio - INFO - Speaking text: 'Hello! This is a test of your photobooth voice set...' with voice en+f1
+2025-09-10 08:01:39,559 - photobooth.audio - INFO - Speaking text: 'Hello! This is a test of your photobooth voice set...' with voice en+f1
+2025-09-10 08:01:47,038 - photobooth.audio - INFO - Speaking text: 'countdown: Get ready! Photo in...' with voice en+f1
+2025-09-10 08:01:47,038 - photobooth.audio - INFO - Speaking text: 'countdown: Get ready! Photo in...' with voice en+f1
+2025-09-10 08:01:48,133 - photobooth.audio - INFO - Speaking text: 'capture: Perfect! Photo captured!...' with voice en+f1
+2025-09-10 08:01:48,133 - photobooth.audio - INFO - Speaking text: 'capture: Perfect! Photo captured!...' with voice en+f1
+2025-09-10 08:01:49,235 - photobooth.audio - INFO - Speaking text: 'print: Your photo is printing!...' with voice en+f1
+2025-09-10 08:01:49,235 - photobooth.audio - INFO - Speaking text: 'print: Your photo is printing!...' with voice en+f1
+2025-09-10 08:01:50,334 - photobooth.audio - INFO - Speaking text: 'welcome: Welcome to our wedding photobooth!...' with voice en+f1
+2025-09-10 08:01:50,334 - photobooth.audio - INFO - Speaking text: 'welcome: Welcome to our wedding photobooth!...' with voice en+f1
+2025-09-10 08:04:21,334 - waitress.queue - WARNING - Task queue depth is 1
+2025-09-10 08:04:21,334 - waitress.queue - WARNING - Task queue depth is 1
+2025-09-10 08:39:21,569 - waitress.queue - WARNING - Task queue depth is 1
+2025-09-10 08:39:21,569 - waitress.queue - WARNING - Task queue depth is 1
+2025-09-10 09:29:21,599 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-10 09:29:21,599 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-10 09:29:22,248 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-10 09:29:22,248 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-10 09:29:22,358 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-10 09:29:22,358 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-10 13:58:09,727 - waitress.queue - WARNING - Task queue depth is 1
+2025-09-10 13:58:09,727 - waitress.queue - WARNING - Task queue depth is 1
+2025-09-10 13:58:45,946 - waitress.queue - WARNING - Task queue depth is 1
+2025-09-10 13:58:45,946 - waitress.queue - WARNING - Task queue depth is 1
+2025-09-10 13:59:07,448 - waitress.queue - WARNING - Task queue depth is 1
+2025-09-10 13:59:07,448 - waitress.queue - WARNING - Task queue depth is 1
+2025-09-10 14:23:02,729 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-10 14:23:02,729 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-10 14:23:03,308 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-10 14:23:03,308 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-10 14:23:03,421 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-10 14:23:03,421 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-10 15:05:30,086 - photobooth.audio - INFO - Speaking text: 'Hello! This is a test of your photobooth voice set...' with voice en+f1
+2025-09-10 15:05:30,086 - photobooth.audio - INFO - Speaking text: 'Hello! This is a test of your photobooth voice set...' with voice en+f1
+2025-09-10 15:05:34,988 - photobooth.audio - INFO - Speaking text: 'countdown: Get ready! Photo in...' with voice en+f1
+2025-09-10 15:05:34,988 - photobooth.audio - INFO - Speaking text: 'countdown: Get ready! Photo in...' with voice en+f1
+2025-09-10 15:05:36,076 - photobooth.audio - INFO - Speaking text: 'capture: Perfect! Photo captured!...' with voice en+f1
+2025-09-10 15:05:36,076 - photobooth.audio - INFO - Speaking text: 'capture: Perfect! Photo captured!...' with voice en+f1
+2025-09-10 15:05:37,164 - photobooth.audio - INFO - Speaking text: 'print: Your photo is printing!...' with voice en+f1
+2025-09-10 15:05:37,164 - photobooth.audio - INFO - Speaking text: 'print: Your photo is printing!...' with voice en+f1
+2025-09-10 15:05:38,263 - photobooth.audio - INFO - Speaking text: 'welcome: Welcome to our wedding photobooth!...' with voice en+f1
+2025-09-10 15:05:38,263 - photobooth.audio - INFO - Speaking text: 'welcome: Welcome to our wedding photobooth!...' with voice en+f1
+2025-09-10 15:05:45,708 - photobooth.audio - INFO - Speaking text: 'Hello! This is a test of your photobooth voice set...' with voice en+f3
+2025-09-10 15:05:45,708 - photobooth.audio - INFO - Speaking text: 'Hello! This is a test of your photobooth voice set...' with voice en+f3
+2025-09-10 15:05:53,776 - photobooth.audio - INFO - Speaking text: 'Hello! This is a test of your photobooth voice set...' with voice en+f4
+2025-09-10 15:05:53,776 - photobooth.audio - INFO - Speaking text: 'Hello! This is a test of your photobooth voice set...' with voice en+f4
+2025-09-10 15:05:58,802 - photobooth.audio - INFO - Speaking text: 'Hello! This is a test of your photobooth voice set...' with voice en+m2
+2025-09-10 15:05:58,802 - photobooth.audio - INFO - Speaking text: 'Hello! This is a test of your photobooth voice set...' with voice en+m2
+2025-09-10 15:06:04,584 - photobooth.audio - INFO - Speaking text: 'Hello! This is a test of your photobooth voice set...' with voice en+f2
+2025-09-10 15:06:04,584 - photobooth.audio - INFO - Speaking text: 'Hello! This is a test of your photobooth voice set...' with voice en+f2
+2025-09-10 15:06:15,522 - photobooth.models - INFO - Setting updated: tts_enabled = True
+2025-09-10 15:06:15,522 - photobooth.models - INFO - Setting updated: tts_enabled = True
+2025-09-10 15:06:15,560 - photobooth.models - INFO - Setting updated: tts_voice = en+f2
+2025-09-10 15:06:15,560 - photobooth.models - INFO - Setting updated: tts_voice = en+f2
+2025-09-10 15:06:15,604 - photobooth.models - INFO - Setting updated: tts_rate = 150
+2025-09-10 15:06:15,604 - photobooth.models - INFO - Setting updated: tts_rate = 150
+2025-09-10 15:06:15,648 - photobooth.models - INFO - Setting updated: countdown_message = Get ready! Photo in
+2025-09-10 15:06:15,648 - photobooth.models - INFO - Setting updated: countdown_message = Get ready! Photo in
+2025-09-10 15:06:15,697 - photobooth.models - INFO - Setting updated: capture_message = Perfect! Photo captured!
+2025-09-10 15:06:15,697 - photobooth.models - INFO - Setting updated: capture_message = Perfect! Photo captured!
+2025-09-10 15:06:15,734 - photobooth.models - INFO - Setting updated: print_message = Your photo is printing!
+2025-09-10 15:06:15,734 - photobooth.models - INFO - Setting updated: print_message = Your photo is printing!
+2025-09-10 15:06:15,777 - photobooth.models - INFO - Setting updated: welcome_message = Welcome to our wedding photobooth!
+2025-09-10 15:06:15,777 - photobooth.models - INFO - Setting updated: welcome_message = Welcome to our wedding photobooth!
+2025-09-10 16:09:06,754 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-10 16:09:06,754 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-10 16:09:07,357 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-10 16:09:07,357 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-10 16:09:07,468 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-10 16:09:07,468 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-10 17:13:10,836 - waitress.queue - WARNING - Task queue depth is 1
+2025-09-10 17:13:10,836 - waitress.queue - WARNING - Task queue depth is 1
+2025-09-10 17:13:10,868 - waitress.queue - WARNING - Task queue depth is 2
+2025-09-10 17:13:10,868 - waitress.queue - WARNING - Task queue depth is 2
+2025-09-10 17:13:12,433 - photobooth.routes_booth - INFO - Camera debug logs saved to: /opt/photobooth/data/camera_logs/camera_debug_20250910_171312_session_1757538793595_49f8amq9k.log
+2025-09-10 17:13:12,433 - photobooth.routes_booth - INFO - Camera debug logs saved to: /opt/photobooth/data/camera_logs/camera_debug_20250910_171312_session_1757538793595_49f8amq9k.log
+2025-09-10 17:13:15,170 - photobooth.routes_booth - INFO - Camera debug logs saved to: /opt/photobooth/data/camera_logs/camera_debug_20250910_171315_session_1757538793595_49f8amq9k.log
+2025-09-10 17:13:15,170 - photobooth.routes_booth - INFO - Camera debug logs saved to: /opt/photobooth/data/camera_logs/camera_debug_20250910_171315_session_1757538793595_49f8amq9k.log
+2025-09-10 17:13:15,638 - photobooth.routes_booth - INFO - Camera debug logs saved to: /opt/photobooth/data/camera_logs/camera_debug_20250910_171315_session_1757538793595_49f8amq9k.log
+2025-09-10 17:13:15,638 - photobooth.routes_booth - INFO - Camera debug logs saved to: /opt/photobooth/data/camera_logs/camera_debug_20250910_171315_session_1757538793595_49f8amq9k.log
+2025-09-10 17:36:05,849 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-10 17:36:05,849 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-10 17:36:06,565 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-10 17:36:06,565 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-10 17:36:06,715 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-10 17:36:06,715 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-10 17:37:34,447 - photobooth.routes_booth - INFO - Camera debug logs saved to: /opt/photobooth/data/camera_logs/camera_debug_20250910_173734_session_1757540255622_7nk34rwny.log
+2025-09-10 17:37:34,447 - photobooth.routes_booth - INFO - Camera debug logs saved to: /opt/photobooth/data/camera_logs/camera_debug_20250910_173734_session_1757540255622_7nk34rwny.log
+2025-09-10 17:37:34,711 - photobooth.routes_booth - INFO - Camera debug logs saved to: /opt/photobooth/data/camera_logs/camera_debug_20250910_173734_session_1757540255622_7nk34rwny.log
+2025-09-10 17:37:34,711 - photobooth.routes_booth - INFO - Camera debug logs saved to: /opt/photobooth/data/camera_logs/camera_debug_20250910_173734_session_1757540255622_7nk34rwny.log
+2025-09-10 17:37:35,110 - photobooth.routes_booth - INFO - Camera debug logs saved to: /opt/photobooth/data/camera_logs/camera_debug_20250910_173735_session_1757540255622_7nk34rwny.log
+2025-09-10 17:37:35,110 - photobooth.routes_booth - INFO - Camera debug logs saved to: /opt/photobooth/data/camera_logs/camera_debug_20250910_173735_session_1757540255622_7nk34rwny.log
+2025-09-10 17:37:40,694 - photobooth.routes_booth - INFO - Camera debug logs saved to: /opt/photobooth/data/camera_logs/camera_debug_20250910_173740_session_1757540261788_v7ls4eoxv.log
+2025-09-10 17:37:40,694 - photobooth.routes_booth - INFO - Camera debug logs saved to: /opt/photobooth/data/camera_logs/camera_debug_20250910_173740_session_1757540261788_v7ls4eoxv.log
+2025-09-10 17:37:40,882 - photobooth.routes_booth - INFO - Camera debug logs saved to: /opt/photobooth/data/camera_logs/camera_debug_20250910_173740_session_1757540261788_v7ls4eoxv.log
+2025-09-10 17:37:40,882 - photobooth.routes_booth - INFO - Camera debug logs saved to: /opt/photobooth/data/camera_logs/camera_debug_20250910_173740_session_1757540261788_v7ls4eoxv.log
+2025-09-10 17:37:41,278 - photobooth.routes_booth - INFO - Camera debug logs saved to: /opt/photobooth/data/camera_logs/camera_debug_20250910_173741_session_1757540261788_v7ls4eoxv.log
+2025-09-10 17:37:41,278 - photobooth.routes_booth - INFO - Camera debug logs saved to: /opt/photobooth/data/camera_logs/camera_debug_20250910_173741_session_1757540261788_v7ls4eoxv.log
+2025-09-10 17:37:59,594 - waitress.queue - WARNING - Task queue depth is 1
+2025-09-10 17:37:59,594 - waitress.queue - WARNING - Task queue depth is 1
+2025-09-10 17:40:34,917 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-10 17:40:34,917 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-10 17:40:35,525 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-10 17:40:35,525 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-10 17:40:35,645 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-10 17:40:35,645 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-10 21:28:39,912 - waitress.queue - WARNING - Task queue depth is 1
+2025-09-10 21:28:39,912 - waitress.queue - WARNING - Task queue depth is 1
+2025-09-10 21:28:39,936 - waitress.queue - WARNING - Task queue depth is 2
+2025-09-10 21:28:39,936 - waitress.queue - WARNING - Task queue depth is 2
+2025-09-10 21:31:10,246 - photobooth.routes_settings - INFO - Frame overlay uploaded successfully
+2025-09-10 21:31:10,246 - photobooth.routes_settings - INFO - Frame overlay uploaded successfully
+2025-09-10 21:39:07,434 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-10 21:39:07,434 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-10 21:39:08,090 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-10 21:39:08,090 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-10 21:39:08,201 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-10 21:39:08,201 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-10 21:42:01,668 - photobooth.routes_settings - INFO - Frame overlay removed
+2025-09-10 21:42:01,668 - photobooth.routes_settings - INFO - Frame overlay removed
+2025-09-10 21:42:17,561 - photobooth.routes_settings - INFO - Frame overlay uploaded successfully
+2025-09-10 21:42:17,561 - photobooth.routes_settings - INFO - Frame overlay uploaded successfully
+2025-09-10 21:42:37,768 - waitress.queue - WARNING - Task queue depth is 1
+2025-09-10 21:42:37,768 - waitress.queue - WARNING - Task queue depth is 1
+2025-09-10 21:46:52,794 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-10 21:46:52,794 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-10 21:46:53,443 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-10 21:46:53,443 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-10 21:46:53,552 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-10 21:46:53,552 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-10 21:47:07,733 - photobooth.routes_settings - INFO - Frame request - Path: /opt/photobooth/photobooth/static/frames/current.png, Exists: True
+2025-09-10 21:47:07,733 - photobooth.routes_settings - INFO - Frame request - Path: /opt/photobooth/photobooth/static/frames/current.png, Exists: True
+2025-09-10 21:48:55,863 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-10 21:48:55,863 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-10 21:48:56,461 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-10 21:48:56,461 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-10 21:48:56,571 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-10 21:48:56,571 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-10 21:49:53,355 - photobooth.routes_settings - INFO - Frame request - Path: /opt/photobooth/photobooth/static/frames/current.png, Exists: True
+2025-09-10 21:49:53,355 - photobooth.routes_settings - INFO - Frame request - Path: /opt/photobooth/photobooth/static/frames/current.png, Exists: True
+2025-09-10 21:50:27,580 - waitress.queue - WARNING - Task queue depth is 1
+2025-09-10 21:50:27,580 - waitress.queue - WARNING - Task queue depth is 1
+2025-09-10 21:50:27,588 - photobooth.routes_settings - INFO - Frame request - Path: /opt/photobooth/photobooth/static/frames/current.png, Exists: True
+2025-09-10 21:50:27,588 - photobooth.routes_settings - INFO - Frame request - Path: /opt/photobooth/photobooth/static/frames/current.png, Exists: True
+2025-09-10 21:50:52,892 - photobooth.routes_settings - WARNING - Failed login attempt
+2025-09-10 21:50:52,892 - photobooth.routes_settings - WARNING - Failed login attempt
+2025-09-10 21:51:02,307 - photobooth.routes_settings - INFO - Frame request - Path: /opt/photobooth/photobooth/static/frames/current.png, Exists: True
+2025-09-10 21:51:02,307 - photobooth.routes_settings - INFO - Frame request - Path: /opt/photobooth/photobooth/static/frames/current.png, Exists: True
+2025-09-10 21:54:51,256 - photobooth.routes_settings - INFO - Frame request - Path: /opt/photobooth/photobooth/static/frames/current.png, Exists: True
+2025-09-10 21:54:51,256 - photobooth.routes_settings - INFO - Frame request - Path: /opt/photobooth/photobooth/static/frames/current.png, Exists: True
+2025-09-10 21:57:58,040 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-10 21:57:58,040 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-10 21:57:58,656 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-10 21:57:58,656 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-10 21:57:58,772 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-10 21:57:58,772 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-10 22:00:58,233 - waitress.queue - WARNING - Task queue depth is 1
+2025-09-10 22:00:58,233 - waitress.queue - WARNING - Task queue depth is 1
+2025-09-10 22:00:58,273 - waitress.queue - WARNING - Task queue depth is 2
+2025-09-10 22:00:58,273 - waitress.queue - WARNING - Task queue depth is 2
+2025-09-10 22:00:58,321 - waitress.queue - WARNING - Task queue depth is 3
+2025-09-10 22:00:58,321 - waitress.queue - WARNING - Task queue depth is 3
+2025-09-10 22:00:58,447 - photobooth.routes_settings - INFO - Frame request - Path: /opt/photobooth/photobooth/static/frames/current.png, Exists: True
+2025-09-10 22:00:58,447 - photobooth.routes_settings - INFO - Frame request - Path: /opt/photobooth/photobooth/static/frames/current.png, Exists: True
+2025-09-10 22:01:02,970 - photobooth.routes_settings - INFO - Frame request - Path: /opt/photobooth/photobooth/static/frames/current.png, Exists: True
+2025-09-10 22:01:02,970 - photobooth.routes_settings - INFO - Frame request - Path: /opt/photobooth/photobooth/static/frames/current.png, Exists: True
+2025-09-10 22:01:03,092 - photobooth.routes_settings - INFO - Frame request - Path: /opt/photobooth/photobooth/static/frames/current.png, Exists: True
+2025-09-10 22:01:03,092 - photobooth.routes_settings - INFO - Frame request - Path: /opt/photobooth/photobooth/static/frames/current.png, Exists: True
+2025-09-10 22:01:24,967 - photobooth.routes_settings - INFO - Frame request - Path: /opt/photobooth/photobooth/static/frames/current.png, Exists: True
+2025-09-10 22:01:24,967 - photobooth.routes_settings - INFO - Frame request - Path: /opt/photobooth/photobooth/static/frames/current.png, Exists: True
+2025-09-10 22:01:54,533 - photobooth.routes_settings - INFO - Frame request - Path: /opt/photobooth/photobooth/static/frames/current.png, Exists: True
+2025-09-10 22:01:54,533 - photobooth.routes_settings - INFO - Frame request - Path: /opt/photobooth/photobooth/static/frames/current.png, Exists: True
+2025-09-10 22:01:54,540 - photobooth.routes_settings - INFO - Frame request - Path: /opt/photobooth/photobooth/static/frames/current.png, Exists: True
+2025-09-10 22:01:54,540 - photobooth.routes_settings - INFO - Frame request - Path: /opt/photobooth/photobooth/static/frames/current.png, Exists: True
+2025-09-10 22:02:32,470 - photobooth.routes_settings - INFO - Frame request - Path: /opt/photobooth/photobooth/static/frames/current.png, Exists: True
+2025-09-10 22:02:32,470 - photobooth.routes_settings - INFO - Frame request - Path: /opt/photobooth/photobooth/static/frames/current.png, Exists: True
+2025-09-10 22:02:38,610 - photobooth.routes_settings - INFO - Frame request - Path: /opt/photobooth/photobooth/static/frames/current.png, Exists: True
+2025-09-10 22:02:38,610 - photobooth.routes_settings - INFO - Frame request - Path: /opt/photobooth/photobooth/static/frames/current.png, Exists: True
+2025-09-10 22:02:49,319 - photobooth.routes_settings - INFO - Frame request - Path: /opt/photobooth/photobooth/static/frames/current.png, Exists: True
+2025-09-10 22:02:49,319 - photobooth.routes_settings - INFO - Frame request - Path: /opt/photobooth/photobooth/static/frames/current.png, Exists: True
+2025-09-10 22:03:02,596 - photobooth.routes_settings - INFO - Frame request - Path: /opt/photobooth/photobooth/static/frames/current.png, Exists: True
+2025-09-10 22:03:02,596 - photobooth.routes_settings - INFO - Frame request - Path: /opt/photobooth/photobooth/static/frames/current.png, Exists: True
+2025-09-10 22:03:02,762 - photobooth.routes_settings - INFO - Frame request - Path: /opt/photobooth/photobooth/static/frames/current.png, Exists: True
+2025-09-10 22:03:02,762 - photobooth.routes_settings - INFO - Frame request - Path: /opt/photobooth/photobooth/static/frames/current.png, Exists: True
+2025-09-10 22:03:15,895 - photobooth.routes_settings - INFO - Frame request - Path: /opt/photobooth/photobooth/static/frames/current.png, Exists: True
+2025-09-10 22:03:15,895 - photobooth.routes_settings - INFO - Frame request - Path: /opt/photobooth/photobooth/static/frames/current.png, Exists: True
+2025-09-10 22:08:03,884 - photobooth.routes_settings - INFO - Frame request - Path: /opt/photobooth/photobooth/static/frames/current.png, Exists: True
+2025-09-10 22:08:03,884 - photobooth.routes_settings - INFO - Frame request - Path: /opt/photobooth/photobooth/static/frames/current.png, Exists: True
+2025-09-10 22:12:21,418 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-10 22:12:21,418 - photobooth.models - INFO - Database initialized: /opt/photobooth/data/photobooth.db
+2025-09-10 22:12:22,027 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-10 22:12:22,027 - root - INFO - Starting Photobooth on 0.0.0.0:5000
+2025-09-10 22:12:22,177 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-10 22:12:22,177 - waitress - INFO - Serving on http://0.0.0.0:5000
+2025-09-10 22:12:35,588 - photobooth.routes_settings - INFO - Frame request - Path: /opt/photobooth/photobooth/static/frames/current.png, Exists: True
+2025-09-10 22:12:35,588 - photobooth.routes_settings - INFO - Frame request - Path: /opt/photobooth/photobooth/static/frames/current.png, Exists: True

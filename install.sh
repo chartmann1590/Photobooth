@@ -12,7 +12,7 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Configuration
-PHOTOBOOTH_USER="pi"
+PHOTOBOOTH_USER="$(whoami)"
 PHOTOBOOTH_DIR="/opt/photobooth"
 SERVICE_USER="${PHOTOBOOTH_USER}"
 CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -30,13 +30,13 @@ echo_error() { echo -e "${RED}[ERROR]${NC} $1"; }
 # Check if running as root
 check_root() {
     if [[ $EUID -eq 0 ]]; then
-        echo_error "This script should not be run as root. Run as pi user with sudo access."
+        echo_error "This script should not be run as root. Run as regular user with sudo access."
         exit 1
     fi
     
     # Check sudo access
     if ! sudo -n true 2>/dev/null; then
-        echo_error "This script requires sudo access. Please ensure the pi user has sudo privileges."
+        echo_error "This script requires sudo access. Please ensure the current user has sudo privileges."
         exit 1
     fi
 }

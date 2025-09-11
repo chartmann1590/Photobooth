@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Frame Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-section { margin: 20px 0; padding: 20px; border: 1px solid #ccc; }
+        img { max-width: 400px; border: 2px solid #333; }
+        .log { background: #f5f5f5; padding: 10px; margin: 10px 0; font-family: monospace; }
+    </style>
+</head>
+<body>
+    <h1>Frame Loading Test</h1>
+    
+    <div class="test-section">
+        <h2>Test 1: Direct API Call</h2>
+        <img id="directFrame" src="/settings/api/frame/current" alt="Direct Frame">
+        <div class="log" id="directLog">Loading...</div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 2: API Call with Cache Buster</h2>
+        <img id="cacheBusterFrame" alt="Cache Buster Frame">
+        <div class="log" id="cacheBusterLog">Loading...</div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 3: Fetch API Response</h2>
+        <div class="log" id="fetchLog">Testing...</div>
+        <img id="fetchFrame" alt="Fetch Frame" style="display: none;">
+    </div>
+    
+    <div class="test-section">
+        <h2>Debug Info</h2>
+        <div class="log" id="debugInfo">
+            URL: <span id="currentUrl"></span><br>
+            Timestamp: <span id="timestamp"></span>
+        </div>
+    </div>
+
+    <script>
+        // Test 1: Direct load
+        const directFrame = document.getElementById('directFrame');
+        const directLog = document.getElementById('directLog');
+        
+        directFrame.onload = () => {
+            directLog.textContent = `✓ Direct frame loaded successfully (${directFrame.naturalWidth}x${directFrame.naturalHeight})`;
+        };
+        
+        directFrame.onerror = (e) => {
+            directLog.textContent = `✗ Direct frame failed to load: ${e.type}`;
+        };
+        
+        // Test 2: Cache buster
+        const cacheBusterFrame = document.getElementById('cacheBusterFrame');
+        const cacheBusterLog = document.getElementById('cacheBusterLog');
+        const timestamp = Date.now();
+        
+        cacheBusterFrame.src = `/settings/api/frame/current?v=${timestamp}`;
+        
+        cacheBusterFrame.onload = () => {
+            cacheBusterLog.textContent = `✓ Cache buster frame loaded successfully (${cacheBusterFrame.naturalWidth}x${cacheBusterFrame.naturalHeight})`;
+        };
+        
+        cacheBusterFrame.onerror = (e) => {
+            cacheBusterLog.textContent = `✗ Cache buster frame failed to load: ${e.type}`;
+        };
+        
+        // Test 3: Fetch API
+        const fetchLog = document.getElementById('fetchLog');
+        const fetchFrame = document.getElementById('fetchFrame');
+        
+        fetch('/settings/api/frame/current')
+            .then(response => {
+                fetchLog.textContent = `Fetch response: ${response.status} ${response.statusText} (${response.headers.get('content-type')})`;
+                if (response.ok) {
+                    return response.blob();
+                } else {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+            })
+            .then(blob => {
+                const url = URL.createObjectURL(blob);
+                fetchFrame.src = url;
+                fetchFrame.style.display = 'block';
+                fetchLog.textContent += ` | ✓ Blob created and displayed`;
+            })
+            .catch(error => {
+                fetchLog.textContent += ` | ✗ Fetch failed: ${error.message}`;
+            });
+        
+        // Debug info
+        document.getElementById('currentUrl').textContent = window.location.href;
+        document.getElementById('timestamp').textContent = new Date().toISOString();
+    </script>
+</body>
+</html>
