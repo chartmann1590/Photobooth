@@ -13,7 +13,7 @@ A complete, production-ready wedding photobooth system that runs directly on Ras
 - **Gallery management** with thumbnails and reprint functionality
 
 ### 🌐 Complete Offline WiFi System
-- **Captive portal hotspot** - creates "WeddingBooth" network
+- **Captive portal hotspot** - creates "PhotoBooth" network
 - **Self-contained system** - no internet required to operate
 - **HTTPS with local TLS certificates** for iOS Safari camera access
 - **Multi-device support** - up to 10 concurrent users
@@ -82,7 +82,7 @@ That's it! The installer automatically handles:
 
 ### Post-Installation Access
 
-- **WiFi Network**: `WeddingBooth`
+- **WiFi Network**: `PhotoBooth`
 - **WiFi Password**: `photobooth123`
 - **PhotoBooth URL**: `https://192.168.50.1/`
 - **Settings URL**: `https://192.168.50.1/settings`
@@ -117,7 +117,7 @@ That's it! The installer automatically handles:
 
 Edit `/opt/photobooth/.env` file:
 ```bash
-AP_SSID=YourWeddingName
+AP_SSID=PhotoBooth
 AP_PASSWORD=your-secure-password
 ```
 

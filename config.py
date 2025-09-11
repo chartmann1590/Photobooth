@@ -42,7 +42,7 @@ class Config:
     TTS_RATE = int(os.getenv('TTS_RATE', 150))
     
     # Network settings
-    AP_SSID = os.getenv('AP_SSID', 'WeddingBooth')
+    AP_SSID = os.getenv('AP_SSID', 'PhotoBooth')
     AP_PASSWORD = os.getenv('AP_PASSWORD', 'photobooth123')
     AP_IP = os.getenv('AP_IP', '192.168.50.1')
     AP_SUBNET = os.getenv('AP_SUBNET', '192.168.50.0/24')
