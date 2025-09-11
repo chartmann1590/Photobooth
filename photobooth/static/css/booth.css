@@ -150,6 +150,44 @@
     border-top-color: transparent;
 }
 
+/* Portrait mode camera container adjustments - mobile first approach */
+@media (orientation: portrait) {
+    #cameraContainer {
+        max-height: min(45vh, calc(100vh - 220px)) !important;
+        max-width: 90vw !important;
+    }
+}
+
+@media (orientation: portrait) and (max-height: 800px) {
+    #cameraContainer {
+        max-height: min(40vh, calc(100vh - 200px)) !important;
+    }
+}
+
+@media (orientation: portrait) and (max-height: 700px) {
+    #cameraContainer {
+        max-height: min(38vh, calc(100vh - 190px)) !important;
+    }
+}
+
+@media (orientation: portrait) and (max-height: 600px) {
+    #cameraContainer {
+        max-height: min(35vh, calc(100vh - 180px)) !important;
+    }
+}
+
+/* Very small portrait screens (like phones in portrait) */
+@media (orientation: portrait) and (max-height: 500px) {
+    #cameraContainer {
+        max-height: min(30vh, calc(100vh - 160px)) !important;
+    }
+    
+    .btn-primary {
+        padding: 3rem 1.5rem !important;
+        font-size: 1.2rem !important;
+    }
+}
+
 /* Responsive typography */
 @media (max-width: 640px) {
     .text-countdown {
