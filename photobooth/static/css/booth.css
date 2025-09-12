@@ -150,41 +150,77 @@
     border-top-color: transparent;
 }
 
-/* Portrait mode camera container adjustments - mobile first approach */
+/* Ensure main container uses full viewport */
+.safe-area-inset {
+    min-height: 100vh;
+    min-height: 100dvh; /* Dynamic viewport height for mobile */
+}
+
+/* 4:6 aspect ratio adjustments for portrait printing format */
+#cameraContainer {
+    aspect-ratio: 4/6 !important;
+}
+
+/* Portrait mode camera container adjustments - ensure button always visible */
 @media (orientation: portrait) {
     #cameraContainer {
-        max-height: min(45vh, calc(100vh - 220px)) !important;
-        max-width: 90vw !important;
+        max-height: min(75vh, calc(100vh - 160px)) !important;
+        max-width: min(80vw, 500px) !important;
+    }
+    
+    /* Force button container to always be visible */
+    #captureBtn {
+        min-height: 80px !important;
+        padding: 1rem 1.5rem !important;
+        font-size: 1.1rem !important;
+    }
+}
+
+@media (orientation: portrait) and (max-height: 900px) {
+    #cameraContainer {
+        max-height: min(70vh, calc(100vh - 140px)) !important;
+        max-width: min(75vw, 480px) !important;
     }
 }
 
 @media (orientation: portrait) and (max-height: 800px) {
     #cameraContainer {
-        max-height: min(40vh, calc(100vh - 200px)) !important;
+        max-height: min(65vh, calc(100vh - 140px)) !important;
+        max-width: min(70vw, 460px) !important;
     }
 }
 
 @media (orientation: portrait) and (max-height: 700px) {
     #cameraContainer {
-        max-height: min(38vh, calc(100vh - 190px)) !important;
+        max-height: min(60vh, calc(100vh - 140px)) !important;
+        max-width: min(65vw, 420px) !important;
     }
 }
 
 @media (orientation: portrait) and (max-height: 600px) {
     #cameraContainer {
-        max-height: min(35vh, calc(100vh - 180px)) !important;
+        max-height: min(55vh, calc(100vh - 120px)) !important;
+        max-width: min(50vw, 280px) !important;
+    }
+    
+    #captureBtn {
+        min-height: 60px !important;
+        padding: 0.75rem 1rem !important;
+        font-size: 1rem !important;
     }
 }
 
 /* Very small portrait screens (like phones in portrait) */
 @media (orientation: portrait) and (max-height: 500px) {
     #cameraContainer {
-        max-height: min(30vh, calc(100vh - 160px)) !important;
+        max-height: min(50vh, calc(100vh - 120px)) !important;
+        max-width: min(45vw, 250px) !important;
     }
     
-    .btn-primary {
-        padding: 3rem 1.5rem !important;
-        font-size: 1.2rem !important;
+    #captureBtn {
+        min-height: 50px !important;
+        padding: 0.5rem 1rem !important;
+        font-size: 0.9rem !important;
     }
 }
 

@@ -21,9 +21,9 @@ class Config:
     PHOTOS_PRINTED_DIR = os.path.join(PHOTOS_DIR, 'printed')
     THUMBNAILS_DIR = os.path.join(PHOTOS_DIR, 'thumbnails')
     
-    # Image settings
-    PHOTO_WIDTH = int(os.getenv('PHOTO_WIDTH', 1800))
-    PHOTO_HEIGHT = int(os.getenv('PHOTO_HEIGHT', 1200))
+    # Image settings - 4x6 inches at 300 DPI = 1200x1800 pixels
+    PHOTO_WIDTH = int(os.getenv('PHOTO_WIDTH', 1200))
+    PHOTO_HEIGHT = int(os.getenv('PHOTO_HEIGHT', 1800))
     PHOTO_QUALITY = int(os.getenv('PHOTO_QUALITY', 85))
     THUMBNAIL_SIZE = int(os.getenv('THUMBNAIL_SIZE', 300))
     
