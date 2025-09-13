@@ -17,18 +17,24 @@
     <div class="bg-white rounded-lg shadow-md p-6 mb-8">
         <h2 class="text-xl font-bold text-gray-900 mb-4">Current Printer Status</h2>
         {% if printer_status.get('available') %}
-        <div class="flex items-center p-4 {{ 'bg-green-50 border border-green-200' if printer_status.ready else 'bg-yellow-50 border border-yellow-200' }} rounded-lg">
-            <i class="fas fa-print {{ 'text-green-600' if printer_status.ready else 'text-yellow-600' }} text-2xl mr-4"></i>
+        <div class="flex items-center p-4 {{ 'bg-green-50 border border-green-200' if printer_status.ready else ('bg-red-50 border border-red-200' if printer_status.get('paper_error') else 'bg-yellow-50 border border-yellow-200') }} rounded-lg">
+            <i class="fas {{ 'fa-print' if not printer_status.get('paper_error') else 'fa-exclamation-triangle' }} {{ 'text-green-600' if printer_status.ready else ('text-red-600' if printer_status.get('paper_error') else 'text-yellow-600') }} text-2xl mr-4"></i>
             <div>
-                <h3 class="font-semibold {{ 'text-green-800' if printer_status.ready else 'text-yellow-800' }}">
+                <h3 class="font-semibold {{ 'text-green-800' if printer_status.ready else ('text-red-800' if printer_status.get('paper_error') else 'text-yellow-800') }}">
                     {{ printer_status.name }}
                 </h3>
-                <p class="text-sm {{ 'text-green-600' if printer_status.ready else 'text-yellow-600' }}">
+                <p class="text-sm {{ 'text-green-600' if printer_status.ready else ('text-red-600' if printer_status.get('paper_error') else 'text-yellow-600') }}">
                     {{ printer_status.description }}
                 </p>
-                <p class="text-xs {{ 'text-green-500' if printer_status.ready else 'text-yellow-500' }}">
-                    Status: {{ printer_status.state_message or 'Ready' }}
+                <p class="text-xs {{ 'text-green-500' if printer_status.ready else ('text-red-500' if printer_status.get('paper_error') else 'text-yellow-500') }}">
+                    Status: {{ printer_status.paper_error or printer_status.state_message or 'Ready' }}
                 </p>
+                {% if printer_status.get('paper_error') %}
+                <div class="mt-2 p-2 bg-red-100 border border-red-300 rounded text-xs text-red-700">
+                    <i class="fas fa-info-circle mr-1"></i>
+                    <strong>Paper Issue:</strong> The printer has detected a paper type mismatch. For Canon SELPHY CP760, ensure the correct paper cartridge is loaded that matches the software settings.
+                </div>
+                {% endif %}
             </div>
         </div>
         {% else %}
@@ -48,25 +54,41 @@
         {% if printers %}
         <div class="space-y-4">
             {% for printer in printers %}
-            <div class="flex items-center justify-between p-4 border rounded-lg {{ 'border-rose-300 bg-rose-50' if printer.name == current_printer else 'border-gray-200' }}">
+            <div class="flex items-center justify-between p-4 border rounded-lg {{ 'border-rose-300 bg-rose-50' if printer.name == current_printer else ('border-blue-300 bg-blue-50' if not printer.configured else 'border-gray-200') }}">
                 <div class="flex items-center">
-                    <i class="fas fa-print {{ 'text-rose-600' if printer.name == current_printer else 'text-gray-400' }} text-xl mr-4"></i>
+                    <i class="fas {{ 'fa-print' if printer.configured else 'fa-usb' }} {{ 'text-rose-600' if printer.name == current_printer else ('text-blue-600' if not printer.configured else 'text-gray-400') }} text-xl mr-4"></i>
                     <div>
-                        <h3 class="font-semibold text-gray-900">{{ printer.name }}</h3>
+                        <h3 class="font-semibold text-gray-900">
+                            {{ printer.name }}
+                            {% if not printer.configured %}
+                            <span class="ml-2 bg-blue-100 text-blue-800 text-xs font-medium px-2 py-1 rounded">Available</span>
+                            {% endif %}
+                        </h3>
                         <p class="text-sm text-gray-600">{{ printer.description }}</p>
                         {% if printer.location %}
                         <p class="text-xs text-gray-500">Location: {{ printer.location }}</p>
                         {% endif %}
+                        {% if not printer.configured and printer.device_uri %}
+                        <p class="text-xs text-blue-600 mt-1">USB Device: {{ printer.device_uri.split('/')[-1] if '/' in printer.device_uri else printer.device_uri }}</p>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="flex items-center space-x-2">
-                    {% if printer.name == current_printer %}
-                    <span class="bg-rose-100 text-rose-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Current</span>
+                    {% if printer.configured %}
+                        {% if printer.name == current_printer %}
+                        <span class="bg-rose-100 text-rose-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Current</span>
+                        {% else %}
+                        <button onclick="setPrinter('{{ printer.name }}')" 
+                                class="bg-rose-600 hover:bg-rose-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors">
+                            Select
+                        </button>
+                        {% endif %}
                     {% else %}
-                    <button onclick="setPrinter('{{ printer.name }}')" 
-                            class="bg-rose-600 hover:bg-rose-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors">
-                        Select
-                    </button>
+                        <button onclick="configurePrinter('{{ printer.device_uri }}', '{{ printer.make_model }}', '{{ printer.name }}')" 
+                                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors">
+                            <i class="fas fa-cog mr-1"></i>
+                            Configure
+                        </button>
                     {% endif %}
                 </div>
             </div>
@@ -79,6 +101,36 @@
             <p class="text-sm text-gray-500 mt-2">Make sure your printer is connected and configured in CUPS</p>
         </div>
         {% endif %}
+    </div>
+
+    <!-- Print Log -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+        <div class="flex items-center justify-between mb-4">
+            <h2 class="text-xl font-bold text-gray-900">Print Log & Job Management</h2>
+            <div class="flex items-center space-x-2">
+                <label class="flex items-center">
+                    <input type="checkbox" id="autoRefresh" checked class="mr-2 rounded border-gray-300 text-rose-600 focus:ring-rose-500">
+                    <span class="text-sm text-gray-600">Auto-refresh</span>
+                </label>
+                <button onclick="clearCompletedJobs()" 
+                        class="bg-orange-500 hover:bg-orange-600 text-white px-3 py-1 rounded text-sm font-medium transition-colors">
+                    <i class="fas fa-trash mr-1"></i>
+                    Clear Completed
+                </button>
+                <button onclick="refreshPrintLog()" 
+                        class="bg-gray-500 hover:bg-gray-600 text-white px-3 py-1 rounded text-sm font-medium transition-colors">
+                    <i class="fas fa-refresh mr-1"></i>
+                    Refresh
+                </button>
+            </div>
+        </div>
+        
+        <div id="printLogContainer">
+            <div class="text-center py-4">
+                <i class="fas fa-spinner fa-spin text-gray-400 text-2xl mb-2"></i>
+                <p class="text-gray-500">Loading print log...</p>
+            </div>
+        </div>
     </div>
 
     <!-- Test Print -->
@@ -179,5 +231,324 @@ function testPrint() {
         alert('Test print failed: ' + error.message);
     });
 }
+
+function configurePrinter(deviceUri, makeModel, printerName) {
+    if (!confirm('Auto-configure printer: ' + makeModel + '?')) {
+        return;
+    }
+    
+    showLoading('Configuring printer...');
+    
+    fetch('/settings/api/printer/configure', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            device_uri: deviceUri,
+            make_model: makeModel,
+            printer_name: printerName
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        hideLoading();
+        if (data.success) {
+            alert('Printer configured successfully: ' + data.printer_name);
+            location.reload();
+        } else {
+            alert('Failed to configure printer: ' + (data.error || 'Unknown error'));
+        }
+    })
+    .catch(error => {
+        hideLoading();
+        alert('Failed to configure printer: ' + error.message);
+    });
+}
+
+function loadPrintLog() {
+    fetch('/settings/api/printer/log')
+    .then(response => response.json())
+    .then(data => {
+        renderPrintLog(data);
+    })
+    .catch(error => {
+        document.getElementById('printLogContainer').innerHTML = `
+            <div class="text-center py-4">
+                <i class="fas fa-exclamation-triangle text-red-400 text-2xl mb-2"></i>
+                <p class="text-red-500">Failed to load print log: ${error.message}</p>
+            </div>
+        `;
+    });
+}
+
+function renderPrintLog(data) {
+    const container = document.getElementById('printLogContainer');
+    
+    if (!data.success || !data.jobs || data.jobs.length === 0) {
+        container.innerHTML = `
+            <div class="text-center py-8">
+                <i class="fas fa-clipboard-list text-gray-400 text-4xl mb-4"></i>
+                <p class="text-gray-600">No print jobs found</p>
+                <p class="text-sm text-gray-500 mt-2">Print jobs will appear here after photos are printed</p>
+            </div>
+        `;
+        return;
+    }
+    
+    // Show cleanup info if any jobs were cleaned
+    let cleanupMessage = '';
+    if (data.cleanup && data.cleanup.cleaned_count > 0) {
+        cleanupMessage = `
+            <div class="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                <p class="text-sm text-blue-800">
+                    <i class="fas fa-info-circle mr-2"></i>
+                    Automatically cleaned ${data.cleanup.cleaned_count} old job(s)
+                </p>
+            </div>
+        `;
+    }
+    
+    let html = cleanupMessage + '<div class="space-y-3">';
+    
+    data.jobs.forEach(job => {
+        const statusClass = getStatusClass(job.status);
+        const statusIcon = getStatusIcon(job.status);
+        const timeAgo = formatTimeAgo(job.created_at);
+        const canCancel = job.status && ['pending', 'processing'].includes(job.status.toLowerCase());
+        
+        html += `
+            <div class="flex items-center justify-between p-3 border rounded-lg ${statusClass.bg}">
+                <div class="flex items-center flex-1">
+                    <i class="fas ${statusIcon} ${statusClass.icon} text-lg mr-3"></i>
+                    <div class="flex-1">
+                        <h3 class="font-medium text-gray-900">${job.filename || 'Unknown File'}</h3>
+                        <p class="text-sm text-gray-600">Printer: ${job.printer || 'Unknown'}</p>
+                        <p class="text-xs text-gray-500">${timeAgo}</p>
+                        ${job.error_message ? `<p class="text-xs text-red-600 mt-1">Error: ${job.error_message}</p>` : ''}
+                    </div>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <div class="text-right">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${statusClass.badge}">
+                            ${job.status || 'unknown'}
+                        </span>
+                        ${job.job_id ? `<p class="text-xs text-gray-500 mt-1">Job ID: ${job.job_id}</p>` : ''}
+                    </div>
+                    ${canCancel && job.job_id ? `
+                        <button onclick="cancelJob(${job.job_id})" 
+                                class="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded text-xs font-medium transition-colors ml-2">
+                            <i class="fas fa-times mr-1"></i>
+                            Cancel
+                        </button>
+                    ` : ''}
+                </div>
+            </div>
+        `;
+    });
+    
+    html += '</div>';
+    
+    if (data.jobs.length >= 20) {
+        html += `
+            <div class="text-center mt-4">
+                <p class="text-sm text-gray-500">Showing last ${data.jobs.length} print jobs</p>
+            </div>
+        `;
+    }
+    
+    container.innerHTML = html;
+}
+
+function getStatusClass(status) {
+    const statusLower = (status || '').toLowerCase();
+    
+    if (statusLower.includes('completed') || statusLower.includes('success')) {
+        return {
+            bg: 'border-green-200 bg-green-50',
+            icon: 'text-green-600',
+            badge: 'bg-green-100 text-green-800'
+        };
+    } else if (statusLower.includes('failed') || statusLower.includes('error') || statusLower.includes('aborted') || statusLower.includes('timeout')) {
+        return {
+            bg: 'border-red-200 bg-red-50',
+            icon: 'text-red-600',
+            badge: 'bg-red-100 text-red-800'
+        };
+    } else if (statusLower.includes('cancelled')) {
+        return {
+            bg: 'border-orange-200 bg-orange-50',
+            icon: 'text-orange-600',
+            badge: 'bg-orange-100 text-orange-800'
+        };
+    } else if (statusLower.includes('stopped')) {
+        return {
+            bg: 'border-yellow-200 bg-yellow-50',
+            icon: 'text-yellow-600',
+            badge: 'bg-yellow-100 text-yellow-800'
+        };
+    } else if (statusLower.includes('processing') || statusLower.includes('pending')) {
+        return {
+            bg: 'border-blue-200 bg-blue-50',
+            icon: 'text-blue-600',
+            badge: 'bg-blue-100 text-blue-800'
+        };
+    } else {
+        return {
+            bg: 'border-gray-200 bg-gray-50',
+            icon: 'text-gray-600',
+            badge: 'bg-gray-100 text-gray-800'
+        };
+    }
+}
+
+function getStatusIcon(status) {
+    const statusLower = (status || '').toLowerCase();
+    
+    if (statusLower.includes('completed') || statusLower.includes('success')) {
+        return 'fa-check-circle';
+    } else if (statusLower.includes('failed') || statusLower.includes('error') || statusLower.includes('aborted')) {
+        return 'fa-exclamation-triangle';
+    } else if (statusLower.includes('timeout')) {
+        return 'fa-hourglass-end';
+    } else if (statusLower.includes('cancelled')) {
+        return 'fa-times-circle';
+    } else if (statusLower.includes('stopped')) {
+        return 'fa-pause-circle';
+    } else if (statusLower.includes('processing')) {
+        return 'fa-cog fa-spin';
+    } else if (statusLower.includes('pending')) {
+        return 'fa-clock';
+    } else {
+        return 'fa-print';
+    }
+}
+
+function formatTimeAgo(timestamp) {
+    if (!timestamp) return 'Unknown time';
+    
+    const now = Date.now() / 1000;
+    const diff = now - timestamp;
+    
+    if (diff < 60) return 'Just now';
+    if (diff < 3600) return `${Math.floor(diff / 60)} minutes ago`;
+    if (diff < 86400) return `${Math.floor(diff / 3600)} hours ago`;
+    return `${Math.floor(diff / 86400)} days ago`;
+}
+
+function refreshPrintLog() {
+    const button = event.target;
+    const originalContent = button.innerHTML;
+    button.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i> Loading...';
+    button.disabled = true;
+    
+    loadPrintLog();
+    
+    setTimeout(() => {
+        button.innerHTML = originalContent;
+        button.disabled = false;
+    }, 1000);
+}
+
+function cancelJob(jobId) {
+    if (!confirm(`Cancel print job ${jobId}?`)) {
+        return;
+    }
+    
+    showLoading(`Cancelling job ${jobId}...`);
+    
+    fetch(`/settings/api/printer/cancel/${jobId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        hideLoading();
+        if (data.success) {
+            alert(`Job ${jobId} cancelled successfully`);
+            loadPrintLog(); // Refresh the log
+        } else {
+            alert('Failed to cancel job: ' + (data.error || 'Unknown error'));
+        }
+    })
+    .catch(error => {
+        hideLoading();
+        alert('Failed to cancel job: ' + error.message);
+    });
+}
+
+function clearCompletedJobs() {
+    if (!confirm('Clear all completed print jobs?')) {
+        return;
+    }
+    
+    showLoading('Clearing completed jobs...');
+    
+    fetch('/settings/api/printer/clear', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({})
+    })
+    .then(response => response.json())
+    .then(data => {
+        hideLoading();
+        if (data.success) {
+            alert(`Cleared ${data.count} completed jobs`);
+            loadPrintLog(); // Refresh the log
+        } else {
+            alert('Failed to clear jobs: ' + (data.error || 'Unknown error'));
+        }
+    })
+    .catch(error => {
+        hideLoading();
+        alert('Failed to clear jobs: ' + error.message);
+    });
+}
+
+// Auto-refresh functionality
+let autoRefreshInterval = null;
+
+function startAutoRefresh() {
+    if (autoRefreshInterval) {
+        clearInterval(autoRefreshInterval);
+    }
+    
+    autoRefreshInterval = setInterval(() => {
+        if (document.getElementById('autoRefresh').checked) {
+            loadPrintLog();
+        }
+    }, 5000); // Refresh every 5 seconds
+}
+
+function stopAutoRefresh() {
+    if (autoRefreshInterval) {
+        clearInterval(autoRefreshInterval);
+        autoRefreshInterval = null;
+    }
+}
+
+// Load print log when page loads and setup auto-refresh
+document.addEventListener('DOMContentLoaded', function() {
+    loadPrintLog();
+    startAutoRefresh();
+    
+    // Handle auto-refresh checkbox
+    document.getElementById('autoRefresh').addEventListener('change', function() {
+        if (this.checked) {
+            startAutoRefresh();
+        } else {
+            stopAutoRefresh();
+        }
+    });
+    
+    // Cleanup on page unload
+    window.addEventListener('beforeunload', function() {
+        stopAutoRefresh();
+    });
+});
 </script>
 {% endblock %}

@@ -5,7 +5,7 @@ import sqlite3
 import logging
 import json
 from datetime import datetime
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, List
 
 logger = logging.getLogger(__name__)
 
@@ -241,6 +241,38 @@ def update_print_job_status(job_id: int, status: str, error_message: str = None)
     except Exception as e:
         logger.error(f"Failed to update print job status: {e}")
         return False
+
+def get_print_job_logs(limit: int = 20) -> List[Dict[str, Any]]:
+    """Get recent print job logs from database"""
+    from flask import current_app
+    
+    try:
+        with get_db_connection(current_app.config['DATABASE_PATH']) as conn:
+            cursor = conn.execute('''
+                SELECT photo_filename, printer_name, job_id, status, error_message, 
+                       created_at, completed_at
+                FROM print_jobs 
+                ORDER BY created_at DESC 
+                LIMIT ?
+            ''', (limit,))
+            
+            jobs = []
+            for row in cursor.fetchall():
+                jobs.append({
+                    'filename': row['photo_filename'],
+                    'printer': row['printer_name'],
+                    'job_id': row['job_id'],
+                    'status': row['status'],
+                    'error_message': row['error_message'],
+                    'created_at': row['created_at'],
+                    'completed_at': row['completed_at']
+                })
+            
+            return jobs
+            
+    except Exception as e:
+        logger.error(f"Failed to get print job logs: {e}")
+        return []
 
 def log_event(event_type: str, event_data: Dict[str, Any] = None) -> bool:
     """Log an event"""

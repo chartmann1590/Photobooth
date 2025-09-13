@@ -9,8 +9,8 @@ from flask import Blueprint, render_template, request, jsonify, session, redirec
 from werkzeug.utils import secure_filename
 
 from .storage import get_photos, delete_photo, get_storage_usage, get_photo_path
-from .printing import get_printers, test_print, set_default_printer, get_printer_status
-from .models import get_settings, update_setting
+from .printing import get_printers, test_print, set_default_printer, get_printer_status, auto_configure_usb_printer, get_print_jobs, get_all_print_jobs, cancel_job, clear_completed_jobs, cleanup_old_jobs
+from .models import get_settings, update_setting, get_print_job_logs
 from .imaging import validate_frame
 
 settings_bp = Blueprint('settings', __name__, url_prefix='/settings')
@@ -135,6 +135,160 @@ def test_printer():
     except Exception as e:
         logger.error(f"Error during test print: {e}")
         return jsonify({'error': str(e)}), 500
+
+@settings_bp.route('/api/printer/configure', methods=['POST'])
+@auth_required
+def configure_printer():
+    """Auto-configure a USB printer"""
+    try:
+        data = request.get_json()
+        device_uri = data.get('device_uri')
+        make_model = data.get('make_model')
+        printer_name = data.get('printer_name')
+        
+        if not device_uri or not make_model:
+            return jsonify({'success': False, 'error': 'Missing device_uri or make_model'}), 400
+        
+        # Auto-configure the printer
+        result = auto_configure_usb_printer(device_uri, make_model, printer_name)
+        
+        if result['success']:
+            # Set as default printer if no default is set
+            current_default = get_settings().get('default_printer', '')
+            if not current_default:
+                update_setting('default_printer', result['printer_name'])
+                set_default_printer(result['printer_name'])
+        
+        return jsonify(result)
+        
+    except Exception as e:
+        logger.error(f"Error configuring printer: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@settings_bp.route('/api/printer/log', methods=['GET'])
+@auth_required
+def printer_log():
+    """Get real-time print job log from CUPS"""
+    try:
+        # Automatically cleanup old jobs (90 seconds)
+        cleanup_result = cleanup_old_jobs(90)
+        if not cleanup_result['success']:
+            logger.warning(f"Cleanup failed: {cleanup_result.get('error')}")
+        elif cleanup_result.get('count', 0) > 0:
+            logger.info(f"Auto-cleaned {cleanup_result['count']} old print jobs")
+        
+        # Get all jobs from CUPS with real-time status
+        all_jobs = get_all_print_jobs(include_completed=True)
+        
+        # Also get database jobs for historical data
+        db_jobs = get_print_job_logs(10)
+        
+        # Merge with database jobs, prioritizing CUPS data for active jobs
+        cups_job_ids = {job['job_id'] for job in all_jobs if job.get('job_id')}
+        
+        for db_job in db_jobs:
+            if db_job['job_id'] not in cups_job_ids:
+                # Add historical database job not found in CUPS
+                all_jobs.append({
+                    'job_id': db_job['job_id'],
+                    'filename': db_job['filename'],
+                    'printer': db_job['printer'],
+                    'status': db_job['status'],
+                    'error_message': db_job['error_message'],
+                    'created_at': db_job['created_at'],
+                    'completed_at': db_job['completed_at'],
+                    'source': 'database_historical'
+                })
+        
+        # Sort by creation time (most recent first)
+        all_jobs.sort(key=lambda x: x.get('created_at', 0), reverse=True)
+        
+        # Limit to 25 most recent
+        all_jobs = all_jobs[:25]
+        
+        return jsonify({
+            'success': True,
+            'jobs': all_jobs,
+            'total': len(all_jobs),
+            'cleanup': {
+                'success': cleanup_result['success'],
+                'cleaned_count': cleanup_result.get('count', 0)
+            }
+        })
+        
+    except Exception as e:
+        logger.error(f"Error getting print log: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e),
+            'jobs': []
+        }), 500
+
+@settings_bp.route('/api/printer/cancel/<int:job_id>', methods=['POST'])
+@auth_required
+def cancel_print_job(job_id):
+    """Cancel a specific print job"""
+    try:
+        result = cancel_job(job_id)
+        
+        if result['success']:
+            logger.info(f"User cancelled print job {job_id}")
+            return jsonify(result)
+        else:
+            return jsonify(result), 400
+            
+    except Exception as e:
+        logger.error(f"Error cancelling job {job_id}: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+@settings_bp.route('/api/printer/clear', methods=['POST'])
+@auth_required
+def clear_print_jobs():
+    """Clear all completed print jobs"""
+    try:
+        data = request.get_json() or {}
+        printer_name = data.get('printer_name')
+        
+        result = clear_completed_jobs(printer_name)
+        
+        if result['success']:
+            logger.info(f"User cleared {result['count']} completed jobs")
+            return jsonify(result)
+        else:
+            return jsonify(result), 400
+            
+    except Exception as e:
+        logger.error(f"Error clearing jobs: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+@settings_bp.route('/api/printer/cleanup', methods=['POST'])
+@auth_required
+def manual_cleanup():
+    """Manually trigger job cleanup"""
+    try:
+        data = request.get_json() or {}
+        max_age = data.get('max_age_seconds', 90)
+        
+        result = cleanup_old_jobs(max_age)
+        
+        if result['success']:
+            logger.info(f"Manual cleanup: {result['count']} jobs cleaned")
+            return jsonify(result)
+        else:
+            return jsonify(result), 400
+            
+    except Exception as e:
+        logger.error(f"Error in manual cleanup: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
 
 @settings_bp.route('/frame')
 @auth_required
