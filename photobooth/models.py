@@ -68,6 +68,35 @@ def init_db(db_path: str):
                 )
             ''')
             
+            # Print cartridge tracking table
+            conn.execute('''
+                CREATE TABLE IF NOT EXISTS print_cartridges (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    cartridge_name TEXT NOT NULL,
+                    printer_name TEXT NOT NULL,
+                    max_prints INTEGER NOT NULL,
+                    current_prints INTEGER DEFAULT 0,
+                    is_active BOOLEAN DEFAULT 1,
+                    installed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    replaced_at TIMESTAMP NULL
+                )
+            ''')
+            
+            # Printer error tracking table
+            conn.execute('''
+                CREATE TABLE IF NOT EXISTS printer_errors (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    printer_name TEXT NOT NULL,
+                    error_message TEXT NOT NULL,
+                    error_state TEXT NOT NULL,
+                    is_active BOOLEAN DEFAULT 1,
+                    first_seen TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    last_seen TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    last_announced TIMESTAMP NULL,
+                    resolved_at TIMESTAMP NULL
+                )
+            ''')
+            
             conn.commit()
             
             # Insert default settings if they don't exist
@@ -90,7 +119,20 @@ def _insert_default_settings(conn: sqlite3.Connection):
         'print_paper_size': '4x6',
         'countdown_enabled': 'true',
         'countdown_duration': '3',
-        'app_version': '1.0.0'
+        'app_version': '1.0.0',
+        'print_count_enabled': 'false',
+        'print_count_max': '0',
+        'print_count_low_warning': '10',
+        'total_prints_ever': '0',
+        'low_ink_audio_enabled': 'true',
+        'empty_cartridge_audio_enabled': 'true',
+        'printer_error_audio_enabled': 'true',
+        'ink_warning_frequency_minutes': '5',
+        'error_announcement_cooldown_minutes': '2',
+        'printer_status_polling_enabled': 'true',
+        'printer_status_polling_interval_seconds': '30',
+        'low_ink_message': 'Low ink warning! Please consider replacing the cartridge soon.',
+        'empty_cartridge_message': 'Ink cartridge is empty! Printing is disabled until cartridge is replaced.'
     }
     
     for key, value in default_settings.items():
@@ -327,4 +369,353 @@ def get_photo_stats() -> Dict[str, Any]:
             'total_photos': 0,
             'printed_photos': 0,
             'recent_photos': 0
+        }
+
+def get_print_count_status() -> Dict[str, Any]:
+    """Get current print count status"""
+    try:
+        enabled = get_setting('print_count_enabled', False)
+        if not enabled:
+            return {
+                'enabled': False,
+                'remaining': 0,
+                'total': 0,
+                'used': 0,
+                'low_warning': 0,
+                'is_low': False,
+                'is_empty': False,
+                'total_prints_ever': get_setting('total_prints_ever', 0)
+            }
+        
+        max_prints = get_setting('print_count_max', 0)
+        total_ever = get_setting('total_prints_ever', 0)
+        low_warning = get_setting('print_count_low_warning', 10)
+        
+        # Get current cartridge usage from active cartridge
+        current_prints = get_current_cartridge_prints()
+        remaining = max(0, max_prints - current_prints)
+        
+        return {
+            'enabled': True,
+            'remaining': remaining,
+            'total': max_prints,
+            'used': current_prints,
+            'low_warning': low_warning,
+            'is_low': remaining <= low_warning and remaining > 0,
+            'is_empty': remaining <= 0,
+            'total_prints_ever': total_ever
+        }
+        
+    except Exception as e:
+        logger.error(f"Failed to get print count status: {e}")
+        return {
+            'enabled': False,
+            'remaining': 0,
+            'total': 0,
+            'used': 0,
+            'low_warning': 0,
+            'is_low': False,
+            'is_empty': False,
+            'total_prints_ever': 0
+        }
+
+def get_current_cartridge_prints() -> int:
+    """Get current prints used from active cartridge"""
+    from flask import current_app
+    
+    try:
+        with get_db_connection(current_app.config['DATABASE_PATH']) as conn:
+            cursor = conn.execute('''
+                SELECT current_prints FROM print_cartridges 
+                WHERE is_active = 1 
+                ORDER BY installed_at DESC 
+                LIMIT 1
+            ''')
+            result = cursor.fetchone()
+            return result['current_prints'] if result else 0
+            
+    except Exception as e:
+        logger.error(f"Failed to get current cartridge prints: {e}")
+        return 0
+
+def increment_print_count() -> bool:
+    """Increment print count after successful print"""
+    from flask import current_app
+    
+    try:
+        # Increment total prints ever
+        total_ever = get_setting('total_prints_ever', 0)
+        update_setting('total_prints_ever', total_ever + 1)
+        
+        # If print counting is enabled, update cartridge usage
+        if get_setting('print_count_enabled', False):
+            with get_db_connection(current_app.config['DATABASE_PATH']) as conn:
+                # Get or create active cartridge
+                cursor = conn.execute('''
+                    SELECT id, current_prints FROM print_cartridges 
+                    WHERE is_active = 1 
+                    ORDER BY installed_at DESC 
+                    LIMIT 1
+                ''')
+                result = cursor.fetchone()
+                
+                if result:
+                    # Update existing cartridge
+                    conn.execute('''
+                        UPDATE print_cartridges 
+                        SET current_prints = current_prints + 1 
+                        WHERE id = ?
+                    ''', (result['id'],))
+                else:
+                    # Create new cartridge with current settings
+                    max_prints = get_setting('print_count_max', 0)
+                    default_printer = get_setting('default_printer', 'Unknown')
+                    conn.execute('''
+                        INSERT INTO print_cartridges 
+                        (cartridge_name, printer_name, max_prints, current_prints) 
+                        VALUES (?, ?, ?, ?)
+                    ''', ('Auto-created cartridge', default_printer, max_prints, 1))
+                
+                conn.commit()
+        
+        logger.info("Print count incremented successfully")
+        return True
+        
+    except Exception as e:
+        logger.error(f"Failed to increment print count: {e}")
+        return False
+
+def install_new_cartridge(cartridge_name: str, max_prints: int, printer_name: str = None) -> bool:
+    """Install a new cartridge and deactivate old ones"""
+    from flask import current_app
+    
+    try:
+        if printer_name is None:
+            printer_name = get_setting('default_printer', 'Unknown')
+        
+        with get_db_connection(current_app.config['DATABASE_PATH']) as conn:
+            # Deactivate all existing cartridges
+            conn.execute('''
+                UPDATE print_cartridges 
+                SET is_active = 0, replaced_at = CURRENT_TIMESTAMP 
+                WHERE is_active = 1
+            ''')
+            
+            # Insert new cartridge
+            conn.execute('''
+                INSERT INTO print_cartridges 
+                (cartridge_name, printer_name, max_prints, current_prints, is_active) 
+                VALUES (?, ?, ?, 0, 1)
+            ''', (cartridge_name, printer_name, max_prints))
+            
+            conn.commit()
+        
+        # Update settings
+        update_setting('print_count_enabled', True)
+        update_setting('print_count_max', max_prints)
+        
+        logger.info(f"New cartridge installed: {cartridge_name} ({max_prints} prints)")
+        return True
+        
+    except Exception as e:
+        logger.error(f"Failed to install new cartridge: {e}")
+        return False
+
+def reset_print_count() -> bool:
+    """Reset current cartridge print count to 0"""
+    from flask import current_app
+    
+    try:
+        with get_db_connection(current_app.config['DATABASE_PATH']) as conn:
+            conn.execute('''
+                UPDATE print_cartridges 
+                SET current_prints = 0 
+                WHERE is_active = 1
+            ''')
+            conn.commit()
+        
+        logger.info("Print count reset to 0")
+        return True
+        
+    except Exception as e:
+        logger.error(f"Failed to reset print count: {e}")
+        return False
+
+def get_cartridge_history(limit: int = 10) -> List[Dict[str, Any]]:
+    """Get cartridge installation history"""
+    from flask import current_app
+    
+    try:
+        with get_db_connection(current_app.config['DATABASE_PATH']) as conn:
+            cursor = conn.execute('''
+                SELECT cartridge_name, printer_name, max_prints, current_prints, 
+                       is_active, installed_at, replaced_at
+                FROM print_cartridges 
+                ORDER BY installed_at DESC 
+                LIMIT ?
+            ''', (limit,))
+            
+            cartridges = []
+            for row in cursor.fetchall():
+                cartridges.append({
+                    'name': row['cartridge_name'],
+                    'printer': row['printer_name'],
+                    'max_prints': row['max_prints'],
+                    'current_prints': row['current_prints'],
+                    'is_active': bool(row['is_active']),
+                    'installed_at': row['installed_at'],
+                    'replaced_at': row['replaced_at']
+                })
+            
+            return cartridges
+            
+    except Exception as e:
+        logger.error(f"Failed to get cartridge history: {e}")
+        return []
+
+def log_printer_error(printer_name: str, error_message: str, error_state: str) -> bool:
+    """Log or update a printer error"""
+    from flask import current_app
+    
+    try:
+        with get_db_connection(current_app.config['DATABASE_PATH']) as conn:
+            # Check if this error already exists and is active
+            cursor = conn.execute('''
+                SELECT id, last_announced FROM printer_errors 
+                WHERE printer_name = ? AND error_message = ? AND is_active = 1
+            ''', (printer_name, error_message))
+            existing_error = cursor.fetchone()
+            
+            if existing_error:
+                # Update existing error
+                conn.execute('''
+                    UPDATE printer_errors 
+                    SET last_seen = CURRENT_TIMESTAMP, error_state = ?
+                    WHERE id = ?
+                ''', (error_state, existing_error['id']))
+            else:
+                # Insert new error
+                conn.execute('''
+                    INSERT INTO printer_errors 
+                    (printer_name, error_message, error_state) 
+                    VALUES (?, ?, ?)
+                ''', (printer_name, error_message, error_state))
+            
+            conn.commit()
+            return True
+            
+    except Exception as e:
+        logger.error(f"Failed to log printer error: {e}")
+        return False
+
+def mark_error_announced(printer_name: str, error_message: str) -> bool:
+    """Mark an error as announced"""
+    from flask import current_app
+    
+    try:
+        with get_db_connection(current_app.config['DATABASE_PATH']) as conn:
+            conn.execute('''
+                UPDATE printer_errors 
+                SET last_announced = CURRENT_TIMESTAMP
+                WHERE printer_name = ? AND error_message = ? AND is_active = 1
+            ''', (printer_name, error_message))
+            conn.commit()
+            return True
+            
+    except Exception as e:
+        logger.error(f"Failed to mark error as announced: {e}")
+        return False
+
+def resolve_printer_errors(printer_name: str) -> bool:
+    """Mark all active errors for a printer as resolved"""
+    from flask import current_app
+    
+    try:
+        with get_db_connection(current_app.config['DATABASE_PATH']) as conn:
+            conn.execute('''
+                UPDATE printer_errors 
+                SET is_active = 0, resolved_at = CURRENT_TIMESTAMP
+                WHERE printer_name = ? AND is_active = 1
+            ''', (printer_name,))
+            conn.commit()
+            
+            logger.info(f"Resolved all printer errors for {printer_name}")
+            return True
+            
+    except Exception as e:
+        logger.error(f"Failed to resolve printer errors: {e}")
+        return False
+
+def get_active_printer_errors(printer_name: str = None) -> List[Dict[str, Any]]:
+    """Get active printer errors"""
+    from flask import current_app
+    
+    try:
+        with get_db_connection(current_app.config['DATABASE_PATH']) as conn:
+            if printer_name:
+                cursor = conn.execute('''
+                    SELECT printer_name, error_message, error_state, first_seen, last_seen, last_announced
+                    FROM printer_errors 
+                    WHERE printer_name = ? AND is_active = 1
+                    ORDER BY first_seen DESC
+                ''', (printer_name,))
+            else:
+                cursor = conn.execute('''
+                    SELECT printer_name, error_message, error_state, first_seen, last_seen, last_announced
+                    FROM printer_errors 
+                    WHERE is_active = 1
+                    ORDER BY first_seen DESC
+                ''')
+            
+            errors = []
+            for row in cursor.fetchall():
+                errors.append({
+                    'printer_name': row['printer_name'],
+                    'error_message': row['error_message'],
+                    'error_state': row['error_state'],
+                    'first_seen': row['first_seen'],
+                    'last_seen': row['last_seen'],
+                    'last_announced': row['last_announced']
+                })
+            
+            return errors
+            
+    except Exception as e:
+        logger.error(f"Failed to get active printer errors: {e}")
+        return []
+
+def get_printer_error_status(printer_name: str) -> Dict[str, Any]:
+    """Get current error status for a printer"""
+    try:
+        errors = get_active_printer_errors(printer_name)
+        
+        if not errors:
+            return {
+                'has_errors': False,
+                'error_count': 0,
+                'errors': [],
+                'printing_disabled': False
+            }
+        
+        # Check if any errors should disable printing
+        printing_disabled = any(
+            error['error_state'].lower() in ['stopped', 'error', 'offline'] 
+            for error in errors
+        )
+        
+        return {
+            'has_errors': True,
+            'error_count': len(errors),
+            'errors': errors,
+            'printing_disabled': printing_disabled,
+            'latest_error': errors[0] if errors else None
+        }
+        
+    except Exception as e:
+        logger.error(f"Failed to get printer error status: {e}")
+        return {
+            'has_errors': False,
+            'error_count': 0,
+            'errors': [],
+            'printing_disabled': False
         }

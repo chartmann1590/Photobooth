@@ -298,6 +298,13 @@ class PhotoBooth {
 
     async printPhoto() {
         if (!this.currentPhoto) return;
+        
+        // Check if printing is allowed
+        const printBtn = document.getElementById('printBtn');
+        if (printBtn && printBtn.disabled) {
+            this.showError('Printing is currently disabled. ' + (printBtn.title || 'Please check ink cartridge.'));
+            return;
+        }
 
         this.showLoading('Sending to printer...');
 

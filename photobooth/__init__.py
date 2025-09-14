@@ -21,6 +21,14 @@ def create_app(config_name=None):
     from .models import init_db
     init_db(app.config['DATABASE_PATH'])
     
+    # Start printer status polling
+    try:
+        from .printing import start_printer_status_polling
+        start_printer_status_polling(app)
+        logging.info("Printer status polling initialized")
+    except Exception as e:
+        logging.warning(f"Failed to start printer status polling: {e}")
+    
     # Register blueprints
     from .routes_booth import booth_bp
     from .routes_settings import settings_bp

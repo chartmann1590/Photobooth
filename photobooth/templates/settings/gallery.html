@@ -102,11 +102,11 @@
             {% for photo in photos %}
             <div class="relative group">
                 <div class="aspect-square bg-gray-200 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow">
-                    <img src="/static/photos/thumbnails/{{ photo.filename }}" 
+                    <img src="/settings/photos/thumbnails/{{ photo.filename }}" 
                          alt="Photo {{ loop.index }}"
                          class="w-full h-full object-cover cursor-pointer hover:scale-105 transition-transform duration-200"
                          onclick="viewPhoto('{{ photo.filename }}', '{{ photo.created_at }}')"
-                         onerror="this.src='/static/photos/all/{{ photo.filename }}'; this.onerror=null;">
+                         onerror="this.src='/settings/photos/all/{{ photo.filename }}'; this.onerror=null;">
                 </div>
                 
                 <!-- Photo overlay info -->
@@ -211,7 +211,7 @@ function hideLoading() {
 function viewPhoto(filename, timestamp) {
     currentPhoto = filename;
     
-    document.getElementById('modalPhoto').src = '/static/photos/all/' + filename;
+    document.getElementById('modalPhoto').src = '/settings/photos/all/' + filename;
     document.getElementById('photoTimestamp').textContent = timestamp || 'Unknown time';
     document.getElementById('photoModal').classList.remove('hidden');
     
@@ -229,7 +229,7 @@ function downloadPhoto() {
     if (!currentPhoto) return;
     
     const link = document.createElement('a');
-    link.href = '/static/photos/all/' + currentPhoto;
+    link.href = '/settings/photos/all/' + currentPhoto;
     link.download = currentPhoto;
     link.click();
 }

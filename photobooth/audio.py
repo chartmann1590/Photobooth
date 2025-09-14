@@ -18,6 +18,43 @@ from .models import get_setting
 
 logger = logging.getLogger(__name__)
 
+def set_system_volume_max():
+    """Set system audio volume to maximum"""
+    try:
+        # Set ALSA mixer controls to 100%
+        volume_commands = [
+            ['amixer', 'sset', 'Master', '100%'],
+            ['amixer', 'sset', 'PCM', '100%'],
+            ['amixer', 'sset', 'Speaker', '100%'],
+            ['amixer', 'sset', 'Headphone', '100%']
+        ]
+        
+        for cmd in volume_commands:
+            try:
+                result = subprocess.run(cmd, capture_output=True, timeout=5)
+                if result.returncode == 0:
+                    logger.debug(f"Successfully set volume with: {' '.join(cmd)}")
+            except Exception as e:
+                logger.debug(f"Volume command failed {' '.join(cmd)}: {e}")
+        
+        # Also try to unmute all channels
+        try:
+            subprocess.run(['amixer', 'sset', 'Master', 'unmute'], 
+                         capture_output=True, timeout=5)
+            subprocess.run(['amixer', 'sset', 'PCM', 'unmute'], 
+                         capture_output=True, timeout=5)
+        except Exception as e:
+            logger.debug(f"Failed to unmute audio: {e}")
+            
+    except Exception as e:
+        logger.warning(f"Failed to set system volume to max: {e}")
+
+# Initialize audio volume to maximum on module load
+try:
+    set_system_volume_max()
+except Exception as e:
+    logger.debug(f"Failed to initialize audio volume: {e}")
+
 def check_espeak_available() -> bool:
     """Check if eSpeak is available on the system"""
     try:
@@ -107,17 +144,44 @@ def speak_text_espeak(text: str, voice: str = None, rate: int = None,
             logger.warning("eSpeak not available")
             return False
         
-        # Get settings with fallbacks
+        # Get settings with Flask context handling
         if voice is None:
             try:
-                voice = get_setting('tts_voice', 'en+f3')
-            except:
+                from flask import current_app, has_app_context
+                if has_app_context():
+                    voice = get_setting('tts_voice', 'en+f3')
+                    logger.info(f"Got voice setting from active context: {voice}")
+                else:
+                    # Try to get from app context if available
+                    if current_app:
+                        with current_app.app_context():
+                            voice = get_setting('tts_voice', 'en+f3')
+                            logger.info(f"Got voice setting from new context: {voice}")
+                    else:
+                        voice = 'en+f3'
+                        logger.warning("No Flask app available, using default voice")
+            except Exception as e:
                 voice = 'en+f3'  # Fallback if Flask context not available
+                logger.warning(f"Failed to get voice setting, using fallback: {e}")
+                
         if rate is None:
             try:
-                rate = get_setting('tts_rate', 150)
-            except:
+                from flask import current_app, has_app_context
+                if has_app_context():
+                    rate = get_setting('tts_rate', 150)
+                    logger.info(f"Got rate setting from active context: {rate}")
+                else:
+                    # Try to get from app context if available
+                    if current_app:
+                        with current_app.app_context():
+                            rate = get_setting('tts_rate', 150)
+                            logger.info(f"Got rate setting from new context: {rate}")
+                    else:
+                        rate = 150
+                        logger.warning("No Flask app available, using default rate")
+            except Exception as e:
                 rate = 150  # Fallback if Flask context not available
+                logger.warning(f"Failed to get rate setting, using fallback: {e}")
         
         # Parse custom voice parameters (e.g., "en+f3+s120" for speed)
         espeak_voice = voice
@@ -140,9 +204,12 @@ def speak_text_espeak(text: str, voice: str = None, rate: int = None,
             except FileNotFoundError:
                 continue
         
-        # Build command with explicit ALSA output
-        cmd = [espeak_cmd, '-v', espeak_voice, '-s', str(custom_rate), '--stdout', text]
-        # Use aplay to force ALSA output with full path
+        # Set system volume to maximum before speaking
+        set_system_volume_max()
+        
+        # Build command with explicit ALSA output and maximum volume
+        cmd = [espeak_cmd, '-v', espeak_voice, '-s', str(custom_rate), '-a', '200', '--stdout', text]
+        # Use aplay to force ALSA output with full path and maximum volume
         aplay_cmd = ['/usr/bin/aplay', '-D', 'default']
         
         if async_mode:
@@ -195,20 +262,38 @@ def speak_text_pyttsx3(text: str, voice: str = None, rate: int = None,
         if not TTS_AVAILABLE:
             return False
         
-        # Get settings with fallbacks
+        # Get settings with Flask context handling
         if rate is None:
             try:
-                rate = get_setting('tts_rate', 150)
+                from flask import current_app, has_app_context
+                if has_app_context():
+                    rate = get_setting('tts_rate', 150)
+                else:
+                    if current_app:
+                        with current_app.app_context():
+                            rate = get_setting('tts_rate', 150)
+                    else:
+                        rate = 150
             except:
                 rate = 150  # Fallback if Flask context not available
+                logger.debug("Using fallback rate setting: 150")
         
         def run_tts():
             engine = None
             try:
+                # Set system volume to maximum before initializing engine
+                set_system_volume_max()
+                
                 engine = pyttsx3.init('espeak', debug=False)
                 
                 # Set rate
                 engine.setProperty('rate', rate)
+                
+                # Set volume to maximum (0.0 to 1.0)
+                try:
+                    engine.setProperty('volume', 1.0)
+                except Exception as e:
+                    logger.debug(f"Failed to set pyttsx3 volume: {e}")
                 
                 # Set voice if specified
                 if voice:
@@ -250,11 +335,21 @@ def speak_text(text: str, voice: str = None, rate: int = None,
                async_mode: bool = True) -> bool:
     """Speak text using available TTS engine"""
     try:
-        # Check if TTS is enabled
+        # Check if TTS is enabled with proper Flask context handling
         try:
-            tts_enabled = get_setting('tts_enabled', True)
+            from flask import current_app, has_app_context
+            if has_app_context():
+                tts_enabled = get_setting('tts_enabled', True)
+            else:
+                # Try to get from app context if available
+                if current_app:
+                    with current_app.app_context():
+                        tts_enabled = get_setting('tts_enabled', True)
+                else:
+                    tts_enabled = True  # Fallback
         except:
             tts_enabled = True  # Fallback if Flask context not available
+            logger.debug("Using fallback TTS enabled setting: True")
             
         if not tts_enabled:
             logger.info("TTS disabled in settings")
@@ -271,18 +366,41 @@ def speak_countdown(countdown_text: str = None) -> bool:
     """Speak countdown with appropriate timing"""
     try:
         if countdown_text is None:
-            # Use custom countdown message if available
+            # Use custom countdown message if available with proper Flask context
             try:
-                custom_message = get_setting('countdown_message', '')
+                from flask import current_app, has_app_context
+                if has_app_context():
+                    custom_message = get_setting('countdown_message', '')
+                else:
+                    if current_app:
+                        with current_app.app_context():
+                            custom_message = get_setting('countdown_message', '')
+                    else:
+                        custom_message = ''
+                        
                 if custom_message:
                     countdown_text = custom_message + " 3, 2, 1, smile!"
                 else:
                     countdown_text = "3, 2, 1, smile!"
-            except:
+            except Exception as e:
+                logger.debug(f"Error getting countdown message setting: {e}")
                 countdown_text = "3, 2, 1, smile!"
         
-        # Check if countdown is enabled
-        if not get_setting('countdown_enabled', True):
+        # Check if countdown is enabled (use TTS enabled setting)
+        try:
+            from flask import current_app, has_app_context
+            if has_app_context():
+                tts_enabled = get_setting('tts_enabled', True)
+            else:
+                if current_app:
+                    with current_app.app_context():
+                        tts_enabled = get_setting('tts_enabled', True)
+                else:
+                    tts_enabled = True
+        except:
+            tts_enabled = True
+            
+        if not tts_enabled:
             return True
         
         return speak_text(countdown_text, async_mode=True)
@@ -294,10 +412,35 @@ def speak_countdown(countdown_text: str = None) -> bool:
 def speak_welcome() -> bool:
     """Speak welcome message"""
     try:
-        welcome_message = get_setting('welcome_message', 'Welcome to our photobooth!')
+        # Get welcome message with proper Flask context
+        try:
+            from flask import current_app, has_app_context
+            if has_app_context():
+                welcome_message = get_setting('welcome_message', 'Welcome to our photobooth!')
+            else:
+                if current_app:
+                    with current_app.app_context():
+                        welcome_message = get_setting('welcome_message', 'Welcome to our photobooth!')
+                else:
+                    welcome_message = 'Welcome to our photobooth!'
+        except:
+            welcome_message = 'Welcome to our photobooth!'
         
         # Check if TTS is enabled
-        if not get_setting('tts_enabled', True):
+        try:
+            from flask import current_app, has_app_context
+            if has_app_context():
+                tts_enabled = get_setting('tts_enabled', True)
+            else:
+                if current_app:
+                    with current_app.app_context():
+                        tts_enabled = get_setting('tts_enabled', True)
+                else:
+                    tts_enabled = True
+        except:
+            tts_enabled = True
+            
+        if not tts_enabled:
             return True
         
         return speak_text(welcome_message, async_mode=True)
@@ -309,10 +452,35 @@ def speak_welcome() -> bool:
 def speak_photo_captured() -> bool:
     """Speak photo captured message"""
     try:
-        capture_message = get_setting('capture_message', 'Perfect! Photo captured!')
+        # Get capture message with proper Flask context
+        try:
+            from flask import current_app, has_app_context
+            if has_app_context():
+                capture_message = get_setting('capture_message', 'Perfect! Photo captured!')
+            else:
+                if current_app:
+                    with current_app.app_context():
+                        capture_message = get_setting('capture_message', 'Perfect! Photo captured!')
+                else:
+                    capture_message = 'Perfect! Photo captured!'
+        except:
+            capture_message = 'Perfect! Photo captured!'
         
         # Check if TTS is enabled
-        if not get_setting('tts_enabled', True):
+        try:
+            from flask import current_app, has_app_context
+            if has_app_context():
+                tts_enabled = get_setting('tts_enabled', True)
+            else:
+                if current_app:
+                    with current_app.app_context():
+                        tts_enabled = get_setting('tts_enabled', True)
+                else:
+                    tts_enabled = True
+        except:
+            tts_enabled = True
+            
+        if not tts_enabled:
             return True
         
         return speak_text(capture_message, async_mode=True)
@@ -324,10 +492,35 @@ def speak_photo_captured() -> bool:
 def speak_print_success() -> bool:
     """Speak print success message"""
     try:
-        print_message = get_setting('print_message', 'Your photo is printing!')
+        # Get print message with proper Flask context
+        try:
+            from flask import current_app, has_app_context
+            if has_app_context():
+                print_message = get_setting('print_message', 'Your photo is printing!')
+            else:
+                if current_app:
+                    with current_app.app_context():
+                        print_message = get_setting('print_message', 'Your photo is printing!')
+                else:
+                    print_message = 'Your photo is printing!'
+        except:
+            print_message = 'Your photo is printing!'
         
         # Check if TTS is enabled
-        if not get_setting('tts_enabled', True):
+        try:
+            from flask import current_app, has_app_context
+            if has_app_context():
+                tts_enabled = get_setting('tts_enabled', True)
+            else:
+                if current_app:
+                    with current_app.app_context():
+                        tts_enabled = get_setting('tts_enabled', True)
+                else:
+                    tts_enabled = True
+        except:
+            tts_enabled = True
+            
+        if not tts_enabled:
             return True
         
         return speak_text(print_message, async_mode=True)
@@ -342,6 +535,9 @@ def play_sound_file(sound_path: str, async_mode: bool = True) -> bool:
         if not os.path.exists(sound_path):
             logger.warning(f"Sound file not found: {sound_path}")
             return False
+        
+        # Set system volume to maximum before playing
+        set_system_volume_max()
         
         # Try different audio players
         players = ['aplay', 'paplay', 'play', 'ffplay']
@@ -574,3 +770,272 @@ def get_tts_status() -> Dict[str, Any]:
             'engine': 'Error',
             'error': str(e)
         }
+
+def speak_low_ink_warning() -> bool:
+    """Speak low ink warning message"""
+    try:
+        # Get custom low ink message if available with proper Flask context
+        try:
+            from flask import current_app, has_app_context
+            if has_app_context():
+                low_ink_message = get_setting('low_ink_message', 'Low ink warning! Please consider replacing the cartridge soon.')
+            else:
+                if current_app:
+                    with current_app.app_context():
+                        low_ink_message = get_setting('low_ink_message', 'Low ink warning! Please consider replacing the cartridge soon.')
+                else:
+                    low_ink_message = 'Low ink warning! Please consider replacing the cartridge soon.'
+        except:
+            low_ink_message = 'Low ink warning! Please consider replacing the cartridge soon.'
+        
+        # Check if TTS is enabled
+        try:
+            from flask import current_app, has_app_context
+            if has_app_context():
+                tts_enabled = get_setting('tts_enabled', True)
+                low_ink_audio_enabled = get_setting('low_ink_audio_enabled', True)
+            else:
+                if current_app:
+                    with current_app.app_context():
+                        tts_enabled = get_setting('tts_enabled', True)
+                        low_ink_audio_enabled = get_setting('low_ink_audio_enabled', True)
+                else:
+                    tts_enabled = True
+                    low_ink_audio_enabled = True
+        except:
+            tts_enabled = True
+            low_ink_audio_enabled = True
+            
+        if not tts_enabled or not low_ink_audio_enabled:
+            return True
+        
+        return speak_text(low_ink_message, async_mode=True)
+        
+    except Exception as e:
+        logger.error(f"Failed to speak low ink warning: {e}")
+        return False
+
+def speak_empty_cartridge() -> bool:
+    """Speak empty cartridge message"""
+    try:
+        # Get custom empty cartridge message if available with proper Flask context
+        try:
+            from flask import current_app, has_app_context
+            if has_app_context():
+                empty_message = get_setting('empty_cartridge_message', 'Ink cartridge is empty! Printing is disabled until cartridge is replaced.')
+            else:
+                if current_app:
+                    with current_app.app_context():
+                        empty_message = get_setting('empty_cartridge_message', 'Ink cartridge is empty! Printing is disabled until cartridge is replaced.')
+                else:
+                    empty_message = 'Ink cartridge is empty! Printing is disabled until cartridge is replaced.'
+        except:
+            empty_message = 'Ink cartridge is empty! Printing is disabled until cartridge is replaced.'
+        
+        # Check if TTS is enabled
+        try:
+            from flask import current_app, has_app_context
+            if has_app_context():
+                tts_enabled = get_setting('tts_enabled', True)
+                empty_audio_enabled = get_setting('empty_cartridge_audio_enabled', True)
+            else:
+                if current_app:
+                    with current_app.app_context():
+                        tts_enabled = get_setting('tts_enabled', True)
+                        empty_audio_enabled = get_setting('empty_cartridge_audio_enabled', True)
+                else:
+                    tts_enabled = True
+                    empty_audio_enabled = True
+        except:
+            tts_enabled = True
+            empty_audio_enabled = True
+            
+        if not tts_enabled or not empty_audio_enabled:
+            return True
+        
+        return speak_text(empty_message, async_mode=True)
+        
+    except Exception as e:
+        logger.error(f"Failed to speak empty cartridge message: {e}")
+        return False
+
+def should_play_ink_warning(print_count_status: dict) -> bool:
+    """Determine if we should play an ink warning based on status and timing"""
+    try:
+        # Don't play warnings if print counting is disabled
+        if not print_count_status.get('enabled', False):
+            return False
+        
+        # Get warning settings with proper Flask context
+        try:
+            from flask import current_app, has_app_context
+            if has_app_context():
+                low_ink_audio_enabled = get_setting('low_ink_audio_enabled', True)
+                empty_audio_enabled = get_setting('empty_cartridge_audio_enabled', True)
+                warning_frequency = get_setting('ink_warning_frequency_minutes', 5)  # How often to repeat warnings
+            else:
+                if current_app:
+                    with current_app.app_context():
+                        low_ink_audio_enabled = get_setting('low_ink_audio_enabled', True)
+                        empty_audio_enabled = get_setting('empty_cartridge_audio_enabled', True)
+                        warning_frequency = get_setting('ink_warning_frequency_minutes', 5)
+                else:
+                    low_ink_audio_enabled = True
+                    empty_audio_enabled = True
+                    warning_frequency = 5
+        except:
+            low_ink_audio_enabled = True
+            empty_audio_enabled = True
+            warning_frequency = 5
+        
+        # Check if we're in a warning state
+        is_low = print_count_status.get('is_low', False)
+        is_empty = print_count_status.get('is_empty', False)
+        
+        if is_empty and empty_audio_enabled:
+            return True
+        elif is_low and low_ink_audio_enabled:
+            return True
+            
+        return False
+        
+    except Exception as e:
+        logger.error(f"Error checking if should play ink warning: {e}")
+        return False
+
+def speak_printer_error(error_message: str, printer_name: str = None) -> bool:
+    """Speak printer error message"""
+    try:
+        # Check if TTS is enabled
+        try:
+            from flask import current_app, has_app_context
+            if has_app_context():
+                tts_enabled = get_setting('tts_enabled', True)
+                printer_error_audio_enabled = get_setting('printer_error_audio_enabled', True)
+            else:
+                if current_app:
+                    with current_app.app_context():
+                        tts_enabled = get_setting('tts_enabled', True)
+                        printer_error_audio_enabled = get_setting('printer_error_audio_enabled', True)
+                else:
+                    tts_enabled = True
+                    printer_error_audio_enabled = True
+        except:
+            tts_enabled = True
+            printer_error_audio_enabled = True
+            
+        if not tts_enabled or not printer_error_audio_enabled:
+            return True
+        
+        # Clean up error message for better TTS pronunciation
+        clean_error = clean_error_message_for_speech(error_message)
+        
+        # Create announcement message
+        if printer_name:
+            announcement = f"Printer error on {printer_name}. {clean_error}"
+        else:
+            announcement = f"Printer error detected. {clean_error}"
+        
+        return speak_text(announcement, async_mode=True)
+        
+    except Exception as e:
+        logger.error(f"Failed to speak printer error: {e}")
+        return False
+
+def clean_error_message_for_speech(error_message: str) -> str:
+    """Clean up error message to make it more suitable for TTS"""
+    if not error_message:
+        return "Unknown printer error occurred"
+    
+    # Common CUPS error message cleanups for better TTS
+    cleanups = {
+        # Paper/media issues
+        'incorrect paper loaded': 'Wrong paper type loaded',
+        'paper jam': 'Paper jam detected',
+        'out of paper': 'Paper tray is empty',
+        'paper empty': 'No paper in tray',
+        'media jam': 'Media jam detected',
+        'tray empty': 'Paper tray is empty',
+        
+        # Ink/toner issues  
+        'low toner': 'Toner is running low',
+        'toner empty': 'Toner cartridge is empty',
+        'ink low': 'Ink levels are low',
+        'ink empty': 'Ink cartridge is empty',
+        'replace cartridge': 'Cartridge needs replacement',
+        
+        # Connection issues
+        'offline': 'Printer is offline',
+        'not responding': 'Printer is not responding', 
+        'connection error': 'Connection problem detected',
+        'usb error': 'U S B connection issue',
+        
+        # Door/cover issues
+        'door open': 'Printer door is open',
+        'cover open': 'Printer cover is open',
+        'top cover open': 'Top cover is open',
+        
+        # Generic issues
+        'printer error': 'An error has occurred',
+        'processing error': 'Processing error detected',
+        'service required': 'Printer service is required',
+    }
+    
+    # Apply cleanups (case insensitive)
+    clean_msg = error_message.lower()
+    for pattern, replacement in cleanups.items():
+        if pattern in clean_msg:
+            clean_msg = clean_msg.replace(pattern, replacement.lower())
+    
+    # Capitalize first letter
+    clean_msg = clean_msg[0].upper() + clean_msg[1:] if clean_msg else error_message
+    
+    # Remove technical codes and numbers that don't help with understanding
+    import re
+    clean_msg = re.sub(r'\b\d{2,4}\b', '', clean_msg)  # Remove error codes
+    clean_msg = re.sub(r'\s+', ' ', clean_msg).strip()  # Clean up spaces
+    
+    return clean_msg or error_message
+
+def should_announce_printer_error(error_message: str, last_error: str = None, last_announcement_time: int = None) -> bool:
+    """Determine if we should announce a printer error based on message and timing"""
+    try:
+        import time
+        current_time = int(time.time())
+        
+        # Don't announce if no error
+        if not error_message or error_message.lower() in ['ready', 'idle', 'printing']:
+            return False
+        
+        # Get announcement settings with proper Flask context
+        try:
+            from flask import current_app, has_app_context
+            if has_app_context():
+                printer_error_audio_enabled = get_setting('printer_error_audio_enabled', True)
+                error_announcement_cooldown = get_setting('error_announcement_cooldown_minutes', 2)
+            else:
+                if current_app:
+                    with current_app.app_context():
+                        printer_error_audio_enabled = get_setting('printer_error_audio_enabled', True)
+                        error_announcement_cooldown = get_setting('error_announcement_cooldown_minutes', 2)
+                else:
+                    printer_error_audio_enabled = True
+                    error_announcement_cooldown = 2
+        except:
+            printer_error_audio_enabled = True
+            error_announcement_cooldown = 2
+        
+        if not printer_error_audio_enabled:
+            return False
+        
+        # Don't announce same error repeatedly within cooldown period
+        if (last_error and error_message.lower() == last_error.lower() and 
+            last_announcement_time and 
+            (current_time - last_announcement_time) < (error_announcement_cooldown * 60)):
+            return False
+        
+        return True
+        
+    except Exception as e:
+        logger.error(f"Error checking if should announce printer error: {e}")
+        return False

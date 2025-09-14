@@ -5,12 +5,12 @@ import os
 import logging
 from datetime import datetime
 from functools import wraps
-from flask import Blueprint, render_template, request, jsonify, session, redirect, url_for, current_app, send_file, flash
+from flask import Blueprint, render_template, request, jsonify, session, redirect, url_for, current_app, send_file, flash, send_from_directory
 from werkzeug.utils import secure_filename
 
 from .storage import get_photos, delete_photo, get_storage_usage, get_photo_path
-from .printing import get_printers, test_print, set_default_printer, get_printer_status, auto_configure_usb_printer, get_print_jobs, get_all_print_jobs, cancel_job, clear_completed_jobs, cleanup_old_jobs
-from .models import get_settings, update_setting, get_print_job_logs
+from .printing import get_printers, test_print, set_default_printer, get_printer_status, auto_configure_usb_printer, get_print_jobs, get_all_print_jobs, cancel_job, clear_completed_jobs, cleanup_old_jobs, reset_printer, purge_printer_queue, restart_cups_service, is_printing_allowed, get_enhanced_printer_status
+from .models import get_settings, update_setting, get_print_job_logs, get_print_count_status, install_new_cartridge, reset_print_count, get_cartridge_history, get_active_printer_errors, resolve_printer_errors
 from .imaging import validate_frame
 
 settings_bp = Blueprint('settings', __name__, url_prefix='/settings')
@@ -84,12 +84,34 @@ def printer_settings():
     try:
         printers = get_printers()
         current_printer = get_settings().get('default_printer', '')
-        printer_status = get_printer_status()
+        printer_status = get_enhanced_printer_status(current_printer)
+        print_count_status = get_print_count_status()
+        cartridge_history = get_cartridge_history()
+        settings = get_settings()
+        printer_errors = get_active_printer_errors(current_printer) if current_printer else []
+        
+        # Add audio warning settings to print_count_status for template
+        print_count_status['low_ink_audio_enabled'] = settings.get('low_ink_audio_enabled', True)
+        print_count_status['empty_cartridge_audio_enabled'] = settings.get('empty_cartridge_audio_enabled', True)
+        print_count_status['low_ink_message'] = settings.get('low_ink_message', 'Low ink warning! Please consider replacing the cartridge soon.')
+        print_count_status['empty_cartridge_message'] = settings.get('empty_cartridge_message', 'Ink cartridge is empty! Printing is disabled until cartridge is replaced.')
+        
+        # Add polling settings
+        polling_settings = {
+            'polling_enabled': settings.get('printer_status_polling_enabled', True),
+            'polling_interval': settings.get('printer_status_polling_interval_seconds', 30),
+            'error_audio_enabled': settings.get('printer_error_audio_enabled', True),
+            'cooldown_minutes': settings.get('error_announcement_cooldown_minutes', 2)
+        }
         
         return render_template('settings/printer.html',
                              printers=printers,
                              current_printer=current_printer,
-                             printer_status=printer_status)
+                             printer_status=printer_status,
+                             print_count_status=print_count_status,
+                             cartridge_history=cartridge_history,
+                             printer_errors=printer_errors,
+                             polling_settings=polling_settings)
         
     except Exception as e:
         logger.error(f"Error loading printer settings: {e}")
@@ -285,6 +307,390 @@ def manual_cleanup():
             
     except Exception as e:
         logger.error(f"Error in manual cleanup: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+@settings_bp.route('/api/printer/reset', methods=['POST'])
+@auth_required
+def reset_printer_endpoint():
+    """Reset/restart printer to clear error states"""
+    try:
+        data = request.get_json() or {}
+        printer_name = data.get('printer_name')
+        
+        result = reset_printer(printer_name)
+        
+        if result['success']:
+            logger.info(f"User reset printer: {printer_name or 'default'}")
+            return jsonify(result)
+        else:
+            return jsonify(result), 400
+            
+    except Exception as e:
+        logger.error(f"Error resetting printer: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+@settings_bp.route('/api/printer/purge', methods=['POST'])
+@auth_required
+def purge_printer_queue_endpoint():
+    """Purge all jobs from printer queue"""
+    try:
+        data = request.get_json() or {}
+        printer_name = data.get('printer_name')
+        
+        result = purge_printer_queue(printer_name)
+        
+        if result['success']:
+            logger.info(f"User purged printer queue: {printer_name or 'default'}")
+            return jsonify(result)
+        else:
+            return jsonify(result), 400
+            
+    except Exception as e:
+        logger.error(f"Error purging printer queue: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+@settings_bp.route('/api/printer/restart-cups', methods=['POST'])
+@auth_required
+def restart_cups_endpoint():
+    """Restart CUPS service"""
+    try:
+        result = restart_cups_service()
+        
+        if result['success']:
+            logger.info("User restarted CUPS service")
+            return jsonify(result)
+        else:
+            return jsonify(result), 400
+            
+    except Exception as e:
+        logger.error(f"Error restarting CUPS: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+@settings_bp.route('/api/printer/count-status', methods=['GET'])
+@auth_required
+def get_print_count_status_endpoint():
+    """Get current print count status"""
+    try:
+        status = get_print_count_status()
+        return jsonify({
+            'success': True,
+            'status': status
+        })
+        
+    except Exception as e:
+        logger.error(f"Error getting print count status: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+@settings_bp.route('/api/printer/count-settings', methods=['POST'])
+@auth_required
+def update_print_count_settings():
+    """Update print count settings"""
+    try:
+        data = request.get_json() or {}
+        
+        # Validate and update settings
+        enabled = data.get('enabled', False)
+        max_prints = int(data.get('max_prints', 0)) if data.get('max_prints') else 0
+        low_warning = int(data.get('low_warning', 10)) if data.get('low_warning') else 10
+        low_ink_audio_enabled = data.get('low_ink_audio_enabled', True)
+        empty_cartridge_audio_enabled = data.get('empty_cartridge_audio_enabled', True)
+        low_ink_message = data.get('low_ink_message', '').strip() or 'Low ink warning! Please consider replacing the cartridge soon.'
+        empty_cartridge_message = data.get('empty_cartridge_message', '').strip() or 'Ink cartridge is empty! Printing is disabled until cartridge is replaced.'
+        
+        # Update settings
+        update_setting('print_count_enabled', enabled)
+        update_setting('print_count_max', max_prints)
+        update_setting('print_count_low_warning', low_warning)
+        update_setting('low_ink_audio_enabled', low_ink_audio_enabled)
+        update_setting('empty_cartridge_audio_enabled', empty_cartridge_audio_enabled)
+        update_setting('low_ink_message', low_ink_message)
+        update_setting('empty_cartridge_message', empty_cartridge_message)
+        
+        logger.info(f"Print count settings updated: enabled={enabled}, max={max_prints}, warning={low_warning}, audio_warnings={low_ink_audio_enabled}/{empty_cartridge_audio_enabled}")
+        return jsonify({
+            'success': True,
+            'message': 'Print count settings updated successfully'
+        })
+        
+    except Exception as e:
+        logger.error(f"Error updating print count settings: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+@settings_bp.route('/api/printer/new-cartridge', methods=['POST'])
+@auth_required
+def install_new_cartridge_endpoint():
+    """Install a new cartridge"""
+    try:
+        data = request.get_json() or {}
+        
+        cartridge_name = data.get('cartridge_name', '').strip()
+        max_prints = int(data.get('max_prints', 0)) if data.get('max_prints') else 0
+        printer_name = data.get('printer_name', '').strip()
+        
+        if not cartridge_name:
+            return jsonify({
+                'success': False,
+                'error': 'Cartridge name is required'
+            }), 400
+            
+        if max_prints <= 0:
+            return jsonify({
+                'success': False,
+                'error': 'Max prints must be greater than 0'
+            }), 400
+        
+        result = install_new_cartridge(cartridge_name, max_prints, printer_name)
+        
+        if result:
+            logger.info(f"User installed new cartridge: {cartridge_name} ({max_prints} prints)")
+            return jsonify({
+                'success': True,
+                'message': f'New cartridge "{cartridge_name}" installed successfully'
+            })
+        else:
+            return jsonify({
+                'success': False,
+                'error': 'Failed to install cartridge'
+            }), 400
+            
+    except Exception as e:
+        logger.error(f"Error installing new cartridge: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+@settings_bp.route('/api/printer/reset-count', methods=['POST'])
+@auth_required
+def reset_print_count_endpoint():
+    """Reset current cartridge print count"""
+    try:
+        result = reset_print_count()
+        
+        if result:
+            logger.info("User reset print count")
+            return jsonify({
+                'success': True,
+                'message': 'Print count reset to 0'
+            })
+        else:
+            return jsonify({
+                'success': False,
+                'error': 'Failed to reset print count'
+            }), 400
+            
+    except Exception as e:
+        logger.error(f"Error resetting print count: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+@settings_bp.route('/api/printer/cartridge-history', methods=['GET'])
+@auth_required
+def get_cartridge_history_endpoint():
+    """Get cartridge history"""
+    try:
+        history = get_cartridge_history()
+        return jsonify({
+            'success': True,
+            'history': history
+        })
+        
+    except Exception as e:
+        logger.error(f"Error getting cartridge history: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+@settings_bp.route('/api/printer/test-audio-warning', methods=['POST'])
+@auth_required
+def test_audio_warning():
+    """Test audio warning messages"""
+    try:
+        data = request.get_json() or {}
+        warning_type = data.get('type', 'low')  # 'low' or 'empty'
+        
+        if warning_type == 'empty':
+            from .audio import speak_empty_cartridge
+            result = speak_empty_cartridge()
+            message = 'Empty cartridge audio warning played'
+        else:
+            from .audio import speak_low_ink_warning
+            result = speak_low_ink_warning()
+            message = 'Low ink audio warning played'
+        
+        if result:
+            logger.info(f"User tested {warning_type} ink audio warning")
+            return jsonify({
+                'success': True,
+                'message': message
+            })
+        else:
+            return jsonify({
+                'success': False,
+                'error': 'Failed to play audio warning (TTS may be disabled)'
+            }), 400
+            
+    except Exception as e:
+        logger.error(f"Error testing audio warning: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+@settings_bp.route('/api/printer/errors', methods=['GET'])
+@auth_required
+def get_printer_errors():
+    """Get active printer errors"""
+    try:
+        default_printer = get_settings().get('default_printer', '')
+        if not default_printer:
+            return jsonify({
+                'success': False,
+                'error': 'No default printer configured'
+            }), 400
+        
+        errors = get_active_printer_errors(default_printer)
+        enhanced_status = get_enhanced_printer_status(default_printer)
+        
+        return jsonify({
+            'success': True,
+            'printer_name': default_printer,
+            'has_errors': bool(errors),
+            'error_count': len(errors),
+            'errors': errors,
+            'printer_status': enhanced_status
+        })
+        
+    except Exception as e:
+        logger.error(f"Error getting printer errors: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+@settings_bp.route('/api/printer/clear-errors', methods=['POST'])
+@auth_required
+def clear_printer_errors():
+    """Clear all active printer errors"""
+    try:
+        default_printer = get_settings().get('default_printer', '')
+        if not default_printer:
+            return jsonify({
+                'success': False,
+                'error': 'No default printer configured'
+            }), 400
+        
+        result = resolve_printer_errors(default_printer)
+        
+        if result:
+            logger.info(f"User cleared printer errors for {default_printer}")
+            return jsonify({
+                'success': True,
+                'message': 'All printer errors have been cleared'
+            })
+        else:
+            return jsonify({
+                'success': False,
+                'error': 'Failed to clear printer errors'
+            }), 400
+            
+    except Exception as e:
+        logger.error(f"Error clearing printer errors: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+@settings_bp.route('/api/printer/test-error-announcement', methods=['POST'])
+@auth_required
+def test_error_announcement():
+    """Test printer error announcement"""
+    try:
+        data = request.get_json() or {}
+        error_message = data.get('error_message', 'Test printer error message')
+        
+        from .audio import speak_printer_error
+        default_printer = get_settings().get('default_printer', 'Test Printer')
+        
+        result = speak_printer_error(error_message, default_printer)
+        
+        if result:
+            logger.info(f"User tested error announcement: {error_message}")
+            return jsonify({
+                'success': True,
+                'message': 'Error announcement played successfully'
+            })
+        else:
+            return jsonify({
+                'success': False,
+                'error': 'Failed to play error announcement (TTS may be disabled)'
+            }), 400
+            
+    except Exception as e:
+        logger.error(f"Error testing error announcement: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+@settings_bp.route('/api/printer/polling-settings', methods=['POST'])
+@auth_required
+def update_polling_settings():
+    """Update printer status polling settings"""
+    try:
+        data = request.get_json() or {}
+        
+        polling_enabled = data.get('polling_enabled', True)
+        polling_interval = int(data.get('polling_interval', 30))
+        error_audio_enabled = data.get('error_audio_enabled', True)
+        cooldown_minutes = int(data.get('cooldown_minutes', 2))
+        
+        # Validate inputs
+        if polling_interval < 10:
+            polling_interval = 10
+        elif polling_interval > 300:
+            polling_interval = 300
+            
+        if cooldown_minutes < 1:
+            cooldown_minutes = 1
+        elif cooldown_minutes > 60:
+            cooldown_minutes = 60
+        
+        # Update settings
+        update_setting('printer_status_polling_enabled', polling_enabled)
+        update_setting('printer_status_polling_interval_seconds', polling_interval)
+        update_setting('printer_error_audio_enabled', error_audio_enabled)
+        update_setting('error_announcement_cooldown_minutes', cooldown_minutes)
+        
+        logger.info(f"Polling settings updated: enabled={polling_enabled}, interval={polling_interval}, audio={error_audio_enabled}")
+        return jsonify({
+            'success': True,
+            'message': 'Polling settings updated successfully'
+        })
+        
+    except Exception as e:
+        logger.error(f"Error updating polling settings: {e}")
         return jsonify({
             'success': False,
             'error': str(e)
@@ -854,3 +1260,29 @@ def get_voices():
             'error': str(e),
             'voices': []
         })
+
+# Photo serving routes for gallery
+@settings_bp.route('/photos/all/<filename>')
+def serve_photo(filename):
+    """Serve photos from the all directory"""
+    try:
+        photos_dir = current_app.config['PHOTOS_ALL_DIR']
+        return send_from_directory(photos_dir, filename)
+    except Exception as e:
+        logger.error(f"Error serving photo {filename}: {e}")
+        return "Photo not found", 404
+
+@settings_bp.route('/photos/thumbnails/<filename>')
+def serve_thumbnail(filename):
+    """Serve thumbnails"""
+    try:
+        thumbnails_dir = current_app.config['THUMBNAILS_DIR']
+        return send_from_directory(thumbnails_dir, filename)
+    except Exception as e:
+        logger.error(f"Error serving thumbnail {filename}: {e}")
+        # Fallback to original photo if thumbnail doesn't exist
+        try:
+            photos_dir = current_app.config['PHOTOS_ALL_DIR']
+            return send_from_directory(photos_dir, filename)
+        except:
+            return "Image not found", 404

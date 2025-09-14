@@ -267,11 +267,13 @@ document.addEventListener('DOMContentLoaded', function() {
         
         showLoading('Testing voice...');
         
-        fetch('/settings/api/audio/test', {
+        fetch(window.location.protocol + '//' + window.location.host + '/settings/api/audio/test', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
             },
+            credentials: 'same-origin',
             body: JSON.stringify({
                 text: 'Hello! This is a test of your photobooth voice settings.',
                 voice: voice,
@@ -311,11 +313,13 @@ document.addEventListener('DOMContentLoaded', function() {
         
         showLoading('Testing all messages...');
         
-        fetch('/settings/api/audio/test-messages', {
+        fetch(window.location.protocol + '//' + window.location.host + '/settings/api/audio/test-messages', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
             },
+            credentials: 'same-origin',
             body: JSON.stringify({
                 messages: messages,
                 voice: document.getElementById('tts_voice').value,
@@ -345,7 +349,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Load audio system status
     function loadAudioStatus() {
-        fetch('/settings/api/audio/status')
+        fetch(window.location.protocol + '//' + window.location.host + '/settings/api/audio/status', {
+            credentials: 'same-origin',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
         .then(response => response.json())
         .then(data => {
             const statusContainer = document.getElementById('audioStatus');
@@ -398,7 +407,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Load voice options
     function loadVoiceOptions() {
-        fetch('/settings/api/audio/voices')
+        fetch(window.location.protocol + '//' + window.location.host + '/settings/api/audio/voices', {
+            credentials: 'same-origin',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
         .then(response => response.json())
         .then(data => {
             const voiceSelect = document.getElementById('tts_voice');

@@ -10,8 +10,9 @@ from werkzeug.utils import secure_filename
 
 from .storage import save_photo, delete_photo, get_photos, get_photo_path
 from .imaging import apply_frame_overlay, create_thumbnail
-from .printing import print_photo
-from .audio import speak_countdown
+from .printing import print_photo, is_printing_allowed
+from .audio import speak_countdown, speak_low_ink_warning, speak_empty_cartridge, should_play_ink_warning
+from .models import get_print_count_status
 
 booth_bp = Blueprint('booth', __name__, url_prefix='/booth')
 
@@ -32,7 +33,29 @@ def booth():
     except Exception as e:
         logger.warning(f"Failed to speak welcome message: {e}")
     
-    return render_template('booth.html', timestamp=timestamp)
+    # Get print count status for ink level notifications
+    try:
+        print_count_status = get_print_count_status()
+        print_allowance = is_printing_allowed()
+        
+        # Trigger audio warnings if appropriate
+        if should_play_ink_warning(print_count_status):
+            if print_count_status.get('is_empty'):
+                speak_empty_cartridge()
+                logger.info("Played empty cartridge audio warning")
+            elif print_count_status.get('is_low'):
+                speak_low_ink_warning()
+                logger.info("Played low ink audio warning")
+                
+    except Exception as e:
+        logger.warning(f"Failed to get print count status: {e}")
+        print_count_status = {'enabled': False}
+        print_allowance = {'allowed': True}
+    
+    return render_template('booth.html', 
+                         timestamp=timestamp,
+                         print_count_status=print_count_status,
+                         print_allowance=print_allowance)
 
 @booth_bp.route('/camera-test')
 def camera_test():

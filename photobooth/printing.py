@@ -14,10 +14,225 @@ except ImportError:
     logging.warning("pycups not available - printing disabled")
 
 from flask import current_app
-from .models import log_print_job, update_print_job_status, get_setting
+from .models import log_print_job, update_print_job_status, get_setting, get_print_count_status, increment_print_count, log_printer_error, mark_error_announced, resolve_printer_errors, get_printer_error_status
 from .imaging import create_test_print_image, optimize_image_for_print
 
 logger = logging.getLogger(__name__)
+
+def is_printing_allowed() -> Dict[str, Any]:
+    """Check if printing is allowed based on print count status and printer errors"""
+    try:
+        # Check print count status
+        count_status = get_print_count_status()
+        
+        # Check printer error status  
+        default_printer = get_setting('default_printer', '')
+        printer_error_status = get_printer_error_status(default_printer) if default_printer else {'printing_disabled': False}
+        
+        # Check if printer errors disable printing
+        if printer_error_status['printing_disabled']:
+            latest_error = printer_error_status.get('latest_error')
+            error_msg = latest_error['error_message'] if latest_error else 'Printer has active errors'
+            return {
+                'allowed': False,
+                'reason': f'Printer error: {error_msg}',
+                'count_status': count_status,
+                'error_status': printer_error_status
+            }
+        
+        # Check ink cartridge status
+        if count_status['enabled'] and count_status['is_empty']:
+            return {
+                'allowed': False,
+                'reason': 'Ink cartridge is empty. Please replace the cartridge.',
+                'count_status': count_status,
+                'error_status': printer_error_status
+            }
+        
+        return {
+            'allowed': True,
+            'reason': None,
+            'count_status': count_status,
+            'error_status': printer_error_status
+        }
+        
+    except Exception as e:
+        logger.error(f"Failed to check printing allowance: {e}")
+        # If there's an error, allow printing to not break functionality
+        return {
+            'allowed': True,
+            'reason': None,
+            'count_status': {'enabled': False},
+            'error_status': {'printing_disabled': False}
+        }
+
+def poll_printer_status_and_announce():
+    """Poll printer status and announce errors if found"""
+    if not CUPS_AVAILABLE:
+        return
+    
+    try:
+        # Get polling settings
+        polling_enabled = get_setting('printer_status_polling_enabled', True)
+        if not polling_enabled:
+            return
+        
+        default_printer = get_setting('default_printer', '')
+        if not default_printer:
+            return
+        
+        # Get current printer status
+        current_status = get_printer_status(default_printer)
+        if not current_status:
+            return
+        
+        printer_state = current_status.get('state', '')
+        if isinstance(printer_state, int):
+            # Convert CUPS printer state codes to strings
+            state_map = {3: 'idle', 4: 'printing', 5: 'stopped'}
+            printer_state = state_map.get(printer_state, str(printer_state))
+        else:
+            printer_state = str(printer_state).lower()
+        
+        state_message = current_status.get('state_message', '')
+        if isinstance(state_message, str):
+            state_message = state_message.strip()
+        else:
+            state_message = str(state_message)
+        
+        # Check if printer has errors
+        if printer_state in ['stopped', 'error'] or 'error' in str(state_message).lower():
+            # Log the error
+            error_msg = state_message or f"Printer is in {printer_state} state"
+            log_printer_error(default_printer, error_msg, printer_state)
+            
+            # Check if we should announce this error
+            from .audio import should_announce_printer_error, speak_printer_error
+            
+            # Get the last announcement details for this error
+            error_status = get_printer_error_status(default_printer)
+            if error_status['has_errors']:
+                latest_error = error_status['latest_error']
+                last_announced_time = None
+                
+                if latest_error and latest_error['last_announced']:
+                    from datetime import datetime
+                    last_announced_time = int(datetime.fromisoformat(latest_error['last_announced'].replace(' ', 'T')).timestamp())
+                
+                if should_announce_printer_error(error_msg, None, last_announced_time):
+                    # Announce the error
+                    if speak_printer_error(error_msg, default_printer):
+                        mark_error_announced(default_printer, error_msg)
+                        logger.info(f"Announced printer error: {error_msg}")
+        
+        elif printer_state in ['idle', 'printing']:
+            # Printer seems to be working, resolve any existing errors
+            resolve_printer_errors(default_printer)
+            
+    except Exception as e:
+        logger.error(f"Error polling printer status: {e}")
+        import traceback
+        logger.error(f"Full traceback: {traceback.format_exc()}")
+
+def start_printer_status_polling(app):
+    """Start background printer status polling with app context"""
+    try:
+        import threading
+        import time
+        
+        def polling_loop():
+            while True:
+                try:
+                    with app.app_context():
+                        polling_enabled = get_setting('printer_status_polling_enabled', True)
+                        if not polling_enabled:
+                            time.sleep(60)  # Check again in 1 minute
+                            continue
+                        
+                        interval = get_setting('printer_status_polling_interval_seconds', 30)
+                        poll_printer_status_and_announce()
+                        time.sleep(interval)
+                    
+                except Exception as e:
+                    logger.error(f"Error in printer status polling loop: {e}")
+                    time.sleep(30)  # Wait 30 seconds before retrying
+        
+        # Start polling in background thread
+        polling_thread = threading.Thread(target=polling_loop, daemon=True)
+        polling_thread.start()
+        logger.info("Printer status polling started")
+        
+    except Exception as e:
+        logger.error(f"Failed to start printer status polling: {e}")
+
+def get_enhanced_printer_status(printer_name: str = None) -> Dict[str, Any]:
+    """Get enhanced printer status including error tracking"""
+    try:
+        if printer_name is None:
+            # Try to get default printer, with fallback to direct DB access
+            try:
+                printer_name = get_setting('default_printer', '')
+            except:
+                # Fallback: read directly from database without Flask context
+                import sqlite3
+                try:
+                    conn = sqlite3.connect('/opt/photobooth/data/photobooth.db')
+                    cursor = conn.execute('SELECT value FROM settings WHERE key = ?', ('default_printer',))
+                    row = cursor.fetchone()
+                    printer_name = row[0] if row else ''
+                    conn.close()
+                except Exception as db_e:
+                    logger.warning(f"Could not read printer setting from database: {db_e}")
+                    printer_name = ''
+        
+        if not printer_name:
+            return {
+                'available': False,
+                'ready': False,
+                'error': 'No default printer configured',
+                'has_errors': False,
+                'printing_disabled': False
+            }
+        
+        # Get basic CUPS status
+        cups_status = get_printer_status(printer_name)
+        
+        # Get error status from database
+        error_status = get_printer_error_status(printer_name)
+        
+        # Combine the information
+        enhanced_status = {
+            'printer_name': printer_name,
+            'available': cups_status.get('available', False),
+            'name': cups_status.get('name', printer_name),
+            'description': cups_status.get('description', printer_name),
+            'ready': cups_status.get('ready', False) and not error_status['printing_disabled'],
+            'state': cups_status.get('state', 'unknown'),
+            'state_message': cups_status.get('state_message', ''),
+            'paper_error': cups_status.get('paper_error'),
+            'has_errors': error_status['has_errors'],
+            'error_count': error_status['error_count'],
+            'errors': error_status['errors'],
+            'printing_disabled': error_status['printing_disabled'],
+            'latest_error': error_status.get('latest_error')
+        }
+        
+        # If printer has errors that disable printing, override ready state
+        if error_status['printing_disabled']:
+            enhanced_status['ready'] = False
+            enhanced_status['error'] = error_status['latest_error']['error_message'] if error_status['latest_error'] else 'Printer has active errors'
+        
+        return enhanced_status
+        
+    except Exception as e:
+        logger.error(f"Failed to get enhanced printer status: {e}")
+        return {
+            'available': False,
+            'ready': False,
+            'error': str(e),
+            'has_errors': True,
+            'printing_disabled': True
+        }
 
 def get_cups_connection():
     """Get CUPS connection"""
@@ -264,24 +479,63 @@ def get_printer_status(printer_name: str = None) -> Dict[str, Any]:
         
         # Check for paper mismatch errors
         paper_error = None
-        ready = printer_info.get('printer-state') == 3 and printer_info.get('printer-is-accepting-jobs', False)
+        
+        # For accepting jobs, we'll assume the printer is accepting if it's in idle state (3)
+        # The printer-is-accepting-jobs field isn't always present in CUPS responses.
+        printer_state = printer_info.get('printer-state')
+        is_accepting = printer_state == 3  # idle state means accepting jobs
+        
+        ready = printer_state == 3
         
         if 'Incorrect paper loaded' in state_message:
             paper_error = state_message
             ready = False
             if 'CP760' in printer_name or 'SELPHY' in printer_name:
-                paper_error += " - Please check that the correct Canon paper cartridge is loaded"
+                # Parse the paper type mismatch
+                if 'vs' in state_message:
+                    parts = state_message.split('vs')
+                    if len(parts) == 2:
+                        loaded_type = parts[0].split('(')[-1].strip()
+                        expected_type = parts[1].split(')')[0].strip()
+                        
+                        # Canon SELPHY paper type mapping
+                        paper_types = {
+                            '01': 'KP-36IN (36 sheets, credit card size)',
+                            '11': 'KP-108IN (108 sheets, 4x6 inch glossy)', 
+                            '22': 'KP-72IN (72 sheets, 2x3 inch)',
+                            '33': 'Unknown paper type',
+                            '44': 'Large format paper'
+                        }
+                        
+                        loaded_desc = paper_types.get(loaded_type, f'Unknown type {loaded_type}')
+                        expected_desc = paper_types.get(expected_type, f'Unknown type {expected_type}')
+                        
+                        paper_error = f"Paper cartridge mismatch: Loaded {loaded_desc}, but software expects {expected_desc}. "
+                        
+                        if loaded_type == '01' and expected_type in ['11', '22', '33', '44']:
+                            paper_error += "You have KP-36IN (credit card size) loaded, but need KP-108IN (4x6 inch) for photobooth printing. Please replace the paper cartridge."
+                        elif loaded_type == '11':
+                            paper_error += "You have the correct KP-108IN cartridge loaded. Try resetting the printer."
+                        else:
+                            paper_error += "Please load the KP-108IN (4x6 inch glossy) paper cartridge for photobooth printing."
+                    else:
+                        paper_error += " - Please check that the correct Canon paper cartridge is loaded"
+                else:
+                    paper_error += " - Please check that the correct Canon paper cartridge is loaded"
         
-        return {
+        result = {
             'available': True,
             'name': printer_name,
             'description': printer_info.get('printer-info', printer_name),
             'state': printer_info.get('printer-state', 0),
             'state_message': state_message,
             'paper_error': paper_error,
-            'accepting_jobs': printer_info.get('printer-is-accepting-jobs', False),
+            'accepting_jobs': is_accepting,
             'ready': ready
         }
+        
+        logger.info(f"get_printer_status({printer_name}): state={printer_state}, accepting={is_accepting}, ready={ready}")
+        return result
         
     except Exception as e:
         logger.error(f"Failed to get printer status: {e}")
@@ -296,6 +550,15 @@ def print_photo(photo_path: str, filename: str, printer_name: str = None) -> Dic
         return {
             'success': False,
             'error': 'CUPS not available'
+        }
+    
+    # Check if printing is allowed (ink cartridge not empty)
+    print_allowance = is_printing_allowed()
+    if not print_allowance['allowed']:
+        return {
+            'success': False,
+            'error': print_allowance['reason'],
+            'count_status': print_allowance['count_status']
         }
     
     try:
@@ -329,16 +592,23 @@ def print_photo(photo_path: str, filename: str, printer_name: str = None) -> Dic
         
         # Set up print options based on printer
         if 'CP760' in printer_name or 'SELPHY' in printer_name:
-            # Canon SELPHY CP760 specific options
+            # Canon SELPHY CP760 specific options for KP-108IN paper
+            # Based on research: KP-108IN is 100x148mm (4x6 inch) glossy paper
             options = {
-                'PageSize': 'Postcard',
-                'media': 'Postcard', 
+                'PageSize': 'Postcard',  # Should correspond to 4x6 inch
+                'media': 'Postcard',     # Alternative media specification
                 'ColorModel': 'RGB',
-                'StpBorderless': 'True',
-                'StpImageType': 'Photo',
+                'StpBorderless': 'True', # Enable borderless printing
+                'StpImageType': 'Photo', # Optimize for photo printing
                 'Resolution': '300dpi',
                 'orientation-requested': '3'  # Portrait
             }
+            
+            # If we detect a paper mismatch, try alternative settings
+            printer_status = get_printer_status(printer_name)
+            if printer_status.get('paper_error') and '01 vs' in printer_status.get('state_message', ''):
+                logger.warning(f"Paper type 01 detected, but no CUPS setting matches. Using Postcard anyway.")
+                # Could try alternative settings here if needed
         else:
             # Generic printer options
             options = {
@@ -355,6 +625,13 @@ def print_photo(photo_path: str, filename: str, printer_name: str = None) -> Dic
         
         # Log print job
         log_print_job(filename, printer_name, job_id, 'submitted')
+        
+        # Increment print count
+        try:
+            increment_print_count()
+            logger.info(f"Print count incremented for job {job_id}")
+        except Exception as e:
+            logger.warning(f"Failed to increment print count: {e}")
         
         logger.info(f"Print job submitted: {job_id} for {filename} on {printer_name}")
         
@@ -581,16 +858,18 @@ def get_all_print_jobs(include_completed: bool = True) -> List[Dict[str, Any]]:
         active_jobs = conn.getJobs(which_jobs='not-completed')
         for job_id, job_info in active_jobs.items():
             job_data = _format_cups_job(job_id, job_info)
-            job_data['source'] = 'cups_active'
-            all_jobs.append(job_data)
+            if job_data is not None:  # Skip empty/invalid jobs
+                job_data['source'] = 'cups_active'
+                all_jobs.append(job_data)
         
         # Get completed jobs if requested
         if include_completed:
             completed_jobs = conn.getJobs(which_jobs='completed', limit=20)
             for job_id, job_info in completed_jobs.items():
                 job_data = _format_cups_job(job_id, job_info)
-                job_data['source'] = 'cups_completed'
-                all_jobs.append(job_data)
+                if job_data is not None:  # Skip empty/invalid jobs
+                    job_data['source'] = 'cups_completed'
+                    all_jobs.append(job_data)
         
         # Sort by creation time (newest first)
         all_jobs.sort(key=lambda x: x.get('created_at', 0), reverse=True)
@@ -606,6 +885,14 @@ def _format_cups_job(job_id: int, job_info: Dict[str, Any]) -> Dict[str, Any]:
     state = job_info.get('job-state', 0)
     state_reasons = job_info.get('job-state-reasons', [])
     
+    # Skip jobs with no meaningful data (old cleaned up jobs)
+    job_name = job_info.get('job-name', '')
+    job_uri = job_info.get('job-printer-uri', '')
+    
+    if not job_name and not job_uri and state == 0:
+        # This is likely an old cleaned up job, return None to skip
+        return None
+    
     # Map CUPS job states to our status
     status_map = {
         3: 'pending',      # IPP_JOB_PENDING
@@ -618,6 +905,10 @@ def _format_cups_job(job_id: int, job_info: Dict[str, Any]) -> Dict[str, Any]:
     
     status = status_map.get(state, 'unknown')
     
+    # If state is 0 and we have job data, it might be completed but state not set
+    if state == 0 and job_name:
+        status = 'completed'
+    
     # Check for errors
     error_message = None
     if state == 7:  # Aborted
@@ -625,10 +916,15 @@ def _format_cups_job(job_id: int, job_info: Dict[str, Any]) -> Dict[str, Any]:
     elif state_reasons and any('error' in reason.lower() for reason in state_reasons):
         error_message = ', '.join(state_reasons)
     
+    # Extract printer name from URI
+    printer_name = 'Unknown'
+    if job_uri and '/' in job_uri:
+        printer_name = job_uri.split('/')[-1]
+    
     return {
         'job_id': job_id,
-        'filename': job_info.get('job-name', 'Unknown'),
-        'printer': job_info.get('job-printer-uri', '').split('/')[-1] if job_info.get('job-printer-uri') else 'Unknown',
+        'filename': job_name or f'Job-{job_id}',
+        'printer': printer_name,
         'status': status,
         'state': state,
         'state_reasons': state_reasons,
@@ -756,5 +1052,95 @@ def cleanup_old_jobs(max_age_seconds: int = 90) -> Dict[str, Any]:
         
     except Exception as e:
         error_msg = f"Failed to cleanup old jobs: {e}"
+        logger.error(error_msg)
+        return {'success': False, 'error': error_msg}
+
+def reset_printer(printer_name: str = None) -> Dict[str, Any]:
+    """Reset/restart a printer to clear error states"""
+    if not CUPS_AVAILABLE:
+        return {'success': False, 'error': 'CUPS not available'}
+    
+    if printer_name is None:
+        printer_name = get_default_printer()
+    
+    if not printer_name:
+        return {'success': False, 'error': 'No printer configured'}
+    
+    try:
+        conn = get_cups_connection()
+        
+        # Disable printer, then re-enable to reset state
+        conn.disablePrinter(printer_name)
+        conn.enablePrinter(printer_name)
+        
+        # Also make sure it's accepting jobs
+        conn.acceptJobs(printer_name)
+        
+        logger.info(f"Reset printer: {printer_name}")
+        return {'success': True, 'message': f'Printer {printer_name} reset successfully'}
+        
+    except Exception as e:
+        error_msg = f"Failed to reset printer {printer_name}: {e}"
+        logger.error(error_msg)
+        return {'success': False, 'error': error_msg}
+
+def purge_printer_queue(printer_name: str = None) -> Dict[str, Any]:
+    """Purge all jobs from a specific printer queue"""
+    if not CUPS_AVAILABLE:
+        return {'success': False, 'error': 'CUPS not available'}
+    
+    if printer_name is None:
+        printer_name = get_default_printer()
+    
+    if not printer_name:
+        return {'success': False, 'error': 'No printer configured'}
+    
+    try:
+        conn = get_cups_connection()
+        
+        # Get all jobs for this printer
+        all_jobs = conn.getJobs(which_jobs='all')
+        purged_count = 0
+        
+        for job_id, job_info in all_jobs.items():
+            job_printer = job_info.get('job-printer-uri', '').split('/')[-1]
+            if job_printer == printer_name:
+                try:
+                    conn.cancelJob(job_id)
+                    purged_count += 1
+                except:
+                    pass  # Job might already be gone
+        
+        logger.info(f"Purged {purged_count} jobs from printer: {printer_name}")
+        return {
+            'success': True, 
+            'message': f'Purged {purged_count} jobs from {printer_name}',
+            'count': purged_count
+        }
+        
+    except Exception as e:
+        error_msg = f"Failed to purge printer queue: {e}"
+        logger.error(error_msg)
+        return {'success': False, 'error': error_msg}
+
+def restart_cups_service() -> Dict[str, Any]:
+    """Restart the CUPS service (requires system permissions)"""
+    try:
+        import subprocess
+        result = subprocess.run(['sudo', 'systemctl', 'restart', 'cups'], 
+                              capture_output=True, text=True, timeout=30)
+        
+        if result.returncode == 0:
+            logger.info("CUPS service restarted successfully")
+            return {'success': True, 'message': 'CUPS service restarted successfully'}
+        else:
+            error_msg = f"Failed to restart CUPS: {result.stderr}"
+            logger.error(error_msg)
+            return {'success': False, 'error': error_msg}
+            
+    except subprocess.TimeoutExpired:
+        return {'success': False, 'error': 'CUPS restart timed out'}
+    except Exception as e:
+        error_msg = f"Failed to restart CUPS service: {e}"
         logger.error(error_msg)
         return {'success': False, 'error': error_msg}

@@ -198,6 +198,320 @@
         </div>
     </div>
 
+    <!-- Print Count & Cartridge Management -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+        <h2 class="text-xl font-bold text-gray-900 mb-4">
+            <i class="fas fa-tachometer-alt text-purple-600 mr-2"></i>
+            Print Count & Cartridge Management
+        </h2>
+        <p class="text-gray-600 mb-6">Track ink cartridge usage and manage print limits.</p>
+
+        <!-- Current Status -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+            <!-- Remaining Prints -->
+            <div class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg p-4 text-white">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-blue-100 text-sm">Prints Remaining</p>
+                        <p class="text-2xl font-bold" id="prints-remaining">
+                            {% if print_count_status.enabled %}{{ print_count_status.remaining }}{% else %}∞{% endif %}
+                        </p>
+                    </div>
+                    <i class="fas fa-print text-blue-200 text-2xl"></i>
+                </div>
+            </div>
+
+            <!-- Used Prints -->
+            <div class="bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg p-4 text-white">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-purple-100 text-sm">Prints Used</p>
+                        <p class="text-2xl font-bold" id="prints-used">
+                            {% if print_count_status.enabled %}{{ print_count_status.used }}{% else %}--{% endif %}
+                        </p>
+                    </div>
+                    <i class="fas fa-chart-pie text-purple-200 text-2xl"></i>
+                </div>
+            </div>
+
+            <!-- Total Prints Ever -->
+            <div class="bg-gradient-to-r from-green-500 to-green-600 rounded-lg p-4 text-white">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-green-100 text-sm">Total Prints Ever</p>
+                        <p class="text-2xl font-bold" id="total-prints-ever">{{ print_count_status.total_prints_ever }}</p>
+                    </div>
+                    <i class="fas fa-history text-green-200 text-2xl"></i>
+                </div>
+            </div>
+
+            <!-- Cartridge Capacity -->
+            <div class="bg-gradient-to-r from-orange-500 to-orange-600 rounded-lg p-4 text-white">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-orange-100 text-sm">Cartridge Capacity</p>
+                        <p class="text-2xl font-bold" id="cartridge-capacity">
+                            {% if print_count_status.enabled %}{{ print_count_status.total }}{% else %}--{% endif %}
+                        </p>
+                    </div>
+                    <i class="fas fa-battery-half text-orange-200 text-2xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status Indicator -->
+        {% if print_count_status.enabled %}
+        <div class="mb-6 p-3 rounded-lg border-2 
+                    {% if print_count_status.is_empty %}border-red-300 bg-red-50{% elif print_count_status.is_low %}border-yellow-300 bg-yellow-50{% else %}border-green-300 bg-green-50{% endif %}">
+            <div class="flex items-center">
+                <i class="fas {{ 'fa-exclamation-triangle text-red-600' if print_count_status.is_empty else ('fa-exclamation-triangle text-yellow-600' if print_count_status.is_low else 'fa-check-circle text-green-600') }} text-xl mr-3"></i>
+                <div>
+                    <h3 class="font-semibold {{ 'text-red-800' if print_count_status.is_empty else ('text-yellow-800' if print_count_status.is_low else 'text-green-800') }}">
+                        {% if print_count_status.is_empty %}
+                            Cartridge Empty
+                        {% elif print_count_status.is_low %}
+                            Low Ink Warning
+                        {% else %}
+                            Cartridge OK
+                        {% endif %}
+                    </h3>
+                    <p class="text-sm {{ 'text-red-600' if print_count_status.is_empty else ('text-yellow-600' if print_count_status.is_low else 'text-green-600') }}">
+                        {% if print_count_status.is_empty %}
+                            The cartridge is empty. Replace it to continue printing.
+                        {% elif print_count_status.is_low %}
+                            Only {{ print_count_status.remaining }} prints remaining. Consider replacing soon.
+                        {% else %}
+                            Cartridge has {{ print_count_status.remaining }} prints remaining.
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Settings Form -->
+        <div class="bg-gray-50 rounded-lg p-4 mb-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">Print Count Settings</h3>
+            <form id="printCountForm" class="space-y-4">
+                <div class="flex items-center space-x-2">
+                    <input type="checkbox" id="printCountEnabled" 
+                           {{ 'checked' if print_count_status.enabled }}
+                           class="rounded border-gray-300 text-purple-600 focus:ring-purple-500">
+                    <label for="printCountEnabled" class="text-sm font-medium text-gray-700">
+                        Enable print count tracking
+                    </label>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="maxPrints" class="block text-sm font-medium text-gray-700 mb-1">
+                            Cartridge Capacity (prints)
+                        </label>
+                        <input type="number" id="maxPrints" 
+                               value="{{ print_count_status.total if print_count_status.enabled else '' }}"
+                               min="1" max="500"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                               placeholder="e.g., 108">
+                    </div>
+                    
+                    <div>
+                        <label for="lowWarning" class="block text-sm font-medium text-gray-700 mb-1">
+                            Low ink warning (prints remaining)
+                        </label>
+                        <input type="number" id="lowWarning" 
+                               value="{{ print_count_status.low_warning if print_count_status.enabled else 10 }}"
+                               min="1" max="100"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+                               placeholder="e.g., 10">
+                    </div>
+                </div>
+                
+                <!-- Audio Warning Settings -->
+                <div class="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
+                    <h4 class="text-sm font-semibold text-blue-900 mb-3">
+                        <i class="fas fa-volume-up mr-2"></i>
+                        Audio Warnings
+                    </h4>
+                    
+                    <div class="space-y-3">
+                        <div class="flex items-center space-x-2">
+                            <input type="checkbox" id="lowInkAudioEnabled" 
+                                   {{ 'checked' if print_count_status.get('low_ink_audio_enabled', True) }}
+                                   class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                            <label for="lowInkAudioEnabled" class="text-sm font-medium text-gray-700">
+                                Play audio warning when ink is low
+                            </label>
+                        </div>
+                        
+                        <div class="flex items-center space-x-2">
+                            <input type="checkbox" id="emptyCartridgeAudioEnabled" 
+                                   {{ 'checked' if print_count_status.get('empty_cartridge_audio_enabled', True) }}
+                                   class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                            <label for="emptyCartridgeAudioEnabled" class="text-sm font-medium text-gray-700">
+                                Play audio warning when cartridge is empty
+                            </label>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div>
+                                <label for="lowInkMessage" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Low Ink Message
+                                </label>
+                                <input type="text" id="lowInkMessage" 
+                                       value="{{ print_count_status.get('low_ink_message', 'Low ink warning! Please consider replacing the cartridge soon.') }}"
+                                       class="w-full px-2 py-1 text-xs border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                       placeholder="Custom low ink message">
+                            </div>
+                            
+                            <div>
+                                <label for="emptyCartridgeMessage" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Empty Cartridge Message
+                                </label>
+                                <input type="text" id="emptyCartridgeMessage" 
+                                       value="{{ print_count_status.get('empty_cartridge_message', 'Ink cartridge is empty! Printing is disabled until cartridge is replaced.') }}"
+                                       class="w-full px-2 py-1 text-xs border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                       placeholder="Custom empty cartridge message">
+                            </div>
+                        </div>
+                        
+                        <!-- Test Audio Warnings -->
+                        <div class="mt-3 pt-3 border-t border-blue-200">
+                            <p class="text-xs text-blue-800 mb-2">Test audio warnings:</p>
+                            <div class="flex space-x-2">
+                                <button type="button" onclick="testAudioWarning('low')" 
+                                        class="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white text-xs py-1 px-2 rounded transition-colors">
+                                    <i class="fas fa-volume-up mr-1"></i>
+                                    Test Low Ink
+                                </button>
+                                <button type="button" onclick="testAudioWarning('empty')" 
+                                        class="flex-1 bg-red-500 hover:bg-red-600 text-white text-xs py-1 px-2 rounded transition-colors">
+                                    <i class="fas fa-volume-up mr-1"></i>
+                                    Test Empty
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="button" onclick="updatePrintCountSettings()" 
+                        class="bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-4 rounded-md transition-colors">
+                    <i class="fas fa-save mr-2"></i>
+                    Update Settings
+                </button>
+            </form>
+        </div>
+
+        <!-- Cartridge Management -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <!-- Install New Cartridge -->
+            <button onclick="showNewCartridgeModal()" 
+                    class="bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-4 rounded-lg
+                           transform hover:scale-105 transition-all duration-200 ease-in-out flex items-center justify-center">
+                <i class="fas fa-plus mr-2"></i>
+                Install New Cartridge
+            </button>
+            
+            <!-- Reset Count -->
+            <button onclick="resetPrintCount()" 
+                    class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3 px-4 rounded-lg
+                           transform hover:scale-105 transition-all duration-200 ease-in-out flex items-center justify-center">
+                <i class="fas fa-redo mr-2"></i>
+                Reset Count to 0
+            </button>
+            
+            <!-- View History -->
+            <button onclick="toggleCartridgeHistory()" 
+                    class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-4 rounded-lg
+                           transform hover:scale-105 transition-all duration-200 ease-in-out flex items-center justify-center">
+                <i class="fas fa-history mr-2"></i>
+                View History
+            </button>
+        </div>
+
+        <!-- Cartridge History (initially hidden) -->
+        <div id="cartridgeHistory" class="hidden">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">Cartridge History</h3>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cartridge</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Capacity</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Used</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Installed</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        {% for cartridge in cartridge_history %}
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ cartridge.name }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ cartridge.max_prints }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ cartridge.current_prints }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                                           {{ 'bg-green-100 text-green-800' if cartridge.is_active else 'bg-gray-100 text-gray-800' }}">
+                                    {{ 'Active' if cartridge.is_active else 'Replaced' }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {{ cartridge.installed_at.split(' ')[0] if cartridge.installed_at else 'Unknown' }}
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="5" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                                No cartridge history available
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Cartridge Modal -->
+    <div id="newCartridgeModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen">
+            <div class="bg-white rounded-lg p-6 shadow-xl max-w-md w-full mx-4">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Install New Cartridge</h3>
+                <form id="newCartridgeForm">
+                    <div class="space-y-4">
+                        <div>
+                            <label for="cartridgeName" class="block text-sm font-medium text-gray-700 mb-1">
+                                Cartridge Name
+                            </label>
+                            <input type="text" id="cartridgeName" 
+                                   placeholder="e.g., KC-36IP" required
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500">
+                        </div>
+                        
+                        <div>
+                            <label for="cartridgeCapacity" class="block text-sm font-medium text-gray-700 mb-1">
+                                Print Capacity
+                            </label>
+                            <input type="number" id="cartridgeCapacity" 
+                                   placeholder="e.g., 108" min="1" max="500" required
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500">
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 flex justify-end space-x-2">
+                        <button type="button" onclick="hideNewCartridgeModal()" 
+                                class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 hover:bg-gray-300 rounded-md transition-colors">
+                            Cancel
+                        </button>
+                        <button type="button" onclick="installNewCartridge()" 
+                                class="px-4 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded-md transition-colors">
+                            Install Cartridge
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- Test Print -->
     <div class="bg-white rounded-lg shadow-md p-6">
         <h2 class="text-xl font-bold text-gray-900 mb-4">Test Print</h2>
@@ -686,6 +1000,166 @@ function restartCups() {
     .catch(error => {
         hideLoading();
         alert('Failed to restart CUPS: ' + error.message);
+    });
+}
+
+// Print Count Management Functions
+function updatePrintCountSettings() {
+    const enabled = document.getElementById('printCountEnabled').checked;
+    const maxPrints = document.getElementById('maxPrints').value;
+    const lowWarning = document.getElementById('lowWarning').value;
+    const lowInkAudioEnabled = document.getElementById('lowInkAudioEnabled').checked;
+    const emptyCartridgeAudioEnabled = document.getElementById('emptyCartridgeAudioEnabled').checked;
+    const lowInkMessage = document.getElementById('lowInkMessage').value.trim();
+    const emptyCartridgeMessage = document.getElementById('emptyCartridgeMessage').value.trim();
+    
+    if (enabled && (!maxPrints || maxPrints <= 0)) {
+        alert('Please enter a valid cartridge capacity');
+        return;
+    }
+    
+    showLoading('Updating print count settings...');
+    
+    fetch('/settings/api/printer/count-settings', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            enabled: enabled,
+            max_prints: maxPrints,
+            low_warning: lowWarning,
+            low_ink_audio_enabled: lowInkAudioEnabled,
+            empty_cartridge_audio_enabled: emptyCartridgeAudioEnabled,
+            low_ink_message: lowInkMessage,
+            empty_cartridge_message: emptyCartridgeMessage
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        hideLoading();
+        if (data.success) {
+            alert('Print count settings updated successfully!');
+            location.reload();
+        } else {
+            alert('Failed to update settings: ' + (data.error || 'Unknown error'));
+        }
+    })
+    .catch(error => {
+        hideLoading();
+        alert('Failed to update settings: ' + error.message);
+    });
+}
+
+function showNewCartridgeModal() {
+    document.getElementById('newCartridgeModal').classList.remove('hidden');
+}
+
+function hideNewCartridgeModal() {
+    document.getElementById('newCartridgeModal').classList.add('hidden');
+    document.getElementById('newCartridgeForm').reset();
+}
+
+function installNewCartridge() {
+    const cartridgeName = document.getElementById('cartridgeName').value.trim();
+    const cartridgeCapacity = document.getElementById('cartridgeCapacity').value;
+    
+    if (!cartridgeName || !cartridgeCapacity || cartridgeCapacity <= 0) {
+        alert('Please fill in all fields with valid values');
+        return;
+    }
+    
+    showLoading('Installing new cartridge...');
+    hideNewCartridgeModal();
+    
+    fetch('/settings/api/printer/new-cartridge', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            cartridge_name: cartridgeName,
+            max_prints: parseInt(cartridgeCapacity)
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        hideLoading();
+        if (data.success) {
+            alert('New cartridge installed successfully!');
+            location.reload();
+        } else {
+            alert('Failed to install cartridge: ' + (data.error || 'Unknown error'));
+        }
+    })
+    .catch(error => {
+        hideLoading();
+        alert('Failed to install cartridge: ' + error.message);
+    });
+}
+
+function resetPrintCount() {
+    if (!confirm('Reset the current cartridge print count to 0? This action cannot be undone.')) {
+        return;
+    }
+    
+    showLoading('Resetting print count...');
+    
+    fetch('/settings/api/printer/reset-count', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        hideLoading();
+        if (data.success) {
+            alert('Print count reset successfully!');
+            location.reload();
+        } else {
+            alert('Failed to reset count: ' + (data.error || 'Unknown error'));
+        }
+    })
+    .catch(error => {
+        hideLoading();
+        alert('Failed to reset count: ' + error.message);
+    });
+}
+
+function toggleCartridgeHistory() {
+    const historyDiv = document.getElementById('cartridgeHistory');
+    if (historyDiv.classList.contains('hidden')) {
+        historyDiv.classList.remove('hidden');
+    } else {
+        historyDiv.classList.add('hidden');
+    }
+}
+
+function testAudioWarning(type) {
+    showLoading(`Testing ${type} ink audio warning...`);
+    
+    fetch('/settings/api/printer/test-audio-warning', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            type: type
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        hideLoading();
+        if (data.success) {
+            alert(`${data.message}. Check your speakers if you didn't hear anything.`);
+        } else {
+            alert('Failed to play audio warning: ' + (data.error || 'Unknown error'));
+        }
+    })
+    .catch(error => {
+        hideLoading();
+        alert('Failed to test audio warning: ' + error.message);
     });
 }
 

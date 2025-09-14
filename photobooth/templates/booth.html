@@ -32,13 +32,11 @@
                        autoplay muted playsinline>
                 </video>
                 
-                <!-- FRAME OVERLAY ON TOP - STRETCHED TO FIT -->
-                <img id="frameOverlay" 
-                     src="{{ url_for('static', filename='frames/current.png') }}?v={{ timestamp }}" 
-                     style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100; pointer-events: none; object-fit: fill; border-radius: 1rem;"
-                     alt="Frame Overlay"
-                     onload="console.log('FRAME LOADED DIRECTLY FROM STATIC');"
-                     onerror="console.log('STATIC FRAME FAILED'); this.style.display='none';">
+                <!-- FRAME OVERLAY CANVAS - LOADS AFTER CAMERA RUNNING -->
+                <canvas id="frameOverlayCanvas" 
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 200; pointer-events: none; border-radius: 1rem; opacity: 0; display: none;"
+                        width="800" height="1200">
+                </canvas>
                 
                 <!-- Camera Error State -->
                 <div id="cameraError" class="absolute inset-0 bg-red-900 rounded-2xl flex items-center justify-center hidden">
@@ -117,16 +115,56 @@
                     </div>
                 </div>
                 
+                <!-- Printer Error Notifications -->
+                {% if print_allowance.error_status and print_allowance.error_status.has_errors %}
+                <div class="mx-4 mb-3 p-3 bg-red-600 text-white rounded-lg border border-red-700 shadow-lg">
+                    <div class="flex items-center">
+                        <i class="fas fa-exclamation-circle text-xl mr-3"></i>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-sm">Printer Error</h3>
+                            <p class="text-xs opacity-90">{{ print_allowance.error_status.latest_error.error_message if print_allowance.error_status.latest_error else 'Printer has active errors' }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                
+                <!-- Ink Level Notifications -->
+                {% if print_count_status.enabled %}
+                    {% if print_count_status.is_empty %}
+                    <div class="mx-4 mb-3 p-3 bg-red-500 text-white rounded-lg border border-red-600 shadow-lg">
+                        <div class="flex items-center">
+                            <i class="fas fa-exclamation-triangle text-xl mr-3"></i>
+                            <div>
+                                <h3 class="font-bold text-sm">Cartridge Empty</h3>
+                                <p class="text-xs opacity-90">Printing disabled. Please replace the ink cartridge.</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% elif print_count_status.is_low %}
+                    <div class="mx-4 mb-3 p-3 bg-yellow-500 text-white rounded-lg border border-yellow-600 shadow-lg">
+                        <div class="flex items-center">
+                            <i class="fas fa-exclamation-triangle text-xl mr-3"></i>
+                            <div>
+                                <h3 class="font-bold text-sm">Low Ink Warning</h3>
+                                <p class="text-xs opacity-90">Only {{ print_count_status.remaining }} prints remaining.</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endif %}
+                
                 <!-- Action Buttons -->
                 <div class="p-4 flex-shrink-0">
                     <div class="flex flex-col space-y-3 md:flex-row md:space-y-0 md:space-x-4 justify-center">
                         <button id="printBtn" 
-                                class="flex-1 md:flex-none bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600
+                                class="flex-1 md:flex-none 
+                                       {% if print_allowance.allowed %}bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600{% else %}bg-gray-500 cursor-not-allowed{% endif %}
                                        active:scale-95 text-white font-bold py-4 px-6 md:px-8 rounded-xl text-lg
                                        shadow-xl transform transition-all duration-200 ease-in-out
-                                       border-2 border-white hover:border-green-200 touch-manipulation">
-                            <i class="fas fa-print mr-2"></i>
-                            Print Photo
+                                       border-2 border-white {% if print_allowance.allowed %}hover:border-green-200{% endif %} touch-manipulation"
+                                {% if not print_allowance.allowed %}disabled title="{{ print_allowance.reason }}"{% endif %}>
+                            <i class="fas {% if print_allowance.allowed %}fa-print{% else %}fa-ban{% endif %} mr-2"></i>
+                            {% if print_allowance.allowed %}Print Photo{% else %}Cannot Print{% endif %}
                         </button>
                         
                         <button id="retakeBtn" 
@@ -174,45 +212,112 @@
     <script src="{{ url_for('static', filename='js/camera-debug.js') }}"></script>
     <script src="{{ url_for('static', filename='js/booth.js') }}"></script>
     <script>
-    // FORCE FRAME OVERLAY TO LOAD NO MATTER WHAT
+    // CANVAS FRAME OVERLAY LOADS AFTER CAMERA IS RUNNING
     document.addEventListener('DOMContentLoaded', function() {
-        console.log('FORCING FRAME OVERLAY TO LOAD');
+        console.log('INITIALIZING CANVAS FRAME OVERLAY');
         
-        // Method 1: Direct fetch and embed
-        fetch('/settings/api/frame/current')
-        .then(response => response.blob())
-        .then(blob => {
-            const url = URL.createObjectURL(blob);
-            
-            // Apply to div background
-            const frameDiv = document.getElementById('frameOverlay');
-            if (frameDiv) {
-                frameDiv.style.backgroundImage = `url(${url})`;
-                frameDiv.style.display = 'block';
-                console.log('FRAME APPLIED TO DIV BACKGROUND');
+        const canvas = document.getElementById('frameOverlayCanvas');
+        const ctx = canvas ? canvas.getContext('2d') : null;
+        const video = document.getElementById('cameraPreview');
+        let frameLoaded = false;
+        let frameImage = null;
+        
+        function loadFrameImage() {
+            if (!frameImage) {
+                frameImage = new Image();
+                frameImage.crossOrigin = 'anonymous';
+                frameImage.onload = function() {
+                    console.log('FRAME IMAGE LOADED SUCCESSFULLY');
+                    drawFrameOnCanvas();
+                };
+                frameImage.onerror = function() {
+                    console.log('FRAME IMAGE FAILED TO LOAD');
+                };
+                frameImage.src = "{{ url_for('static', filename='frames/current.png') }}?v={{ timestamp }}";
             }
-            
-            // Apply to img src
-            const frameImg = document.getElementById('frameOverlayImg');
-            if (frameImg) {
-                frameImg.src = url;
-                frameImg.style.display = 'block';
-                console.log('FRAME APPLIED TO IMG SRC');
+        }
+        
+        function drawFrameOnCanvas() {
+            if (canvas && ctx && frameImage && !frameLoaded) {
+                console.log('DRAWING FRAME ON CANVAS');
+                
+                // Set canvas dimensions to match container
+                const containerRect = document.getElementById('cameraContainer').getBoundingClientRect();
+                canvas.width = containerRect.width;
+                canvas.height = containerRect.height;
+                
+                // Clear canvas
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // Draw frame image to fill canvas
+                ctx.drawImage(frameImage, 0, 0, canvas.width, canvas.height);
+                
+                // Show canvas
+                canvas.style.display = 'block';
+                canvas.style.opacity = '1';
+                canvas.style.position = 'absolute';
+                canvas.style.top = '0';
+                canvas.style.left = '0';
+                canvas.style.width = '100%';
+                canvas.style.height = '100%';
+                canvas.style.zIndex = '200';
+                canvas.style.pointerEvents = 'none';
+                canvas.style.borderRadius = '1rem';
+                
+                frameLoaded = true;
+                console.log('CANVAS FRAME OVERLAY ACTIVATED');
             }
-        })
-        .catch(error => {
-            console.error('FRAME LOADING FAILED:', error);
-            
-            // Fallback: Create a visible red border overlay
-            const container = document.getElementById('cameraContainer');
-            if (container) {
-                const fallback = document.createElement('div');
-                fallback.style.cssText = 'position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 10px solid red; box-sizing: border-box; z-index: 100; pointer-events: none;';
-                fallback.innerHTML = '<div style="position: absolute; top: 10px; left: 10px; background: red; color: white; padding: 5px; font-size: 12px;">FALLBACK FRAME</div>';
-                container.appendChild(fallback);
-                console.log('FALLBACK FRAME CREATED');
+        }
+        
+        function enforceCanvasOverlay() {
+            if (canvas && frameLoaded) {
+                canvas.style.display = 'block';
+                canvas.style.opacity = '1';
+                canvas.style.position = 'absolute';
+                canvas.style.top = '0';
+                canvas.style.left = '0';
+                canvas.style.width = '100%';
+                canvas.style.height = '100%';
+                canvas.style.zIndex = '200';
+                canvas.style.pointerEvents = 'none';
+                canvas.style.borderRadius = '1rem';
+            }
+        }
+        
+        // Wait for camera to be fully playing before showing frame
+        if (video) {
+            video.addEventListener('playing', function() {
+                console.log('VIDEO PLAYING EVENT - LOADING FRAME IMAGE');
+                // Load frame image first, then it will auto-draw
+                setTimeout(loadFrameImage, 500);
+            });
+        }
+        
+        // Periodic enforcement only after frame is initially loaded
+        setInterval(function() {
+            if (frameLoaded) {
+                enforceCanvasOverlay();
+                // Redraw frame if canvas was cleared
+                if (ctx) {
+                    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                    const isEmpty = !imageData.data.some(channel => channel !== 0);
+                    if (isEmpty && frameImage) {
+                        console.log('REDRAWING FRAME ON CANVAS');
+                        drawFrameOnCanvas();
+                    }
+                }
+            }
+        }, 3000);
+        
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            if (frameLoaded && frameImage && canvas && ctx) {
+                console.log('WINDOW RESIZED - REDRAWING CANVAS');
+                setTimeout(drawFrameOnCanvas, 100);
             }
         });
+        
+        console.log('CANVAS FRAME OVERLAY INITIALIZED');
     });
     </script>
 </body>
