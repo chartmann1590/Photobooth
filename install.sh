@@ -250,15 +250,33 @@ setup_printing() {
     # Configure CUPS for network access
     sudo cp /etc/cups/cupsd.conf /etc/cups/cupsd.conf.backup
     
-    # Allow access from PhotoBooth network
+    # Enable network access by listening on all interfaces
     sudo sed -i 's/Listen localhost:631/Listen 0.0.0.0:631/' /etc/cups/cupsd.conf
     
+    # Enable remote administration
+    sudo cupsctl --remote-admin --remote-any --share-printers
+    
+    # Configure location-based access permissions
     if ! grep -q "Allow 192.168.50.*" /etc/cups/cupsd.conf; then
-        sudo sed -i '/<Location \/>/a\  Allow 192.168.50.*' /etc/cups/cupsd.conf
-        sudo sed -i '/<Location \/admin>/a\  Allow 192.168.50.*' /etc/cups/cupsd.conf
+        # Allow access to root location
+        sudo sed -i '/<Location \/>/a\  Allow 192.168.50.*\n  Allow 192.168.1.*\n  Allow 10.0.0.*' /etc/cups/cupsd.conf
+        
+        # Allow access to admin location
+        sudo sed -i '/<Location \/admin>/a\  Allow 192.168.50.*\n  Allow 192.168.1.*\n  Allow 10.0.0.*' /etc/cups/cupsd.conf
+        
+        # Allow access to admin config location
+        sudo sed -i '/<Location \/admin\/conf>/a\  Allow 192.168.50.*\n  Allow 192.168.1.*\n  Allow 10.0.0.*' /etc/cups/cupsd.conf
     fi
     
-    echo_success "CUPS printing configured"
+    # Set server name to be accessible by IP
+    if ! grep -q "ServerName" /etc/cups/cupsd.conf; then
+        echo "ServerName 192.168.50.1" | sudo tee -a /etc/cups/cupsd.conf
+    fi
+    
+    # Restart CUPS to apply configuration changes
+    sudo systemctl restart cups
+    
+    echo_success "CUPS printing configured for network access"
 }
 
 # Create environment file
