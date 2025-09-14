@@ -133,6 +133,71 @@
         </div>
     </div>
 
+    <!-- CUPS Control Panel -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+        <h2 class="text-xl font-bold text-gray-900 mb-4">
+            <i class="fas fa-cogs text-blue-600 mr-2"></i>
+            CUPS Control Panel
+        </h2>
+        <p class="text-gray-600 mb-6">Advanced printer and queue management controls.</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <!-- Reset Printer -->
+            <button onclick="resetPrinter()" 
+                    class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3 px-4 rounded-lg
+                           transform hover:scale-105 transition-all duration-200 ease-in-out flex items-center justify-center">
+                <i class="fas fa-power-off mr-2"></i>
+                Reset Printer
+            </button>
+            
+            <!-- Purge Queue -->
+            <button onclick="purgeQueue()" 
+                    class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-4 rounded-lg
+                           transform hover:scale-105 transition-all duration-200 ease-in-out flex items-center justify-center">
+                <i class="fas fa-trash-alt mr-2"></i>
+                Purge Queue
+            </button>
+            
+            <!-- Clear Completed (existing functionality enhanced) -->
+            <button onclick="clearCompletedJobs()" 
+                    class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-4 rounded-lg
+                           transform hover:scale-105 transition-all duration-200 ease-in-out flex items-center justify-center">
+                <i class="fas fa-broom mr-2"></i>
+                Clear Completed
+            </button>
+            
+            <!-- Restart CUPS -->
+            <button onclick="restartCups()" 
+                    class="bg-red-500 hover:bg-red-600 text-white font-semibold py-3 px-4 rounded-lg
+                           transform hover:scale-105 transition-all duration-200 ease-in-out flex items-center justify-center">
+                <i class="fas fa-sync-alt mr-2"></i>
+                Restart CUPS
+            </button>
+        </div>
+        
+        <div class="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+            <p class="text-sm text-blue-800">
+                <i class="fas fa-info-circle mr-2"></i>
+                <strong>Reset Printer:</strong> Clears error states and restarts the printer connection.<br>
+                <strong>Purge Queue:</strong> Removes all jobs from the current printer's queue.<br>
+                <strong>Clear Completed:</strong> Removes only completed jobs from all printer queues.<br>
+                <strong>Restart CUPS:</strong> Restarts the entire CUPS printing service (may briefly interrupt printing).
+            </p>
+        </div>
+        
+        <div class="mt-4 p-3 bg-green-50 border border-green-200 rounded-lg">
+            <p class="text-sm text-green-800">
+                <i class="fas fa-external-link-alt mr-2"></i>
+                <strong>Advanced Configuration:</strong> 
+                <a href="https://192.168.50.1:631" target="_blank" class="font-medium text-green-700 hover:text-green-600 underline">
+                    Open CUPS Web Interface
+                </a>
+                <br>
+                Use the CUPS web interface to add printers, configure advanced settings, and manage print queues directly.
+            </p>
+        </div>
+    </div>
+
     <!-- Test Print -->
     <div class="bg-white rounded-lg shadow-md p-6">
         <h2 class="text-xl font-bold text-gray-900 mb-4">Test Print</h2>
@@ -529,6 +594,99 @@ function stopAutoRefresh() {
         clearInterval(autoRefreshInterval);
         autoRefreshInterval = null;
     }
+}
+
+// CUPS Control Functions
+function resetPrinter() {
+    if (!confirm('Reset the printer? This will clear error states and restart the printer connection.')) {
+        return;
+    }
+    
+    showLoading('Resetting printer...');
+    
+    fetch('/settings/api/printer/reset', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({})
+    })
+    .then(response => response.json())
+    .then(data => {
+        hideLoading();
+        if (data.success) {
+            alert('Printer reset successfully! ' + data.message);
+            loadPrintLog(); // Refresh the log
+            location.reload(); // Reload to update printer status
+        } else {
+            alert('Failed to reset printer: ' + (data.error || 'Unknown error'));
+        }
+    })
+    .catch(error => {
+        hideLoading();
+        alert('Failed to reset printer: ' + error.message);
+    });
+}
+
+function purgeQueue() {
+    if (!confirm('Purge ALL jobs from the printer queue? This will remove all pending, processing, and completed jobs for the current printer.')) {
+        return;
+    }
+    
+    showLoading('Purging printer queue...');
+    
+    fetch('/settings/api/printer/purge', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({})
+    })
+    .then(response => response.json())
+    .then(data => {
+        hideLoading();
+        if (data.success) {
+            alert(`Successfully purged ${data.count || 0} jobs from the printer queue!`);
+            loadPrintLog(); // Refresh the log
+        } else {
+            alert('Failed to purge queue: ' + (data.error || 'Unknown error'));
+        }
+    })
+    .catch(error => {
+        hideLoading();
+        alert('Failed to purge queue: ' + error.message);
+    });
+}
+
+function restartCups() {
+    if (!confirm('Restart the CUPS printing service? This will temporarily interrupt all printing operations.')) {
+        return;
+    }
+    
+    showLoading('Restarting CUPS service...');
+    
+    fetch('/settings/api/printer/restart-cups', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        hideLoading();
+        if (data.success) {
+            alert('CUPS service restarted successfully! The page will reload in 3 seconds.');
+            setTimeout(() => {
+                location.reload();
+            }, 3000);
+        } else {
+            alert('Failed to restart CUPS: ' + (data.error || 'Unknown error'));
+        }
+    })
+    .catch(error => {
+        hideLoading();
+        alert('Failed to restart CUPS: ' + error.message);
+    });
 }
 
 // Load print log when page loads and setup auto-refresh
