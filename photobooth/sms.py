@@ -87,11 +87,15 @@ def send_sms_via_gateway(phone_number: str, message: str) -> Dict[str, Any]:
             }
         
         # Prepare SMS-Gate API request
-        api_url = f"{gateway_host}/message"
+        if not gateway_host.startswith(('http://', 'https://')):
+            gateway_host = f"http://{gateway_host}"
+        api_url = f"{gateway_host}/messages"
         
         payload = {
-            'phone': phone_number,
-            'message': message
+            'phoneNumbers': [phone_number],
+            'textMessage': {
+                'text': message
+            }
         }
         
         headers = {
@@ -219,6 +223,8 @@ def test_sms_gateway() -> Dict[str, Any]:
             }
         
         # Test connection to SMS-Gate API
+        if not gateway_host.startswith(('http://', 'https://')):
+            gateway_host = f"http://{gateway_host}"
         api_url = f"{gateway_host}/health"
         
         response = requests.get(
