@@ -10,7 +10,7 @@ from werkzeug.utils import secure_filename
 
 from .storage import get_photos, delete_photo, get_storage_usage, get_photo_path
 from .printing import get_printers, test_print, set_default_printer, get_printer_status, auto_configure_usb_printer, get_print_jobs, get_all_print_jobs, cancel_job, clear_completed_jobs, cleanup_old_jobs, reset_printer, purge_printer_queue, restart_cups_service, is_printing_allowed, get_enhanced_printer_status
-from .models import get_settings, update_setting, get_print_job_logs, get_print_count_status, install_new_cartridge, reset_print_count, get_cartridge_history, get_active_printer_errors, resolve_printer_errors
+from .models import get_settings, update_setting, get_print_job_logs, get_print_count_status, install_new_cartridge, reset_print_count, get_cartridge_history, get_active_printer_errors, resolve_printer_errors, get_sms_messages, get_sms_stats
 from .imaging import validate_frame
 
 settings_bp = Blueprint('settings', __name__, url_prefix='/settings')
@@ -1286,3 +1286,111 @@ def serve_thumbnail(filename):
             return send_from_directory(photos_dir, filename)
         except:
             return "Image not found", 404
+
+# SMS Configuration and Management Routes
+@settings_bp.route('/sms')
+@auth_required
+def sms_settings():
+    """SMS gateway configuration"""
+    try:
+        # Get SMS settings
+        settings = get_settings()
+        sms_settings = {
+            'gateway_host': settings.get('sms_gateway_host', ''),
+            'gateway_username': settings.get('sms_gateway_username', ''),
+            'gateway_password': settings.get('sms_gateway_password', '')
+        }
+        
+        # Get SMS statistics
+        sms_stats = get_sms_stats()
+        
+        # Get recent SMS messages
+        sms_messages = get_sms_messages(20)
+        
+        return render_template('settings/sms.html',
+                             sms_settings=sms_settings,
+                             sms_stats=sms_stats,
+                             sms_messages=sms_messages)
+        
+    except Exception as e:
+        logger.error(f"Error loading SMS settings: {e}")
+        # Provide default values when there's an error
+        default_sms_settings = {
+            'gateway_host': '',
+            'gateway_username': '',
+            'gateway_password': ''
+        }
+        return render_template('settings/sms.html', 
+                             sms_settings=default_sms_settings,
+                             sms_stats={'total_sent': 0, 'total_failed': 0},
+                             sms_messages=[],
+                             error=str(e))
+
+@settings_bp.route('/api/sms/config', methods=['POST'])
+@auth_required
+def update_sms_config():
+    """Update SMS gateway configuration"""
+    try:
+        data = request.get_json()
+        
+        gateway_host = data.get('gateway_host', '').strip()
+        gateway_username = data.get('gateway_username', '').strip()
+        gateway_password = data.get('gateway_password', '').strip()
+        
+        # Update settings
+        update_setting('sms_gateway_host', gateway_host)
+        update_setting('sms_gateway_username', gateway_username)
+        update_setting('sms_gateway_password', gateway_password)
+        
+        logger.info("SMS gateway configuration updated")
+        
+        return jsonify({
+            'success': True,
+            'message': 'SMS gateway configuration saved successfully'
+        })
+        
+    except Exception as e:
+        logger.error(f"Error updating SMS config: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+@settings_bp.route('/api/sms/status', methods=['GET'])
+@auth_required
+def sms_gateway_status():
+    """Get SMS gateway status"""
+    try:
+        from .sms import get_sms_gateway_status
+        
+        status = get_sms_gateway_status()
+        
+        return jsonify({
+            'success': True,
+            'status': status
+        })
+        
+    except Exception as e:
+        logger.error(f"Error getting SMS gateway status: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+@settings_bp.route('/api/sms/test', methods=['POST'])
+@auth_required
+def test_sms_gateway_route():
+    """Test SMS gateway connectivity"""
+    try:
+        from .sms import test_sms_gateway
+        
+        result = test_sms_gateway()
+        
+        return jsonify(result)
+        
+    except Exception as e:
+        logger.error(f"Error testing SMS gateway: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500

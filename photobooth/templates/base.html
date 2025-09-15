@@ -4,11 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>{% block title %}PhotoBooth Settings{% endblock %}</title>
+    
+    <!-- Favicon and App Icons -->
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon-16.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='favicon-180.png') }}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ url_for('static', filename='favicon-192.png') }}">
+    <link rel="icon" type="image/png" sizes="512x512" href="{{ url_for('static', filename='favicon-512.png') }}">
+    
+    <!-- Mobile App Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Wedding PhotoBooth">
+    <meta name="application-name" content="Wedding PhotoBooth">
+    <meta name="theme-color" content="#be185d">
+    <meta name="msapplication-TileColor" content="#be185d">
+    <meta name="msapplication-TileImage" content="{{ url_for('static', filename='favicon-192.png') }}">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    
     <link href="{{ url_for('static', filename='css/tailwind.min.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/fontawesome.min.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/fixes.css') }}?v=20250909" rel="stylesheet">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     {% block extra_css %}{% endblock %}
 </head>
 <body class="bg-gray-50 min-h-screen touch-manipulation">
@@ -59,6 +78,11 @@
                               {{ 'bg-rose-700' if request.endpoint == 'settings.audio_settings' else 'bg-rose-500 hover:bg-rose-600' }}">
                         <i class="fas fa-volume-up mr-1"></i> Audio
                     </a>
+                    <a href="{{ url_for('settings.sms_settings') }}" 
+                       class="text-white hover:text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors
+                              {{ 'bg-rose-700' if request.endpoint == 'settings.sms_settings' else 'bg-rose-500 hover:bg-rose-600' }}">
+                        <i class="fas fa-sms mr-1"></i> SMS
+                    </a>
                     <a href="{{ url_for('settings.system_settings') }}" 
                        class="text-white hover:text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors
                               {{ 'bg-rose-700' if request.endpoint == 'settings.system_settings' else 'bg-rose-500 hover:bg-rose-600' }}">
@@ -101,6 +125,11 @@
                    class="text-white block px-3 py-3 rounded-lg text-base font-medium transition-colors
                           {{ 'bg-rose-800' if request.endpoint == 'settings.audio_settings' else 'bg-rose-500 hover:bg-rose-700' }}">
                     <i class="fas fa-volume-up mr-2 w-4"></i> Audio
+                </a>
+                <a href="{{ url_for('settings.sms_settings') }}" 
+                   class="text-white block px-3 py-3 rounded-lg text-base font-medium transition-colors
+                          {{ 'bg-rose-800' if request.endpoint == 'settings.sms_settings' else 'bg-rose-500 hover:bg-rose-700' }}">
+                    <i class="fas fa-sms mr-2 w-4"></i> SMS
                 </a>
                 <a href="{{ url_for('settings.system_settings') }}" 
                    class="text-white block px-3 py-3 rounded-lg text-base font-medium transition-colors

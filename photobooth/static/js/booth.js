@@ -136,12 +136,20 @@ class PhotoBooth {
         // Modal buttons - add safe event listeners
         const printBtn = document.getElementById('printBtn');
         const retakeBtn = document.getElementById('retakeBtn');
+        const smsBtn = document.getElementById('smsBtn');
         
         if (printBtn) {
             printBtn.addEventListener('click', () => this.printPhoto());
             console.log('Print button event listener added');
         } else {
             console.warn('Print button not found');
+        }
+        
+        if (smsBtn) {
+            smsBtn.addEventListener('click', () => this.showSmsModal());
+            console.log('SMS button event listener added');
+        } else {
+            console.warn('SMS button not found');
         }
         
         if (retakeBtn) {
@@ -387,6 +395,133 @@ class PhotoBooth {
         }
     }
 
+    showSmsModal() {
+        console.log('Showing SMS modal');
+        
+        if (!this.currentPhoto) {
+            this.showError('No photo to send');
+            return;
+        }
+        
+        const smsModal = document.getElementById('smsModal');
+        if (smsModal) {
+            smsModal.classList.remove('hidden');
+            
+            // Focus on phone number input
+            const phoneInput = document.getElementById('smsPhoneNumber');
+            if (phoneInput) {
+                setTimeout(() => phoneInput.focus(), 100);
+            }
+            
+            // Set up form submission
+            const smsForm = document.getElementById('smsForm');
+            if (smsForm) {
+                smsForm.onsubmit = (e) => this.handleSmsSubmit(e);
+            }
+        }
+        
+        console.log('SMS modal shown');
+    }
+
+    closeSmsModal() {
+        console.log('Closing SMS modal');
+        const smsModal = document.getElementById('smsModal');
+        const smsForm = document.getElementById('smsForm');
+        
+        if (smsModal) {
+            smsModal.classList.add('hidden');
+        }
+        
+        if (smsForm) {
+            smsForm.reset();
+        }
+        
+        console.log('SMS modal closed');
+    }
+
+    async handleSmsSubmit(e) {
+        e.preventDefault();
+        
+        if (!this.currentPhoto) {
+            this.showError('No photo to send');
+            return;
+        }
+        
+        const countryCode = document.getElementById('smsCountryCode').value;
+        const phoneNumber = document.getElementById('smsPhoneNumber').value.trim();
+        const customMessage = document.getElementById('smsCustomMessage').value.trim();
+        
+        if (!phoneNumber) {
+            this.showError('Please enter a phone number');
+            return;
+        }
+        
+        // Basic phone number validation (remove non-digits)
+        const cleanPhoneNumber = phoneNumber.replace(/\D/g, '');
+        
+        if (cleanPhoneNumber.length < 7) {
+            this.showError('Please enter a valid phone number');
+            return;
+        }
+        
+        // Combine country code with clean phone number
+        const fullPhoneNumber = countryCode + cleanPhoneNumber;
+        
+        // Step 1: Show initial upload message
+        this.showLoading('📷 Preparing your photo for sharing...');
+        
+        // Add a brief delay to show the first message
+        await this.sleep(800);
+        
+        // Step 2: Show upload message
+        this.showLoading('☁️ Uploading image to hosting service...');
+        
+        try {
+            const response = await fetch('/booth/api/sms', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    filename: this.currentPhoto.filename,
+                    phone_number: fullPhoneNumber,
+                    message: customMessage
+                })
+            });
+
+            // Step 3: Show SMS sending message while waiting for response
+            this.showLoading('📱 Sending SMS message...');
+
+            const data = await response.json();
+
+            if (data.success) {
+                console.log('SMS sent successfully');
+                
+                // Step 4: Show success message before closing modal
+                this.showLoading('✅ SMS sent successfully! Closing...');
+                
+                // Show masked phone number for privacy (show country code + last 4 digits)
+                const maskedNumber = fullPhoneNumber.length > 6 ? 
+                    countryCode + '****' + fullPhoneNumber.slice(-4) : 
+                    fullPhoneNumber;
+                
+                // Wait a moment to show success message
+                await this.sleep(1500);
+                
+                this.closeSmsModal();
+                this.showSuccess(`📱 Photo sent successfully to ${maskedNumber}! ${data.image_service ? `(via ${data.image_service})` : ''}`);
+            } else {
+                throw new Error(data.error || 'SMS sending failed');
+            }
+
+        } catch (error) {
+            console.error('SMS sending failed:', error);
+            this.showError('Failed to send SMS: ' + error.message);
+        } finally {
+            this.hideLoading();
+        }
+    }
+
     closePreview() {
         console.log('Closing preview modal');
         const previewModal = document.getElementById('previewModal');
@@ -574,9 +709,23 @@ document.addEventListener('keydown', (e) => {
             modal.classList.add('hidden');
         });
         
+        // Reset SMS form if SMS modal was closed
+        const smsModal = document.getElementById('smsModal');
+        const smsForm = document.getElementById('smsForm');
+        if (smsModal && !smsModal.classList.contains('hidden')) {
+            if (smsForm) smsForm.reset();
+        }
+        
         // Reset capture button if needed
         if (window.photoBooth && window.photoBooth.captureBtn.disabled) {
             window.photoBooth.enableCaptureButton();
         }
     }
 });
+
+// Global function for SMS modal (called from template)
+function closeSmsModal() {
+    if (window.photoBooth) {
+        window.photoBooth.closeSmsModal();
+    }
+}

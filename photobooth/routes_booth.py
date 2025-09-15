@@ -315,3 +315,49 @@ def booth_status():
     except Exception as e:
         logger.error(f"Error getting booth status: {e}")
         return jsonify({'error': 'Failed to get status'}), 500
+
+@booth_bp.route('/api/sms', methods=['POST'])
+def send_photo_sms():
+    """Send photo via SMS"""
+    try:
+        data = request.get_json()
+        filename = data.get('filename')
+        phone_number = data.get('phone_number')
+        custom_message = data.get('message', '')
+        
+        if not filename:
+            return jsonify({'error': 'No filename provided'}), 400
+            
+        if not phone_number:
+            return jsonify({'error': 'No phone number provided'}), 400
+        
+        # Get photo path
+        photo_path = get_photo_path(filename, 'all')
+        
+        if not os.path.exists(photo_path):
+            return jsonify({'error': 'Photo not found'}), 404
+        
+        # Send SMS with photo
+        from .sms import send_photo_sms
+        result = send_photo_sms(photo_path, phone_number, custom_message)
+        
+        if result['success']:
+            logger.info(f"Photo SMS sent to {phone_number}: {filename}")
+            return jsonify({
+                'success': True,
+                'message': result['message'],
+                'image_service': result.get('service')
+            })
+        else:
+            logger.error(f"SMS failed for {phone_number}: {result['error']}")
+            return jsonify({
+                'success': False,
+                'error': result['error']
+            }), 500
+            
+    except Exception as e:
+        logger.error(f"Error sending SMS: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500

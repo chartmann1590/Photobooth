@@ -115,6 +115,3 @@ node_modules/
 .Trashes
 ehthumbs.db
 Thumbs.db
-
-# Claude Code project instructions (local only)
-CLAUDE.md

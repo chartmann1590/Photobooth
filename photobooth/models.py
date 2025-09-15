@@ -97,6 +97,18 @@ def init_db(db_path: str):
                 )
             ''')
             
+            # SMS messages tracking table
+            conn.execute('''
+                CREATE TABLE IF NOT EXISTS sms_messages (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    phone_number TEXT NOT NULL,
+                    image_url TEXT NOT NULL,
+                    status TEXT NOT NULL,
+                    error_message TEXT NULL,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                )
+            ''')
+            
             conn.commit()
             
             # Insert default settings if they don't exist
@@ -718,4 +730,97 @@ def get_printer_error_status(printer_name: str) -> Dict[str, Any]:
             'error_count': 0,
             'errors': [],
             'printing_disabled': False
+        }
+
+# SMS-related functions
+def log_sms_message(phone_number: str, image_url: str, status: str, error_message: str = None) -> bool:
+    """Log an SMS message attempt"""
+    from flask import current_app
+    
+    try:
+        with get_db_connection(current_app.config['DATABASE_PATH']) as conn:
+            conn.execute('''
+                INSERT INTO sms_messages 
+                (phone_number, image_url, status, error_message, created_at)
+                VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)
+            ''', (phone_number, image_url, status, error_message))
+            conn.commit()
+            return True
+            
+    except Exception as e:
+        logger.error(f"Failed to log SMS message: {e}")
+        return False
+
+def get_sms_messages(limit: int = 50) -> List[Dict[str, Any]]:
+    """Get recent SMS messages"""
+    from flask import current_app
+    
+    try:
+        with get_db_connection(current_app.config['DATABASE_PATH']) as conn:
+            cursor = conn.execute('''
+                SELECT id, phone_number, image_url, status, error_message, created_at
+                FROM sms_messages 
+                ORDER BY created_at DESC 
+                LIMIT ?
+            ''', (limit,))
+            
+            messages = []
+            for row in cursor.fetchall():
+                messages.append({
+                    'id': row['id'],
+                    'phone_number': row['phone_number'],
+                    'image_url': row['image_url'],
+                    'status': row['status'],
+                    'error_message': row['error_message'],
+                    'created_at': row['created_at']
+                })
+            
+            return messages
+            
+    except Exception as e:
+        logger.error(f"Failed to get SMS messages: {e}")
+        return []
+
+def get_sms_stats() -> Dict[str, Any]:
+    """Get SMS usage statistics"""
+    from flask import current_app
+    
+    try:
+        with get_db_connection(current_app.config['DATABASE_PATH']) as conn:
+            # Total messages
+            cursor = conn.execute('SELECT COUNT(*) as total FROM sms_messages')
+            total = cursor.fetchone()['total']
+            
+            # Successful messages
+            cursor = conn.execute("SELECT COUNT(*) as successful FROM sms_messages WHERE status = 'sent'")
+            successful = cursor.fetchone()['successful']
+            
+            # Failed messages
+            cursor = conn.execute("SELECT COUNT(*) as failed FROM sms_messages WHERE status = 'failed'")
+            failed = cursor.fetchone()['failed']
+            
+            # Today's messages
+            cursor = conn.execute('''
+                SELECT COUNT(*) as today 
+                FROM sms_messages 
+                WHERE DATE(created_at) = DATE('now')
+            ''')
+            today = cursor.fetchone()['today']
+            
+            return {
+                'total': total,
+                'successful': successful,
+                'failed': failed,
+                'today': today,
+                'success_rate': round((successful / total * 100) if total > 0 else 0, 1)
+            }
+            
+    except Exception as e:
+        logger.error(f"Failed to get SMS stats: {e}")
+        return {
+            'total': 0,
+            'successful': 0,
+            'failed': 0,
+            'today': 0,
+            'success_rate': 0
         }

@@ -27,6 +27,7 @@ This guide provides detailed information about all PhotoBooth features and how t
 - **Frame overlay application** with transparency support
 - **Quality optimization** for Pi 3B performance
 - **Immediate preview** with print/SMS/retake options
+- **Wedding-themed favicon** for professional mobile app experience
 
 ### Frame Overlay System
 
@@ -76,11 +77,13 @@ This guide provides detailed information about all PhotoBooth features and how t
 ### SMS Photo Sharing
 
 #### How It Works
-- **Instant sharing** after photo capture
-- **Free image hosting** via ImgBB (24-hour expiration)
+- **Instant sharing** after photo capture with audio feedback
+- **Dual image hosting** via 0x0.st (primary) and ImgBB (fallback)
 - **Local SMS gateway** using SMS-Gate app
-- **No external fees** or API keys required
-- **Privacy-conscious** with automatic expiration
+- **Wedding-themed messaging** with automated introduction
+- **Audio alerts** for success/failure via TTS
+- **No external fees** or API keys required (0x0.st)
+- **Privacy-conscious** with automatic 24-hour expiration
 
 #### Setup Requirements
 - **Android device** with SMS capability
@@ -91,11 +94,11 @@ This guide provides detailed information about all PhotoBooth features and how t
 #### User Experience
 1. Guest takes photo
 2. Three options appear: Print / Send SMS / Retake
-3. "Send SMS" opens phone number input
-4. Country code dropdown for international numbers
-5. Photo uploads automatically
-6. SMS sent with download link
-7. Success confirmation shown
+3. "Send SMS" opens phone number input with progressive feedback
+4. Photo uploads with status messages ("Uploading image...", "Sending SMS...")
+5. SMS sent with wedding-themed message and photo link
+6. **Audio feedback**: "SMS sent successfully!" or "SMS sending failed. Please try again."
+7. Success confirmation shown with service details
 
 ### Gallery Management
 
@@ -137,7 +140,8 @@ data/photos/
 - **Countdown**: "Get ready... 3... 2... 1... Smile!"
 - **Capture success**: "Perfect! Your photo is ready!"
 - **Print started**: "Your photo is printing!"
-- **SMS sent**: "Photo sent successfully!"
+- **SMS success**: "SMS sent successfully!"
+- **SMS error**: "SMS sending failed. Please try again."
 
 #### Configuration
 - **Enable/disable** TTS globally

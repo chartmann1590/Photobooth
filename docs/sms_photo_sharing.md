@@ -2,7 +2,7 @@
 
 ## Overview
 
-The PhotoBooth SMS feature allows users to share photos via SMS using a combination of free image hosting and local SMS gateway integration. This feature provides seamless photo sharing directly from the gallery interface.
+The PhotoBooth SMS feature allows users to share photos via SMS using a combination of free image hosting and local SMS gateway integration. This feature provides seamless photo sharing directly from the main booth interface with audio feedback and automated wedding-themed messaging.
 
 ## Architecture
 
@@ -30,28 +30,33 @@ The PhotoBooth SMS feature allows users to share photos via SMS using a combinat
 
 ## Technical Implementation
 
-### Image Hosting - ImgBB Integration
+### Image Hosting - Dual Service Integration
 
-**Service**: [ImgBB](https://imgbb.com/) - Free image hosting
-**API Endpoint**: `https://api.imgbb.com/1/upload`
+**Primary Service**: [0x0.st](https://0x0.st) - Free, no-registration file hosting
+**Fallback Service**: [ImgBB](https://imgbb.com/) - Free image hosting (requires API key)
+
 **Features**:
-- No registration required
-- 24-hour image expiration (free tier)
+- **0x0.st**: No registration required, 24-hour expiration, direct file upload
+- **ImgBB**: Fallback when API key is configured, reliable service
 - Direct image URLs for SMS sharing
-- Base64 image upload support
+- Automatic failover between services
 
 **Implementation Details**:
 ```python
-def upload_image_to_imgbb(image_path: str) -> Dict[str, Any]:
-    # Read and encode image as base64
+def upload_image_to_0x0st(image_path: str) -> Dict[str, Any]:
+    """Primary image hosting using 0x0.st"""
+    url = "https://0x0.st"
     with open(image_path, 'rb') as image_file:
-        image_data = base64.b64encode(image_file.read()).decode('utf-8')
-    
-    # Upload to ImgBB with 24-hour expiration
-    payload = {
-        'image': image_data,
-        'expiration': 86400  # 24 hours
-    }
+        files = {'file': image_file}
+        data = {'expires': '24'}  # 24 hours
+        headers = {'User-Agent': 'PhotoBooth/1.0 (Wedding Photo Sharing)'}
+        response = requests.post(url, files=files, data=data, headers=headers)
+
+def upload_image_to_imgbb(image_path: str) -> Dict[str, Any]:
+    """Fallback image hosting using ImgBB (requires API key)"""
+    api_key = get_setting('imgbb_api_key', '')
+    if not api_key:
+        return upload_image_to_0x0st(image_path)  # Fallback to 0x0.st
 ```
 
 ### SMS Gateway - SMS-Gate Integration
@@ -165,21 +170,42 @@ ImgBB integration is automatically configured and requires no additional setup:
 
 ### SMS Message Format
 
+**New Wedding-Themed Format**:
+All SMS messages now include an automated wedding introduction for a professional, personalized touch.
+
 **Default Message**:
 ```
-Here's your photo from the PhotoBooth! [IMAGE_URL]
+💒 Greetings from the Wedding PhotoBooth! 📸
 
-(Hosted on ImgBB, expires in 24 hours)
+Here's your beautiful photo from today's celebration! [IMAGE_URL]
+
+(Hosted on [SERVICE], expires in 24 hours)
 ```
 
 **Custom Message Example**:
 ```
+💒 Greetings from the Wedding PhotoBooth! 📸
+
 Thanks for celebrating with us! [CUSTOM_MESSAGE]
 
 Your photo: [IMAGE_URL]
 
-(Hosted on ImgBB, expires in 24 hours)
+(Hosted on [SERVICE], expires in 24 hours)
 ```
+
+### Audio Feedback System
+
+**TTS Integration**: SMS operations now include audio feedback using the existing text-to-speech system.
+
+**Audio Alerts**:
+- **Success**: "SMS sent successfully!" - Played when photo is successfully sent
+- **Error**: "SMS sending failed. Please try again." - Played when any error occurs
+
+**Technical Details**:
+- Uses existing TTS configuration (voice, rate, enabled/disabled settings)
+- Async audio playback (non-blocking)
+- Graceful fallback if audio system unavailable
+- Integrated with eSpeak TTS engine
 
 ## Administrative Features
 
