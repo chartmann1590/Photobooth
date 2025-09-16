@@ -23,17 +23,41 @@ iptables -P INPUT ACCEPT
 iptables -P FORWARD ACCEPT
 iptables -P OUTPUT ACCEPT
 
-# NAT rules for internet sharing (if eth0 has internet)
-# Only add if eth0 exists and is up
-if ip link show eth0 up > /dev/null 2>&1; then
-    echo "Setting up NAT for internet sharing via eth0"
+# Internet sharing configuration - detect active interface with internet
+INTERNET_INTERFACE=""
+
+# Check for active internet interface in order of preference
+for iface in eth0 wlan1 usb0 enp*; do
+    # Check if interface exists and is up
+    if ip link show $iface up > /dev/null 2>&1; then
+        # Check if interface has an IP address
+        if ip addr show $iface | grep -q "inet "; then
+            # Check if interface has a default route (internet access)
+            if ip route show dev $iface | grep -q "default\|0.0.0.0/0"; then
+                INTERNET_INTERFACE=$iface
+                echo "Found internet interface: $INTERNET_INTERFACE"
+                break
+            fi
+        fi
+    fi
+done
+
+# Set up NAT for internet sharing if we found an active internet interface
+if [ -n "$INTERNET_INTERFACE" ]; then
+    echo "Setting up NAT for internet sharing via $INTERNET_INTERFACE"
     
-    # Masquerade outgoing traffic
-    iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+    # Masquerade outgoing traffic from WiFi AP to internet interface
+    iptables -t nat -A POSTROUTING -o $INTERNET_INTERFACE -j MASQUERADE
     
-    # Allow forwarding from wlan0 to eth0
-    iptables -A FORWARD -i wlan0 -o eth0 -j ACCEPT
-    iptables -A FORWARD -i eth0 -o wlan0 -m state --state RELATED,ESTABLISHED -j ACCEPT
+    # Allow forwarding from wlan0 (WiFi AP) to internet interface
+    iptables -A FORWARD -i wlan0 -o $INTERNET_INTERFACE -j ACCEPT
+    iptables -A FORWARD -i $INTERNET_INTERFACE -o wlan0 -m state --state RELATED,ESTABLISHED -j ACCEPT
+    
+    # Log successful setup
+    echo "Internet sharing configured: WiFi AP (192.168.50.x) -> $INTERNET_INTERFACE"
+else
+    echo "No active internet interface found - WiFi AP will work in offline mode"
+    echo "Users will still be able to access PhotoBooth at https://192.168.50.1"
 fi
 
 # Allow traffic on the loopback interface

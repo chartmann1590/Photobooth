@@ -4,7 +4,30 @@
 echo "=== PhotoBooth Internet Sharing Test ==="
 echo
 
+# Test 0: Detect active internet interface
+echo "0. Detecting internet interface..."
+INTERNET_INTERFACE=""
+for iface in eth0 wlan1 usb0 enp*; do
+    if ip link show $iface up > /dev/null 2>&1; then
+        if ip addr show $iface | grep -q "inet "; then
+            if ip route show dev $iface | grep -q "default\|0.0.0.0/0"; then
+                INTERNET_INTERFACE=$iface
+                echo "✓ Found internet interface: $INTERNET_INTERFACE"
+                break
+            fi
+        fi
+    fi
+done
+
+if [ -z "$INTERNET_INTERFACE" ]; then
+    echo "✗ No active internet interface found"
+    echo "   PhotoBooth will work in offline mode only"
+else
+    echo "   IP Address: $(ip addr show $INTERNET_INTERFACE | grep 'inet ' | awk '{print $2}')"
+fi
+
 # Test 1: Check IP forwarding
+echo
 echo "1. Checking IP forwarding..."
 ip_forward=$(cat /proc/sys/net/ipv4/ip_forward)
 if [ "$ip_forward" = "1" ]; then

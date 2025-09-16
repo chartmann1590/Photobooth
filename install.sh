@@ -221,9 +221,9 @@ setup_certificates() {
     echo_success "TLS certificates configured"
 }
 
-# Configure IP forwarding and NAT
+# Configure IP forwarding and NAT for internet sharing
 setup_networking() {
-    echo_info "Configuring networking and NAT..."
+    echo_info "Configuring networking and NAT for internet sharing..."
     
     # Run networking script
     sudo bash services/sysctl_iptables.sh
@@ -233,7 +233,32 @@ setup_networking() {
         echo "net.ipv4.ip_forward=1" | sudo tee -a /etc/sysctl.conf
     fi
     
-    echo_success "Networking configured"
+    # Create systemd service for networking setup at boot
+    cat > /tmp/photobooth-networking.service << 'EOF'
+[Unit]
+Description=PhotoBooth Networking Setup
+After=network.target
+Before=hostapd.service dnsmasq.service
+
+[Service]
+Type=oneshot
+ExecStart=/opt/photobooth/services/sysctl_iptables.sh
+RemainAfterExit=yes
+User=root
+
+[Install]
+WantedBy=multi-user.target
+EOF
+    
+    # Install and enable networking service
+    sudo cp /tmp/photobooth-networking.service /etc/systemd/system/
+    sudo systemctl daemon-reload
+    sudo systemctl enable photobooth-networking
+    
+    # Create persistent iptables directory if it doesn't exist
+    sudo mkdir -p /etc/iptables
+    
+    echo_success "Networking and internet sharing configured"
 }
 
 # Configure CUPS printing
