@@ -38,6 +38,35 @@ def save_photo(photo_file, filename: str) -> str:
         
         logger.info(f"Photo saved: {filename} ({file_size} bytes)")
         
+        # Sync to Immich if enabled
+        try:
+            from .immich import sync_photo_to_immich
+            from .models import get_setting
+            
+            # Check if sync on capture is enabled
+            sync_on_capture = get_setting('immich_sync_on_capture', 'true')
+            if sync_on_capture.lower() in ('true', '1', 'yes', 'on'):
+                # Sync in background (non-blocking)
+                import threading
+                
+                def sync_in_background():
+                    try:
+                        result = sync_photo_to_immich(photo_path)
+                        if result['success']:
+                            logger.info(f"Photo '{filename}' synced to Immich successfully")
+                        else:
+                            logger.warning(f"Failed to sync photo '{filename}' to Immich: {result.get('error')}")
+                    except Exception as e:
+                        logger.error(f"Error syncing photo '{filename}' to Immich: {e}")
+                
+                # Start background sync
+                sync_thread = threading.Thread(target=sync_in_background, daemon=True)
+                sync_thread.start()
+                
+        except Exception as e:
+            # Don't fail photo save if Immich sync fails
+            logger.warning(f"Failed to trigger Immich sync for {filename}: {e}")
+        
         return photo_path
         
     except Exception as e:

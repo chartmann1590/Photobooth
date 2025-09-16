@@ -148,7 +148,13 @@ def _insert_default_settings(conn: sqlite3.Connection):
         'gotify_enabled': 'false',
         'gotify_server_url': '',
         'gotify_app_token': '',
-        'gotify_printer_errors_enabled': 'true'
+        'gotify_printer_errors_enabled': 'true',
+        'immich_enabled': 'false',
+        'immich_server_url': '',
+        'immich_api_key': '',
+        'immich_album_name': 'PhotoBooth',
+        'immich_auto_sync': 'true',
+        'immich_sync_on_capture': 'true'
     }
     
     for key, value in default_settings.items():

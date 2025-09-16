@@ -3,6 +3,30 @@
 {% block title %}PhotoBooth Settings - Audio{% endblock %}
 
 {% block content %}
+<style>
+/* Custom toggle switch styles for Audio settings */
+.toggle-checkbox:checked + .toggle-slider {
+    background-color: #F43F5E; /* Rose-500 */
+}
+
+.toggle-checkbox:checked + .toggle-slider .toggle-thumb {
+    transform: translateX(1.25rem); /* 20px - move to right */
+}
+
+.toggle-checkbox:focus + .toggle-slider {
+    box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.3); /* Rose focus ring */
+}
+
+/* Additional styling for better visibility */
+.toggle-slider {
+    background-color: #E5E7EB; /* Gray-200 */
+}
+
+.toggle-thumb {
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+}
+</style>
+
 <div class="px-4 py-6 sm:px-0">
     <!-- Header -->
     <div class="mb-8">
@@ -27,12 +51,10 @@
                 <label class="relative inline-flex items-center cursor-pointer">
                     <input type="checkbox" name="tts_enabled" value="true" 
                            {{ 'checked' if tts_enabled else '' }}
-                           class="sr-only peer">
-                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-rose-300 
-                                rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white 
-                                after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white 
-                                after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all 
-                                peer-checked:bg-rose-500"></div>
+                           class="toggle-checkbox sr-only">
+                    <div class="toggle-slider w-11 h-6 bg-gray-200 rounded-full relative transition-colors duration-200 ease-in-out">
+                        <div class="toggle-thumb absolute top-0.5 left-0.5 bg-white w-5 h-5 rounded-full shadow transform transition-transform duration-200 ease-in-out"></div>
+                    </div>
                 </label>
             </div>
 

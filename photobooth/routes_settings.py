@@ -1533,3 +1533,192 @@ def test_sms_gateway_route():
             'success': False,
             'error': str(e)
         }), 500
+
+# === Immich API Endpoints ===
+
+@settings_bp.route('/api/immich/status', methods=['GET'])
+@auth_required
+def immich_status():
+    """Get Immich configuration status"""
+    try:
+        from .immich import get_immich_sync
+        
+        sync = get_immich_sync()
+        settings = sync._get_settings()
+        
+        return jsonify({
+            'success': True,
+            'settings': settings
+        })
+        
+    except Exception as e:
+        logger.error(f"Error getting Immich status: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+@settings_bp.route('/api/immich/config', methods=['POST'])
+@auth_required
+def update_immich_config():
+    """Update Immich configuration"""
+    try:
+        data = request.get_json() or {}
+        
+        # Validate required fields if enabled
+        if data.get('enabled', False):
+            if not data.get('server_url') or not data.get('api_key'):
+                return jsonify({
+                    'success': False,
+                    'error': 'Server URL and API Key are required when Immich sync is enabled'
+                }), 400
+        
+        # Helper function for boolean conversion
+        def to_bool_string(value):
+            if isinstance(value, bool):
+                return 'true' if value else 'false'
+            return str(value).lower() if str(value).lower() in ('true', 'false') else 'false'
+        
+        # Update settings
+        settings_to_update = {
+            'immich_enabled': to_bool_string(data.get('enabled', False)),
+            'immich_server_url': data.get('server_url', '').strip(),
+            'immich_api_key': data.get('api_key', '').strip(),
+            'immich_album_name': data.get('album_name', 'PhotoBooth').strip(),
+            'immich_auto_sync': to_bool_string(data.get('auto_sync', True)),
+            'immich_sync_on_capture': to_bool_string(data.get('sync_on_capture', True))
+        }
+        
+        from .models import update_setting
+        for key, value in settings_to_update.items():
+            update_setting(key, value)
+        
+        logger.info(f"User updated Immich configuration")
+        
+        return jsonify({
+            'success': True,
+            'message': 'Immich settings updated successfully'
+        })
+        
+    except Exception as e:
+        logger.error(f"Error updating Immich config: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+@settings_bp.route('/api/immich/test', methods=['POST'])
+@auth_required
+def test_immich_connection():
+    """Test connection to Immich server"""
+    try:
+        from .immich import test_immich_connection
+        
+        result = test_immich_connection()
+        
+        if result['success']:
+            logger.info(f"User tested Immich connection successfully")
+        else:
+            logger.warning(f"User's Immich connection test failed: {result.get('error')}")
+        
+        return jsonify(result)
+        
+    except Exception as e:
+        logger.error(f"Error testing Immich connection: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+@settings_bp.route('/api/immich/albums', methods=['GET'])
+@auth_required
+def get_immich_albums():
+    """Get list of albums from Immich server"""
+    try:
+        from .immich import get_immich_albums
+        
+        albums = get_immich_albums()
+        
+        return jsonify({
+            'success': True,
+            'albums': albums
+        })
+        
+    except Exception as e:
+        logger.error(f"Error getting Immich albums: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+@settings_bp.route('/api/immich/sync-all', methods=['POST'])
+@auth_required
+def sync_all_photos_to_immich():
+    """Sync all photos to Immich server"""
+    try:
+        from .immich import get_immich_sync
+        import os
+        
+        sync = get_immich_sync()
+        
+        # Get photos directory from configuration
+        photos_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data', 'photos', 'all')
+        
+        result = sync.sync_all_photos(photos_dir)
+        
+        if result['success']:
+            logger.info(f"User synced all photos to Immich: {result.get('uploaded', 0)} uploaded, {result.get('duplicates', 0)} duplicates, {result.get('errors', 0)} errors")
+        else:
+            logger.warning(f"User's Immich sync failed: {result.get('error')}")
+        
+        return jsonify(result)
+        
+    except Exception as e:
+        logger.error(f"Error syncing photos to Immich: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+@settings_bp.route('/api/immich/sync-photo', methods=['POST'])
+@auth_required
+def sync_photo_to_immich():
+    """Sync a single photo to Immich server"""
+    try:
+        data = request.get_json() or {}
+        filename = data.get('filename')
+        
+        if not filename:
+            return jsonify({
+                'success': False,
+                'error': 'Filename is required'
+            }), 400
+        
+        from .immich import sync_photo_to_immich
+        import os
+        
+        # Construct full path to photo
+        photos_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data', 'photos', 'all')
+        photo_path = os.path.join(photos_dir, filename)
+        
+        if not os.path.exists(photo_path):
+            return jsonify({
+                'success': False,
+                'error': f'Photo not found: {filename}'
+            }), 404
+        
+        result = sync_photo_to_immich(photo_path)
+        
+        if result['success']:
+            logger.info(f"User synced photo '{filename}' to Immich")
+        else:
+            logger.warning(f"User's photo sync failed for '{filename}': {result.get('error')}")
+        
+        return jsonify(result)
+        
+    except Exception as e:
+        logger.error(f"Error syncing photo to Immich: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500

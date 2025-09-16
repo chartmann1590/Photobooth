@@ -3,6 +3,30 @@
 {% block title %}PhotoBooth Settings - Gallery{% endblock %}
 
 {% block content %}
+<style>
+/* Custom toggle switch styles for Immich settings */
+.toggle-checkbox:checked + .toggle-slider {
+    background-color: #3B82F6; /* Blue-500 */
+}
+
+.toggle-checkbox:checked + .toggle-slider .toggle-thumb {
+    transform: translateX(1.25rem); /* 20px - move to right */
+}
+
+.toggle-checkbox:focus + .toggle-slider {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); /* Blue focus ring */
+}
+
+/* Additional styling for better visibility */
+.toggle-slider {
+    background-color: #E5E7EB; /* Gray-200 */
+}
+
+.toggle-thumb {
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+}
+</style>
+
 <div class="px-4 py-6 sm:px-0">
     <!-- Header -->
     <div class="mb-8">
@@ -86,6 +110,145 @@
                     <i class="fas fa-trash mr-2"></i>
                     Delete All
                 </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Immich Sync Configuration (Optional Add-on) -->
+    <div class="bg-white rounded-xl shadow-md p-6 mb-8">
+        <!-- Collapsible Header -->
+        <div class="flex items-center justify-between cursor-pointer" onclick="toggleImmichSection()">
+            <div class="mb-2">
+                <h2 class="text-xl font-semibold text-gray-900 mb-2">
+                    <i class="fas fa-cloud-upload-alt text-blue-600 mr-2"></i>
+                    Immich Gallery Sync (Optional)
+                </h2>
+                <p class="text-gray-600">Automatically sync photos to your Immich server</p>
+            </div>
+            <div class="flex items-center">
+                <span class="text-sm text-gray-500 mr-2">Click to expand</span>
+                <i id="immichToggleIcon" class="fas fa-chevron-down text-gray-500"></i>
+            </div>
+        </div>
+
+        <!-- Collapsible Content -->
+        <div id="immichContent" class="hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+                <!-- Server Configuration -->
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-server text-gray-500 mr-1"></i>
+                            Immich Server URL
+                        </label>
+                        <input type="url" 
+                               id="immichServerUrl"
+                               placeholder="https://immich.example.com"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <p class="text-xs text-gray-500 mt-1">Full URL to your Immich server</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-key text-gray-500 mr-1"></i>
+                            API Key
+                        </label>
+                        <input type="password" 
+                               id="immichApiKey"
+                               placeholder="Your Immich API key"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <p class="text-xs text-gray-500 mt-1">Create in Immich user settings</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-folder text-gray-500 mr-1"></i>
+                            Album Name
+                        </label>
+                        <input type="text" 
+                               id="immichAlbumName"
+                               placeholder="PhotoBooth"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <p class="text-xs text-gray-500 mt-1">Album to store PhotoBooth photos</p>
+                    </div>
+                </div>
+
+                <!-- Sync Settings -->
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <label class="text-sm font-medium text-gray-700">Enable Immich Sync</label>
+                            <p class="text-xs text-gray-500">Activate photo synchronization</p>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="immichEnabled" class="toggle-checkbox sr-only">
+                            <div class="toggle-slider w-11 h-6 bg-gray-200 rounded-full relative transition-colors duration-200 ease-in-out">
+                                <div class="toggle-thumb absolute top-0.5 left-0.5 bg-white w-5 h-5 rounded-full shadow transform transition-transform duration-200 ease-in-out"></div>
+                            </div>
+                        </label>
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <label class="text-sm font-medium text-gray-700">Auto Sync</label>
+                            <p class="text-xs text-gray-500">Automatically sync all photos</p>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="immichAutoSync" class="toggle-checkbox sr-only">
+                            <div class="toggle-slider w-11 h-6 bg-gray-200 rounded-full relative transition-colors duration-200 ease-in-out">
+                                <div class="toggle-thumb absolute top-0.5 left-0.5 bg-white w-5 h-5 rounded-full shadow transform transition-transform duration-200 ease-in-out"></div>
+                            </div>
+                        </label>
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <label class="text-sm font-medium text-gray-700">Sync on Capture</label>
+                            <p class="text-xs text-gray-500">Upload photos immediately after capture</p>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="immichSyncOnCapture" class="toggle-checkbox sr-only">
+                            <div class="toggle-slider w-11 h-6 bg-gray-200 rounded-full relative transition-colors duration-200 ease-in-out">
+                                <div class="toggle-thumb absolute top-0.5 left-0.5 bg-white w-5 h-5 rounded-full shadow transform transition-transform duration-200 ease-in-out"></div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Buttons and Status -->
+            <div class="mt-6 pt-6 border-t border-gray-200">
+                <div class="flex flex-col sm:flex-row gap-3 items-center justify-between">
+                    <div class="flex gap-3">
+                        <button onclick="testImmichConnection()" 
+                                class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                            <i class="fas fa-wifi mr-1"></i>
+                            Test Connection
+                        </button>
+                        <button onclick="syncAllPhotos()" 
+                                class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                            <i class="fas fa-sync mr-1"></i>
+                            Sync All Photos
+                        </button>
+                        <button onclick="loadImmichAlbums()" 
+                                class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                            <i class="fas fa-folder-open mr-1"></i>
+                            Load Albums
+                        </button>
+                    </div>
+                    <button onclick="saveImmichSettings()" 
+                            class="bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white px-6 py-2 rounded-lg font-medium transition-colors">
+                        <i class="fas fa-save mr-1"></i>
+                        Save Settings
+                    </button>
+                </div>
+                
+                <!-- Status Display -->
+                <div id="immichStatus" class="mt-4 hidden">
+                    <div class="p-3 rounded-lg text-sm">
+                        <span id="immichStatusText"></span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -556,5 +719,217 @@ document.getElementById('smsModal').addEventListener('click', function(e) {
         closeSmsModal();
     }
 });
+
+// === Immich Functionality ===
+
+function toggleImmichSection() {
+    const content = document.getElementById('immichContent');
+    const icon = document.getElementById('immichToggleIcon');
+    
+    if (content.classList.contains('hidden')) {
+        content.classList.remove('hidden');
+        icon.classList.remove('fa-chevron-down');
+        icon.classList.add('fa-chevron-up');
+    } else {
+        content.classList.add('hidden');
+        icon.classList.remove('fa-chevron-up');
+        icon.classList.add('fa-chevron-down');
+    }
+}
+
+// Load current Immich settings on page load
+document.addEventListener('DOMContentLoaded', function() {
+    loadImmichSettings();
+});
+
+function loadImmichSettings() {
+    console.log('Loading Immich settings...');
+    fetch('/settings/api/immich/status')
+        .then(response => response.json())
+        .then(data => {
+            console.log('Immich settings loaded:', data);
+            if (data.success) {
+                const settings = data.settings;
+                document.getElementById('immichServerUrl').value = settings.server_url || '';
+                document.getElementById('immichApiKey').value = settings.api_key || '';
+                document.getElementById('immichAlbumName').value = settings.album_name || 'PhotoBooth';
+                
+                // Explicitly handle boolean values
+                const enabledCheckbox = document.getElementById('immichEnabled');
+                const autoSyncCheckbox = document.getElementById('immichAutoSync');
+                const syncOnCaptureCheckbox = document.getElementById('immichSyncOnCapture');
+                
+                enabledCheckbox.checked = Boolean(settings.enabled);
+                autoSyncCheckbox.checked = settings.auto_sync !== false;
+                syncOnCaptureCheckbox.checked = settings.sync_on_capture !== false;
+                
+                console.log('Set enabled checkbox to:', enabledCheckbox.checked, '(from:', settings.enabled, ')');
+                console.log('Set auto_sync checkbox to:', autoSyncCheckbox.checked, '(from:', settings.auto_sync, ')');
+                console.log('Set sync_on_capture checkbox to:', syncOnCaptureCheckbox.checked, '(from:', settings.sync_on_capture, ')');
+            }
+        })
+        .catch(error => {
+            console.error('Failed to load Immich settings:', error);
+        });
+}
+
+function saveImmichSettings() {
+    const settings = {
+        server_url: document.getElementById('immichServerUrl').value.trim(),
+        api_key: document.getElementById('immichApiKey').value.trim(),
+        album_name: document.getElementById('immichAlbumName').value.trim() || 'PhotoBooth',
+        enabled: document.getElementById('immichEnabled').checked,
+        auto_sync: document.getElementById('immichAutoSync').checked,
+        sync_on_capture: document.getElementById('immichSyncOnCapture').checked
+    };
+    
+    console.log('Saving Immich settings:', settings);
+    showLoading('Saving Immich settings...');
+    
+    fetch('/settings/api/immich/config', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(settings)
+    })
+    .then(response => response.json())
+    .then(data => {
+        hideLoading();
+        console.log('Save response:', data);
+        if (data.success) {
+            showImmichStatus('Settings saved successfully', 'success');
+            // Reload settings after successful save to verify they persisted
+            setTimeout(() => {
+                console.log('Reloading settings after save...');
+                loadImmichSettings();
+            }, 500);
+        } else {
+            showImmichStatus('Failed to save settings: ' + (data.error || 'Unknown error'), 'error');
+        }
+    })
+    .catch(error => {
+        hideLoading();
+        console.error('Save error:', error);
+        showImmichStatus('Failed to save settings: ' + error.message, 'error');
+    });
+}
+
+function testImmichConnection() {
+    showLoading('Testing Immich connection...');
+    
+    fetch('/settings/api/immich/test', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        hideLoading();
+        if (data.success) {
+            showImmichStatus('Connection successful! ' + (data.message || ''), 'success');
+        } else {
+            showImmichStatus('Connection failed: ' + (data.error || 'Unknown error'), 'error');
+        }
+    })
+    .catch(error => {
+        hideLoading();
+        showImmichStatus('Connection test failed: ' + error.message, 'error');
+    });
+}
+
+function syncAllPhotos() {
+    if (!confirm('This will upload all photos to your Immich server. Continue?')) {
+        return;
+    }
+    
+    showLoading('Syncing all photos to Immich...');
+    
+    fetch('/settings/api/immich/sync-all', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        hideLoading();
+        if (data.success) {
+            const message = `Sync complete! Uploaded: ${data.uploaded || 0}, Duplicates: ${data.duplicates || 0}, Errors: ${data.errors || 0}`;
+            showImmichStatus(message, data.errors > 0 ? 'warning' : 'success');
+        } else {
+            showImmichStatus('Sync failed: ' + (data.error || 'Unknown error'), 'error');
+        }
+    })
+    .catch(error => {
+        hideLoading();
+        showImmichStatus('Sync failed: ' + error.message, 'error');
+    });
+}
+
+function loadImmichAlbums() {
+    showLoading('Loading albums from Immich...');
+    
+    fetch('/settings/api/immich/albums', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        hideLoading();
+        if (data.success) {
+            const albums = data.albums || [];
+            if (albums.length > 0) {
+                let albumList = albums.map(album => `• ${album.albumName} (${album.assetCount || 0} photos)`).join('\n');
+                showImmichStatus(`Found ${albums.length} albums:\n${albumList}`, 'success');
+            } else {
+                showImmichStatus('No albums found on Immich server', 'info');
+            }
+        } else {
+            showImmichStatus('Failed to load albums: ' + (data.error || 'Unknown error'), 'error');
+        }
+    })
+    .catch(error => {
+        hideLoading();
+        showImmichStatus('Failed to load albums: ' + error.message, 'error');
+    });
+}
+
+function showImmichStatus(message, type = 'info') {
+    const statusDiv = document.getElementById('immichStatus');
+    const statusText = document.getElementById('immichStatusText');
+    
+    // Remove existing classes
+    statusDiv.className = 'mt-4';
+    statusDiv.firstElementChild.className = 'p-3 rounded-lg text-sm';
+    
+    // Add appropriate styling based on type
+    switch (type) {
+        case 'success':
+            statusDiv.firstElementChild.classList.add('bg-green-100', 'border', 'border-green-200', 'text-green-800');
+            break;
+        case 'error':
+            statusDiv.firstElementChild.classList.add('bg-red-100', 'border', 'border-red-200', 'text-red-800');
+            break;
+        case 'warning':
+            statusDiv.firstElementChild.classList.add('bg-yellow-100', 'border', 'border-yellow-200', 'text-yellow-800');
+            break;
+        default:
+            statusDiv.firstElementChild.classList.add('bg-blue-100', 'border', 'border-blue-200', 'text-blue-800');
+    }
+    
+    statusText.textContent = message;
+    statusDiv.classList.remove('hidden');
+    
+    // Auto-hide after 10 seconds for success messages
+    if (type === 'success') {
+        setTimeout(() => {
+            statusDiv.classList.add('hidden');
+        }, 10000);
+    }
+}
 </script>
 {% endblock %}

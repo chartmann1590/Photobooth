@@ -61,6 +61,17 @@ A complete, production-ready wedding photobooth system that runs directly on Ras
 - **Test functionality** for notification verification and printer error simulation
 - **Zero-configuration**: works with any Gotify server on your network
 
+### 📤 Immich Gallery Sync (Optional)
+- **Automatic cloud backup** to your [Immich](https://immich.app/) photo server
+- **Real-time sync** - photos uploaded immediately after capture
+- **Smart album management** - creates album automatically if it doesn't exist
+- **Duplicate detection** via SHA1 checksums to avoid redundant uploads
+- **Bulk sync** - upload existing photo library with one click
+- **Configurable sync settings** - enable/disable, album names, auto-sync options
+- **Connection testing** and album browsing capabilities
+- **Privacy-focused** - uses your own Immich server, no third-party services
+- **Non-blocking operations** - sync happens in background without affecting booth performance
+
 ### 📱 Mobile App Experience
 - **Wedding-themed favicon** with camera, heart, and rings design
 - **PWA support** - add to iPad homescreen for app-like experience  
@@ -248,6 +259,35 @@ Enable guests to share photos instantly via SMS:
 - Also available from admin gallery for any saved photo
 
 **Documentation:** See `docs/sms_photo_sharing.md` for complete setup guide
+
+### Immich Photo Backup Setup
+
+Automate photo backup to your personal cloud:
+
+**Prerequisites:**
+- **Immich server** running on your network ([installation guide](https://immich.app/docs/install/requirements))
+- **API key** generated from your Immich user settings
+- **Network access** from PhotoBooth to Immich server
+
+**Quick Setup:**
+1. **Set up Immich server** following [official documentation](https://immich.app/docs/install/requirements)
+2. **Generate API key** in Immich user settings
+3. **Access PhotoBooth Settings** → Gallery section → Immich Sync (click to expand)
+4. **Configure connection**:
+   - Server URL: `https://your-immich-server.com`
+   - API Key: Your generated key
+   - Album Name: `PhotoBooth` (or custom name)
+5. **Test connection** and enable sync options
+
+**How it works:**
+- Photos automatically sync to Immich after capture (if enabled)
+- Creates specified album automatically if it doesn't exist
+- Detects and skips duplicate photos using checksums
+- Bulk sync available for existing photo libraries
+- All sync operations happen in background
+- No external cloud services - uses your own Immich server
+
+**Documentation:** See `docs/immich_sync.md` for detailed configuration guide
 
 ## 🛠️ System Management
 
@@ -451,11 +491,13 @@ sudo systemctl disable bluetooth avahi-daemon
 - **Print speed**: Depends on printer (typically 30-90 seconds)
 - **Storage**: ~2MB per photo (1800×1200 @ 85% quality)
 - **Network range**: ~30-50 feet (typical indoor WiFi)
+- **Immich sync**: ~2-5 seconds per photo upload (background operation)
 
 ### Expected Capacity
 - **All-day wedding**: 200-500 photos typical
 - **Storage for**: 1000+ photos on 16GB card
 - **Print consumables**: Plan 1 print per 2-3 photos taken
+- **Cloud backup**: Unlimited via Immich (depends on your server storage)
 
 ## 📄 File Structure
 
@@ -488,7 +530,8 @@ sudo systemctl disable bluetooth avahi-daemon
 │   ├── photos/printed/    # Backup of printed photos
 │   └── photobooth.db      # SQLite database
 ├── docs/                  # Documentation
-│   └── sms_photo_sharing.md # SMS feature documentation
+│   ├── sms_photo_sharing.md # SMS feature documentation
+│   └── immich_sync.md      # Immich cloud sync documentation
 └── scripts/               # Utility scripts
     └── trust_cert_instructions.md
 ```
@@ -508,60 +551,6 @@ sudo systemctl disable bluetooth avahi-daemon
 
 *Built with ❤️ for unforgettable wedding moments*
 
-## 📊 System Requirements
-
-### Hardware
-- **Raspberry Pi 3B** (minimum) or newer
-- **16GB+ microSD** card (Class 10 recommended)
-- **USB printer** (optional but recommended)
-- **Power supply** 2.5A minimum
-- **Ethernet cable** (optional, for internet sharing)
-
-### Software
-- **Raspberry Pi OS** (Debian 11+ based)
-- **Python 3.9+**
-- **Modern web browser** on client devices
-
-### Network
-- **2.4GHz WiFi** support (Pi 3B limitation)
-- **Up to 10 concurrent** devices
-- **Local network only** (unless ethernet connected)
-
-## 📦 Project Structure
-
-```
-photobooth/
-├── app.py                    # Main application entry point
-├── config.py                 # Configuration settings
-├── requirements.txt          # Python dependencies
-├── install.sh               # One-click installation script
-├── run.sh                   # Production run script
-├── .env.example             # Environment variables template
-├── photobooth/              # Main application package
-│   ├── __init__.py
-│   ├── routes_booth.py      # Main photobooth routes
-│   ├── routes_settings.py   # Admin settings routes
-│   ├── models.py           # Database models
-│   ├── storage.py          # Photo storage management
-│   ├── printing.py         # CUPS printing integration
-│   ├── imaging.py          # Image processing & frames
-│   ├── audio.py            # Text-to-speech functionality
-│   ├── static/             # CSS, JS, images
-│   └── templates/          # HTML templates
-├── services/               # System service configurations
-│   ├── photobooth.service # Systemd service
-│   ├── nginx.site         # Nginx configuration
-│   ├── hostapd.conf       # WiFi AP configuration
-│   ├── dnsmasq.conf       # DNS/DHCP configuration
-│   ├── sysctl_iptables.sh # Network routing
-│   └── mkcert.sh          # Certificate generation
-├── data/                   # Photo storage
-│   ├── photos/all/        # All captured photos
-│   └── photos/printed/    # Printed photos backup
-└── scripts/               # Utility scripts
-    ├── trust_cert_instructions.md
-    └── regenerate_cert.sh
-```
 
 ## 🤝 Contributing
 
