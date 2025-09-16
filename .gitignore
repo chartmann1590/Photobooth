@@ -107,6 +107,9 @@ node_modules/
 *.sublime-project
 *.sublime-workspace
 
+# Claude Code project files (should not be committed)
+CLAUDE.md
+
 # OS generated files
 .DS_Store
 .DS_Store?
