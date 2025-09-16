@@ -144,7 +144,11 @@ def _insert_default_settings(conn: sqlite3.Connection):
         'printer_status_polling_enabled': 'true',
         'printer_status_polling_interval_seconds': '30',
         'low_ink_message': 'Low ink warning! Please consider replacing the cartridge soon.',
-        'empty_cartridge_message': 'Ink cartridge is empty! Printing is disabled until cartridge is replaced.'
+        'empty_cartridge_message': 'Ink cartridge is empty! Printing is disabled until cartridge is replaced.',
+        'gotify_enabled': 'false',
+        'gotify_server_url': '',
+        'gotify_app_token': '',
+        'gotify_printer_errors_enabled': 'true'
     }
     
     for key, value in default_settings.items():
@@ -614,11 +618,46 @@ def log_printer_error(printer_name: str, error_message: str, error_state: str) -
                 ''', (printer_name, error_message, error_state))
             
             conn.commit()
+            
+            # Send Gotify notification for new printer errors
+            if not existing_error:
+                try:
+                    from .gotify import send_printer_error_notification
+                    
+                    # Determine error type based on error message and state
+                    error_type = _classify_printer_error(error_message, error_state)
+                    send_printer_error_notification(printer_name, error_type, error_message)
+                except Exception as gotify_error:
+                    logger.warning(f"Failed to send Gotify notification for printer error: {gotify_error}")
+            
             return True
             
     except Exception as e:
         logger.error(f"Failed to log printer error: {e}")
         return False
+
+def _classify_printer_error(error_message: str, error_state: str) -> str:
+    """Classify printer error type based on message and state"""
+    error_msg_lower = error_message.lower()
+    error_state_lower = error_state.lower()
+    
+    # Check for specific error types
+    if 'jam' in error_msg_lower or 'jammed' in error_msg_lower:
+        return 'paper_jam'
+    elif 'no paper' in error_msg_lower or 'out of paper' in error_msg_lower or 'paper empty' in error_msg_lower:
+        return 'no_paper'
+    elif 'low ink' in error_msg_lower or 'ink low' in error_msg_lower:
+        return 'low_ink'
+    elif 'no ink' in error_msg_lower or 'ink empty' in error_msg_lower or 'out of ink' in error_msg_lower:
+        return 'no_ink'
+    elif 'offline' in error_msg_lower or 'not connected' in error_msg_lower:
+        return 'offline'
+    elif 'connection' in error_msg_lower or 'connect' in error_msg_lower:
+        return 'connection'
+    elif error_state_lower in ['stopped', 'error', 'halted']:
+        return 'error'
+    else:
+        return 'error'
 
 def mark_error_announced(printer_name: str, error_message: str) -> bool:
     """Mark an error as announced"""

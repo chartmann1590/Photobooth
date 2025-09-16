@@ -91,11 +91,12 @@ tail -f photobooth.log
 - **photobooth/routes_settings.py**: Admin interface for configuration
 
 ### Key Modules
-- **photobooth/models.py**: SQLite database models for photo metadata
+- **photobooth/models.py**: SQLite database models for photo metadata and settings
 - **photobooth/storage.py**: Photo file management and organization
 - **photobooth/imaging.py**: Image processing, resizing, and frame overlay application
 - **photobooth/printing.py**: CUPS printer integration and queue management
 - **photobooth/audio.py**: Text-to-speech functionality for countdown
+- **photobooth/gotify.py**: Gotify notification system for printer errors and alerts
 
 ### Data Flow
 1. **Photo Capture**: Browser camera API → Flask route → storage.py → database
@@ -169,6 +170,16 @@ tail -f photobooth.log
 - Audio settings accessible via `/settings/audio` admin interface
 - Fallback static voice options when dynamic loading fails
 - Non-blocking async speech to prevent UI hangs
+
+### Gotify Notification System
+- Real-time push notifications for printer errors and critical events
+- Configurable via `/settings/printer` admin interface in Gotify Notifications section
+- Supports high-priority notifications (priority 8) for printer errors
+- 5-minute cooldown period to prevent notification spam
+- Monitors multiple error types: paper jams, no paper, low/no ink, offline printer, connection issues
+- Automatic error classification with appropriate emojis and messaging
+- Test functionality for connection verification and printer error simulation
+- Built-in connection status monitoring and health checks
 
 ### Production Deployment
 - Single installation script (install.sh) handles complete setup

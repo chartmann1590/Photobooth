@@ -51,6 +51,16 @@ A complete, production-ready wedding photobooth system that runs directly on Ras
 - **Admin configuration** for SMS gateway settings with health monitoring
 - **Message tracking** and delivery statistics
 
+### 🔔 Gotify Real-Time Notifications
+- **Instant printer error alerts** via [Gotify](https://gotify.net/) push notifications
+- **High-priority notifications** (priority 8) for critical printer issues
+- **Smart error classification**: paper jams, no paper, low/no ink, offline printer, connection issues
+- **Spam prevention** with 5-minute cooldown per error type
+- **Rich messaging** with contextual emojis and detailed error information
+- **Connection monitoring** with admin interface status checks
+- **Test functionality** for notification verification and printer error simulation
+- **Zero-configuration**: works with any Gotify server on your network
+
 ### 📱 Mobile App Experience
 - **Wedding-themed favicon** with camera, heart, and rings design
 - **PWA support** - add to iPad homescreen for app-like experience  
@@ -64,6 +74,7 @@ A complete, production-ready wedding photobooth system that runs directly on Ras
 - **Printer configuration** and testing
 - **Photo gallery** with download/delete/reprint
 - **SMS gateway configuration** and testing
+- **Gotify notification setup** with connection testing and error simulation
 - **System monitoring** and service status
 - **Hotspot configuration** (SSID/password changes)
 

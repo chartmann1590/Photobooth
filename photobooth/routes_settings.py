@@ -104,6 +104,21 @@ def printer_settings():
             'cooldown_minutes': settings.get('error_announcement_cooldown_minutes', 2)
         }
         
+        # Add Gotify settings
+        def get_bool_setting(key, default=False):
+            """Helper to convert setting to boolean"""
+            value = settings.get(key, str(default).lower())
+            if isinstance(value, bool):
+                return value
+            return str(value).lower() in ('true', '1', 'yes', 'on')
+        
+        gotify_settings = {
+            'gotify_enabled': get_bool_setting('gotify_enabled', False),
+            'gotify_server_url': settings.get('gotify_server_url', ''),
+            'gotify_app_token': settings.get('gotify_app_token', ''),
+            'gotify_printer_errors_enabled': get_bool_setting('gotify_printer_errors_enabled', True)
+        }
+        
         return render_template('settings/printer.html',
                              printers=printers,
                              current_printer=current_printer,
@@ -111,11 +126,135 @@ def printer_settings():
                              print_count_status=print_count_status,
                              cartridge_history=cartridge_history,
                              printer_errors=printer_errors,
-                             polling_settings=polling_settings)
+                             polling_settings=polling_settings,
+                             gotify_settings=gotify_settings)
         
     except Exception as e:
         logger.error(f"Error loading printer settings: {e}")
         return render_template('settings/printer.html', error=str(e))
+
+# Gotify API Endpoints
+@settings_bp.route('/api/gotify/status', methods=['GET'])
+@auth_required
+def gotify_status():
+    """Get Gotify connection status"""
+    try:
+        from .gotify import test_gotify_connection
+        result = test_gotify_connection()
+        
+        settings = get_settings()
+        server_url = settings.get('gotify_server_url', '')
+        app_token = settings.get('gotify_app_token', '')
+        
+        # Helper to convert setting to boolean
+        def get_bool_setting(key, default=False):
+            value = settings.get(key, str(default).lower())
+            if isinstance(value, bool):
+                return value
+            return str(value).lower() in ('true', '1', 'yes', 'on')
+        
+        enabled = get_bool_setting('gotify_enabled', False)
+        
+        status = {
+            'configured': enabled and server_url and app_token,
+            'connected': result.get('success', False),
+            'server_url': server_url,
+            'error': result.get('error', None) if not result.get('success', False) else None
+        }
+        
+        return jsonify({
+            'success': True,
+            'status': status
+        })
+        
+    except Exception as e:
+        logger.error(f"Error checking Gotify status: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        })
+
+@settings_bp.route('/api/gotify/config', methods=['POST'])
+@auth_required
+def save_gotify_config():
+    """Save Gotify configuration"""
+    try:
+        data = request.get_json()
+        
+        # Update settings
+        update_setting('gotify_enabled', 'true' if data.get('gotify_enabled', False) else 'false')
+        update_setting('gotify_server_url', data.get('gotify_server_url', '').strip())
+        update_setting('gotify_app_token', data.get('gotify_app_token', '').strip())
+        update_setting('gotify_printer_errors_enabled', 'true' if data.get('gotify_printer_errors_enabled', True) else 'false')
+        
+        logger.info("Gotify configuration updated")
+        
+        return jsonify({
+            'success': True,
+            'message': 'Gotify configuration saved successfully'
+        })
+        
+    except Exception as e:
+        logger.error(f"Error saving Gotify configuration: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        })
+
+@settings_bp.route('/api/gotify/test', methods=['POST'])
+@auth_required
+def test_gotify():
+    """Test Gotify connection"""
+    try:
+        from .gotify import test_gotify_connection
+        result = test_gotify_connection()
+        
+        return jsonify(result)
+        
+    except Exception as e:
+        logger.error(f"Error testing Gotify connection: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        })
+
+@settings_bp.route('/api/gotify/test-printer-error', methods=['POST'])
+@auth_required
+def test_gotify_printer_error():
+    """Test Gotify printer error notification"""
+    try:
+        from .gotify import get_gotify_notifier
+        
+        # Get notifier and send test notification directly (bypass settings check)
+        notifier = get_gotify_notifier()
+        success = notifier._send_notification(
+            title="PhotoBooth Alert: PAPER JAM",
+            message="""**Printer**: Test Printer
+**Error**: Paper Jam
+**Details**: This is a test printer error notification from PhotoBooth
+**Time**: """ + notifier._get_formatted_time() + """
+
+**Action Required**: Please check the printer immediately to resolve this issue.""",
+            priority=8
+        )
+        
+        if success:
+            return jsonify({
+                'success': True,
+                'message': 'Test printer error notification sent successfully'
+            })
+        else:
+            return jsonify({
+                'success': False,
+                'error': 'Failed to send test notification'
+            })
+        
+    except Exception as e:
+        logger.error(f"Error testing Gotify printer error notification: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        })
 
 @settings_bp.route('/api/printer/set', methods=['POST'])
 @auth_required
