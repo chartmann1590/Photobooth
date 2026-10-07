@@ -1,7 +1,7 @@
 # Flask and web framework
-Flask==3.0.0
+Flask==3.1.3
 Jinja2==3.1.2
-Werkzeug==3.0.1
+Werkzeug==3.1.9
 
 # Image processing
 Pillow==12.3.0
@@ -13,10 +13,10 @@ pycups==2.0.1
 pyttsx3==2.90
 
 # Environment and database
-python-dotenv==1.0.0
+python-dotenv==1.2.2
 
 # WSGI server
 waitress==2.1.2
 
 # Utility
-requests==2.31.0
+requests==2.33.0
