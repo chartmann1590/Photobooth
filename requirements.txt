@@ -1,7 +1,7 @@
 # Flask and web framework
 Flask==3.0.0
 Jinja2==3.1.2
-Werkzeug==3.0.1
+Werkzeug==3.1.9
 
 # Image processing
 Pillow==12.3.0
