@@ -13,7 +13,7 @@ pycups==2.0.1
 pyttsx3==2.90
 
 # Environment and database
-python-dotenv==1.0.0
+python-dotenv==1.2.2
 
 # WSGI server
 waitress==2.1.2
