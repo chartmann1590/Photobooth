@@ -16,7 +16,7 @@ pyttsx3==2.90
 python-dotenv==1.2.2
 
 # WSGI server
-waitress==2.1.2
+waitress==3.0.1
 
 # Utility
 requests==2.33.0
